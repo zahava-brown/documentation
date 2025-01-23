@@ -17,6 +17,12 @@ If you want to contribute to [F5 NGINX documentation](https://docs.nginx.com), y
 - [Security](/SECURITY.md) describes the procedures we would like you to follow if you find a security issue.
 - [Support](/SUPPORT.md) lists how you can get support as a customer or a community member.
 
+## For newer users
+
+If you're new to Git and repositories, or need general help, open a [Discussion](https://github.com/nginx/documentation/discussions/)!
+
+We welcome all levels of users. We may suggest resources such as [GitHub documentation](https://docs.github.com), but we promise to get you started!
+
 ## Explanation
 
 This repository contains user documentation for NGINX's products, as well as the requirements for linting, building, and publishing the documentation.
