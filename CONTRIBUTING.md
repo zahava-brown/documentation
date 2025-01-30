@@ -91,7 +91,6 @@ This repository does not include all documentation available at https://docs.ngi
 - [NGINX Open Source](https://github.com/nginx/nginx)
 - [NGINX Unit](https://github.com/nginx/unit)
 - [NGINX Ingress Controller](https://github.com/nginxinc/kubernetes-ingress/)
-- [NGINX Gateway Fabric](https://github.com/nginxinc/nginx-gateway-fabric)
 
 In those repositories, you can find documentation source code in the `docs` or `site` subdirectories.
 
