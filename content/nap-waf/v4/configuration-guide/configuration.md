@@ -763,13 +763,15 @@ policy:
       action:
             Specifies action that is applied when defined threshold is reached.
             - **alarm**: The system will log the login attempt.
-            - **alarm-and-blocking-page**: The system will log the login attempt, block the request and send the Blocking page.
+            - **alarm-and-blocking-page**: The system will log the login attempt, 
+                block the request and send the Blocking page.
 
       enabled:
             When enabled, the system counts failed login attempts from IP Address.
 
       threshold:
-            After configured threshold (number of failed login attempts from IP Address) defined action will be applied when a brute force attack will be detected.
+            After configured threshold (number of failed login attempts from IP Address) 
+            defined action will be applied when a brute force attack will be detected.
 
     loginAttemptsFromTheSameUser:
           Specifies configuration for detecting brute force attacks for a specific username.
@@ -782,7 +784,8 @@ policy:
             When enabled, the system counts failed login attempts for a specific username.
 
       threshold:
-            After configured threshold (number of failed login attempts for a specific username) defined action will be applied when a brute force attack will be detected.
+            After configured threshold (number of failed login attempts for a specific username) 
+            defined action will be applied when a brute force attack will be detected.
 
     reEnableLoginAfter:
           Defines prevention period (measured in seconds) for source-based brute force attacks.
@@ -791,13 +794,14 @@ policy:
           Defines detection period (measured in seconds) for source-based brute force attacks.
 
   login-pages:
-        A login page is a URL in a web application that requests must pass through to get to the authenticated URLs. Use login pages, 
-        for example, to prevent forceful browsing of restricted parts of the web application, by defining access permissions for users. 
-        Login pages also allow session tracking of user sessions.	
+        A login page is a URL in a web application that requests must pass through to get to the authenticated URLs. 
+        Use login pages, for example, to prevent forceful browsing of restricted parts of the web application, 
+        by defining access permissions for users. Login pages also allow session tracking of user sessions.	
     
     accessValidation:
         Access Validation define validation criteria for the login page response. 
-        If you define more than one validation criteria, the response must meet all the criteria before the system allows the user to access the application login URL.	
+        If you define more than one validation criteria, 
+        the response must meet all the criteria before the system allows the user to access the application login URL.	
 
     authenticationType:
         Authentication Type is method the web server uses to authenticate the login URL's credentials with a web user.
@@ -810,12 +814,14 @@ policy:
             
         - **http-basic**: The user name and password are transmitted in Base64 and stored on the server in plain text.
             
-        - **http-digest**: The web server performs the authentication; user names and passwords are not transmitted over the network, nor are they stored in plain text.
+        - **http-digest**: The web server performs the authentication; user names and passwords 
+            are not transmitted over the network, nor are they stored in plain text.
             
-        - **ntlm**: Microsoft LAN Manager authentication (also called Integrated Windows Authentication) does not transmit credentials in plain text, 
-            but requires a continuous TCP connection between the server and client.
+        - **ntlm**: Microsoft LAN Manager authentication (also called Integrated Windows Authentication) 
+            does not transmit credentials in plain text, but requires a continuous TCP connection between the server and client.
             
-        - **ajax-or-json-request**: The web server uses JSON and AJAX requests to authenticate users trying to access the web application through the login URL. 
+        - **ajax-or-json-request**: The web server uses JSON and AJAX requests to authenticate users 
+            trying to access the web application through the login URL. 
             For this option, you also need to type the name of the JSON element containing the user name and password.
 
     usernameParameterName:
