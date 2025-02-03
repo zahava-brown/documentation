@@ -691,7 +691,8 @@ the Nginx App Protect (NAP) WAF policy considers it to be an attack if the faile
         ]
     }
 }
-
+```
+```json
 {
     "policy": {
         "name": "BruteForcePolicySpec",
