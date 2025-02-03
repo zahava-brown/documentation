@@ -655,11 +655,12 @@ claims['address'] = "{ \"address\": { .... } }" # JSON structs can be accessed u
 
 ### Overview
 
-Brute force attacks are attempts to break in to secured areas of a web application by trying exhaustive, 
+Brute force attacks are attempts to break in to secured areas of a web application by trying exhaustive,
 systematic, username/password combinations to discover legitimate authentication credentials. 
-To prevent brute force attacks, Nginx App Protect (NAP) WAF tracks the number of failed attempts to reach login pages 
-with enforced brute force protection. When brute force patterns are detected, 
-the Nginx App Protect (NAP) WAF policy considers it to be an attack if the failed logins reached a maximum threshold.
+To prevent brute force attacks, WAF monitors both IP addresses and/or usernames and tracks the number of 
+failed attempts to reach login pages with enforced brute force protection When brute force 
+patterns are detected, the WAF policy considers it to be an attack if the failed login attempts 
+reached a maximum threshold for a specific username or coming from a specific IP.
 
 ### Brute force policy example
 
@@ -788,7 +789,7 @@ policy:
             defined action will be applied when a brute force attack will be detected.
 
     reEnableLoginAfter:
-          Defines prevention period (measured in seconds) for source-based brute force attacks.
+          Defines prevention period (measured in seconds) for brute force attacks
 
     sourceBasedProtectionDetectionPeriod:
           Defines detection period (measured in seconds) for source-based brute force attacks.
@@ -810,19 +811,20 @@ policy:
             This is the default setting.
             
         - **form**: The web application uses a form to collect and authenticate user credentials. If using this option, 
-            you also need to type the user name and password parameters written in the code of the HTML form.
+            you also need to type the user name and password parameters names written in the code of the HTML form.
             
-        - **http-basic**: The user name and password are transmitted in Base64 and stored on the server in plain text.
+        - **http-basic**: The authentication is done using the HTTP basic authentication.
+            The user name and password are transmitted in Base64 and stored on the server in plain text.
             
-        - **http-digest**: The web server performs the authentication; user names and passwords 
-            are not transmitted over the network, nor are they stored in plain text.
             
-        - **ntlm**: Microsoft LAN Manager authentication (also called Integrated Windows Authentication) 
-            does not transmit credentials in plain text, but requires a continuous TCP connection between the server and client.
+        - **http-digest**: The authentication is done using the HTTP digest access authentication.
+            The user names and passwords are not transmitted over the network, nor are they stored in plain text.
+            
+        - **ntlm**: The authentication is done using the NTLM authentication.
             
         - **ajax-or-json-request**: The web server uses JSON and AJAX requests to authenticate users 
             trying to access the web application through the login URL. 
-            For this option, you also need to type the name of the JSON element containing the user name and password.
+            For this option, you also need to type the name of the JSON elements containing the user name and password.
 
     usernameParameterName:
         A name of parameter which will contain username string.	
