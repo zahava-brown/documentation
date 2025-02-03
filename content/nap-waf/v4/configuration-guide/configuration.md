@@ -657,10 +657,9 @@ claims['address'] = "{ \"address\": { .... } }" # JSON structs can be accessed u
 
 Brute force attacks are attempts to break in to secured areas of a web application by trying exhaustive, 
 systematic, username/password combinations to discover legitimate authentication credentials. 
-To prevent brute force attacks, WAF tracks the number of failed attempts to reach login pages 
+To prevent brute force attacks, Nginx App Protect (NAP) WAF tracks the number of failed attempts to reach login pages 
 with enforced brute force protection. When brute force patterns are detected, 
-the WAF policy considers it to be an attack if the failed logon rate increased significantly or 
-if failed logins reached a maximum threshold.
+the Nginx App Protect (NAP) WAF policy considers it to be an attack if the failed logins reached a maximum threshold.
 
 ### Brute force policy example
 
@@ -676,10 +675,6 @@ if failed logins reached a maximum threshold.
         "brute-force-attack-preventions" : [
             {
                "bruteForceProtectionForAllLoginPages" : true,
-               "detectionCriteria" : {
-                  "action" : "alarm",
-                  "failedLoginAttemptsRateReached" : 100
-               },
                "loginAttemptsFromTheSameIp" : {
                   "action" : "alarm",
                   "enabled" : true,
@@ -690,8 +685,6 @@ if failed logins reached a maximum threshold.
                   "enabled" : true,
                   "threshold" : 3
                },
-               "measurementPeriod" : 900,
-               "preventionDuration" : "3600",
                "reEnableLoginAfter" : 3600,
                "sourceBasedProtectionDetectionPeriod" : 3600
             }
@@ -699,7 +692,137 @@ if failed logins reached a maximum threshold.
     }
 }
 
+{
+    "policy": {
+        "name": "BruteForcePolicySpec",
+        "template": {
+            "name": "POLICY_TEMPLATE_NGINX_BASE"
+        },
+        "applicationLanguage": "utf-8",
+        "enforcementMode": "blocking",
+        "brute-force-attack-preventions" : [
+            {
+               "bruteForceProtectionForAllLoginPages" : false,
+               "loginAttemptsFromTheSameIp" : {
+                  "action" : "alarm",
+                  "enabled" : true,
+                  "threshold" : 20
+               },
+               "loginAttemptsFromTheSameUser" : {
+                  "action" : "alarm",
+                  "enabled" : true,
+                  "threshold" : 3
+               },
+               "reEnableLoginAfter" : 3600,
+               "sourceBasedProtectionDetectionPeriod" : 3600,
+               "url": {
+               "method": "*",
+               "name": "/html_login",
+               "protocol": "http"
+		       }
+            }
+        ],
+	    "login-pages": [
+            {
+               "accessValidation" : {
+                  "responseContains": "Success"
+               },
+               "authenticationType": "form",
+               "url" : {
+                  "method" : "*",
+                  "name" : "/html_login",
+                  "protocol" : "http",
+                  "type" : "explicit"
+               },
+               "usernameParameterName": "username",
+               "passwordParameterName": "password"
+            }
+        ]
+    }
+}
+
 ```
+policy:
+  brute-force-attack-preventions:
+        Defines configuration for Brute Force Protection feature.
+        There is default configuration (one with bruteForceProtectionForAllLoginPages flag and without url) 
+        that applies to all configured login URLs unless there exists another brute force configuration for a specific login page.
+
+    bruteForceProtectionForAllLoginPages:
+          When enabled, enables Brute Force Protection for all configured login URLs.
+          When disabled, the url entry below should contain a url that is defined as a login page.
+
+    url:
+          Reference to the URL used in login URL configuration (policy/login-pages). 
+          This login URL is protected by Brute Force Protection feature.
+
+    loginAttemptsFromTheSameIp:
+          Specifies configuration for detecting brute force attacks from IP Address.
+
+      action:
+            Specifies action that is applied when defined threshold is reached.
+            - **alarm**: The system will log the login attempt.
+            - **alarm-and-blocking-page**: The system will log the login attempt, block the request and send the Blocking page.
+
+      enabled:
+            When enabled, the system counts failed login attempts from IP Address.
+
+      threshold:
+            After configured threshold (number of failed login attempts from IP Address) defined action will be applied when a brute force attack will be detected.
+
+    loginAttemptsFromTheSameUser:
+          Specifies configuration for detecting brute force attacks for a specific username.
+
+      action:
+            Specifies action that is applied when defined threshold is reached.
+            - **alarm**: The system will log the login attempt.
+
+      enabled:
+            When enabled, the system counts failed login attempts for a specific username.
+
+      threshold:
+            After configured threshold (number of failed login attempts for a specific username) defined action will be applied when a brute force attack will be detected.
+
+    reEnableLoginAfter:
+          Defines prevention period (measured in seconds) for source-based brute force attacks.
+
+    sourceBasedProtectionDetectionPeriod:
+          Defines detection period (measured in seconds) for source-based brute force attacks.
+
+  login-pages:
+        A login page is a URL in a web application that requests must pass through to get to the authenticated URLs. Use login pages, 
+        for example, to prevent forceful browsing of restricted parts of the web application, by defining access permissions for users. 
+        Login pages also allow session tracking of user sessions.	
+    
+    accessValidation:
+        Access Validation define validation criteria for the login page response. 
+        If you define more than one validation criteria, the response must meet all the criteria before the system allows the user to access the application login URL.	
+
+    authenticationType:
+        Authentication Type is method the web server uses to authenticate the login URL's credentials with a web user.
+            
+        - **none**: The web server does not authenticate users trying to access the web application through the login URL. 
+            This is the default setting.
+            
+        - **form**: The web application uses a form to collect and authenticate user credentials. If using this option, 
+            you also need to type the user name and password parameters written in the code of the HTML form.
+            
+        - **http-basic**: The user name and password are transmitted in Base64 and stored on the server in plain text.
+            
+        - **http-digest**: The web server performs the authentication; user names and passwords are not transmitted over the network, nor are they stored in plain text.
+            
+        - **ntlm**: Microsoft LAN Manager authentication (also called Integrated Windows Authentication) does not transmit credentials in plain text, 
+            but requires a continuous TCP connection between the server and client.
+            
+        - **ajax-or-json-request**: The web server uses JSON and AJAX requests to authenticate users trying to access the web application through the login URL. 
+            For this option, you also need to type the name of the JSON element containing the user name and password.
+
+    usernameParameterName:
+        A name of parameter which will contain username string.	
+    passwordParameterName:
+        A name of parameter which will contain password string.	
+    url:
+        URL string used for login page.	  
 
 ## Custom Dimensions Log Entries
 
