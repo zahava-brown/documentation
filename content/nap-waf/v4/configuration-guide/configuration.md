@@ -758,9 +758,7 @@ Example2: Different brute force configurations can be defined for individual log
     }
 }
 ```
-{{< note >}} For further configuration details, see NGINX App Protect WAF Declarative Policy Guide [Declarative Policy guide]
-({{< relref "/nap-waf/v4/declarative-policy/policy/#policy/brute-force-attack-preventions" >}}). {{< /note >}}
-
+{{< note >}} For further configuration details, see NGINX App Protect WAF Declarative Policy Guide [Declarative Policy guide]({{< relref "/nap-waf/v4/declarative-policy/policy/#policy/brute-force-attack-preventions" >}}). {{< /note >}}
 
 ## Custom Dimensions Log Entries
 
