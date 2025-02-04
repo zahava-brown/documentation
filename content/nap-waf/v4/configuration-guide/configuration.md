@@ -664,6 +664,8 @@ login attempts reached a maximum threshold for a specific username or coming fro
 To enable brute force protection, at least one login page must be created.
 
 ### Login page policy example
+
+A login page specifies the login URL that users must pass through to get authenticated. The configuration of a login URL includes the URL itself, the username and passwords parameters and the validation criteria (how we know that a login was successful or failed)
 ```json
 	    "login-pages": [
             {
