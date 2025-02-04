@@ -664,6 +664,11 @@ login attempts reached a maximum threshold for a specific username or coming fro
 To enable brute force protection, at least one login page must be created.
 
 ### Login page policy example
+login-pages:
+        Login page is a URL in a web application that requests must pass through to get to the authenticated URLs. 
+        Use login pages, for example, to prevent forceful browsing of restricted parts of the web application, 
+        by defining access permissions for users. Login pages also allow session tracking of user sessions.	
+
 ```json
 	    "login-pages": [
             {
@@ -681,46 +686,8 @@ To enable brute force protection, at least one login page must be created.
                "passwordParameterName": "password"
             }
         ]
-```
-login-pages:
-        A login page is a URL in a web application that requests must pass through to get to the authenticated URLs. 
-        Use login pages, for example, to prevent forceful browsing of restricted parts of the web application, 
-        by defining access permissions for users. Login pages also allow session tracking of user sessions.	
-    
-    accessValidation:
-        Access Validation define validation criteria for the login page response. 
-        If you define more than one validation criteria, 
-        the response must meet all the criteria before the system allows the user to access the application login URL.	
-
-    authenticationType:
-        Authentication Type is method the web server uses to authenticate the login URL's credentials with a web user.
-            
-        - **none**: The web server does not authenticate users trying to access the web application through the login URL. 
-            This is the default setting.
-            
-        - **form**: The web application uses a form to collect and authenticate user credentials. If using this option, 
-            you also need to type the user name and password parameters names written in the code of the HTML form.
-            
-        - **http-basic**: The authentication is done using the HTTP basic authentication.
-            The user name and password are transmitted in Base64 and stored on the server in plain text.
-            
-            
-        - **http-digest**: The authentication is done using the HTTP digest access authentication.
-            The user names and passwords are not transmitted over the network, nor are they stored in plain text.
-            
-        - **ntlm**: The authentication is done using the NTLM authentication.
-            
-        - **ajax-or-json-request**: The web server uses JSON and AJAX requests to authenticate users 
-            trying to access the web application through the login URL. 
-            For this option, you also need to type the name of the JSON elements containing the user name and password.
-
-    usernameParameterName:
-        A name of parameter which will contain username string.	
-    passwordParameterName:
-        A name of parameter which will contain password string.	
-    url:
-        URL string used for login page.	  
-
+``` 
+{{< note >}} For access profile default values and their related field names, see NGINX App Protect WAF [Declarative Policy guide]({{< relref "/nap-waf/v4/declarative-policy/policy/#policy/login-pages" >}}). {{< /note >}}
 ### Brute force policy example
 
 Example1: A single brute force configuration is applied universally to all login pages.
@@ -790,55 +757,9 @@ Example2: Different brute force configurations can be defined for individual log
     }
 }
 ```
-policy:
-  brute-force-attack-preventions:
-        Defines configuration for Brute Force Protection feature.
-        There is default configuration (one with bruteForceProtectionForAllLoginPages flag and without url) 
-        that applies to all configured login URLs unless there exists another brute force configuration for a specific login page.
+{{< note >}} For access profile default values and their related field names, see NGINX App Protect WAF [Declarative Policy guide]
+({{< relref "/nap-waf/v4/declarative-policy/policy/#policy/brute-force-attack-preventions" >}}). {{< /note >}}
 
-    bruteForceProtectionForAllLoginPages:
-          When enabled, enables Brute Force Protection for all configured login URLs.
-          When disabled, the url entry below should contain a url that is defined as a login page.
-
-    url:
-          Reference to the URL used in login URL configuration (policy/login-pages). 
-          This login URL is protected by Brute Force Protection feature.
-
-    loginAttemptsFromTheSameIp:
-          Specifies configuration for detecting brute force attacks from IP Address.
-
-      action:
-            Specifies action that is applied when defined threshold is reached.
-            - **alarm**: The system will log the login attempt.
-            - **alarm-and-blocking-page**: The system will log the login attempt, 
-                block the request and send the Blocking page.
-
-      enabled:
-            When enabled, the system counts failed login attempts from IP Address.
-
-      threshold:
-            After configured threshold (number of failed login attempts from IP Address) 
-            defined action will be applied when a brute force attack will be detected.
-
-    loginAttemptsFromTheSameUser:
-          Specifies configuration for detecting brute force attacks for a specific username.
-
-      action:
-            Specifies action that is applied when defined threshold is reached.
-            - **alarm**: The system will log the login attempt.
-
-      enabled:
-            When enabled, the system counts failed login attempts for a specific username.
-
-      threshold:
-            After configured threshold (number of failed login attempts for a specific username) 
-            defined action will be applied when a brute force attack will be detected.
-
-    reEnableLoginAfter:
-          Defines prevention period (measured in seconds) for brute force attacks
-
-    sourceBasedProtectionDetectionPeriod:
-          Defines detection period (measured in seconds) for source-based brute force attacks.
 
 ## Custom Dimensions Log Entries
 
