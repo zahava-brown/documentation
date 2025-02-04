@@ -657,13 +657,73 @@ claims['address'] = "{ \"address\": { .... } }" # JSON structs can be accessed u
 
 Brute force attacks are attempts to break in to secured areas of a web application by trying exhaustive,
 systematic, username/password combinations to discover legitimate authentication credentials. 
-To prevent brute force attacks, WAF monitors both IP addresses and/or usernames and tracks the number of 
-failed attempts to reach login pages with enforced brute force protection When brute force 
-patterns are detected, the WAF policy considers it to be an attack if the failed login attempts 
-reached a maximum threshold for a specific username or coming from a specific IP.
+To prevent brute force attacks,  NGINX App Protect WAF monitors both IP addresses and/or usernames and tracks the number of 
+failed login attempts reached a maximum threshold. 
+When brute force patterns are detected, the NGINX App Protect WAF policy either trigger an alarm or block the attack if the failed 
+login attempts reached a maximum threshold for a specific username or coming from a specific IP address.
+ 
+### Login page policy example
+```json
+	    "login-pages": [
+            {
+               "accessValidation" : {
+                  "responseContains": "Success"
+               },
+               "authenticationType": "form",
+               "url" : {
+                  "method" : "*",
+                  "name" : "/html_login",
+                  "protocol" : "http",
+                  "type" : "explicit"
+               },
+               "usernameParameterName": "username",
+               "passwordParameterName": "password"
+            }
+        ]
+```
+login-pages:
+        A login page is a URL in a web application that requests must pass through to get to the authenticated URLs. 
+        Use login pages, for example, to prevent forceful browsing of restricted parts of the web application, 
+        by defining access permissions for users. Login pages also allow session tracking of user sessions.	
+    
+    accessValidation:
+        Access Validation define validation criteria for the login page response. 
+        If you define more than one validation criteria, 
+        the response must meet all the criteria before the system allows the user to access the application login URL.	
+
+    authenticationType:
+        Authentication Type is method the web server uses to authenticate the login URL's credentials with a web user.
+            
+        - **none**: The web server does not authenticate users trying to access the web application through the login URL. 
+            This is the default setting.
+            
+        - **form**: The web application uses a form to collect and authenticate user credentials. If using this option, 
+            you also need to type the user name and password parameters names written in the code of the HTML form.
+            
+        - **http-basic**: The authentication is done using the HTTP basic authentication.
+            The user name and password are transmitted in Base64 and stored on the server in plain text.
+            
+            
+        - **http-digest**: The authentication is done using the HTTP digest access authentication.
+            The user names and passwords are not transmitted over the network, nor are they stored in plain text.
+            
+        - **ntlm**: The authentication is done using the NTLM authentication.
+            
+        - **ajax-or-json-request**: The web server uses JSON and AJAX requests to authenticate users 
+            trying to access the web application through the login URL. 
+            For this option, you also need to type the name of the JSON elements containing the user name and password.
+
+    usernameParameterName:
+        A name of parameter which will contain username string.	
+    passwordParameterName:
+        A name of parameter which will contain password string.	
+    url:
+        URL string used for login page.	  
 
 ### Brute force policy example
 
+Example1: A single brute force configuration is applied universally to all login pages.
+Use Case
 ```json
 {
     "policy": {
@@ -693,6 +753,8 @@ reached a maximum threshold for a specific username or coming from a specific IP
     }
 }
 ```
+
+Example2: Different brute force configurations can be defined for individual login page.
 ```json
 {
     "policy": {
@@ -718,31 +780,15 @@ reached a maximum threshold for a specific username or coming from a specific IP
                "reEnableLoginAfter" : 3600,
                "sourceBasedProtectionDetectionPeriod" : 3600,
                "url": {
-               "method": "*",
-               "name": "/html_login",
-               "protocol": "http"
+                 "method": "*",
+                 "name": "/html_login",
+                 "protocol": "http"
 		       }
             }
         ],
-	    "login-pages": [
-            {
-               "accessValidation" : {
-                  "responseContains": "Success"
-               },
-               "authenticationType": "form",
-               "url" : {
-                  "method" : "*",
-                  "name" : "/html_login",
-                  "protocol" : "http",
-                  "type" : "explicit"
-               },
-               "usernameParameterName": "username",
-               "passwordParameterName": "password"
-            }
-        ]
+
     }
 }
-
 ```
 policy:
   brute-force-attack-preventions:
@@ -793,45 +839,6 @@ policy:
 
     sourceBasedProtectionDetectionPeriod:
           Defines detection period (measured in seconds) for source-based brute force attacks.
-
-  login-pages:
-        A login page is a URL in a web application that requests must pass through to get to the authenticated URLs. 
-        Use login pages, for example, to prevent forceful browsing of restricted parts of the web application, 
-        by defining access permissions for users. Login pages also allow session tracking of user sessions.	
-    
-    accessValidation:
-        Access Validation define validation criteria for the login page response. 
-        If you define more than one validation criteria, 
-        the response must meet all the criteria before the system allows the user to access the application login URL.	
-
-    authenticationType:
-        Authentication Type is method the web server uses to authenticate the login URL's credentials with a web user.
-            
-        - **none**: The web server does not authenticate users trying to access the web application through the login URL. 
-            This is the default setting.
-            
-        - **form**: The web application uses a form to collect and authenticate user credentials. If using this option, 
-            you also need to type the user name and password parameters names written in the code of the HTML form.
-            
-        - **http-basic**: The authentication is done using the HTTP basic authentication.
-            The user name and password are transmitted in Base64 and stored on the server in plain text.
-            
-            
-        - **http-digest**: The authentication is done using the HTTP digest access authentication.
-            The user names and passwords are not transmitted over the network, nor are they stored in plain text.
-            
-        - **ntlm**: The authentication is done using the NTLM authentication.
-            
-        - **ajax-or-json-request**: The web server uses JSON and AJAX requests to authenticate users 
-            trying to access the web application through the login URL. 
-            For this option, you also need to type the name of the JSON elements containing the user name and password.
-
-    usernameParameterName:
-        A name of parameter which will contain username string.	
-    passwordParameterName:
-        A name of parameter which will contain password string.	
-    url:
-        URL string used for login page.	  
 
 ## Custom Dimensions Log Entries
 
