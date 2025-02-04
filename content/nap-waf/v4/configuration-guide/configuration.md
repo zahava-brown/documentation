@@ -719,7 +719,7 @@ Example1: A single brute force configuration is applied universally to all login
 }
 ```
 
-Example2: Different brute force configurations can be defined for individual login page.
+Example2: Different brute force configurations can be defined for individual login pages.
 ```json
 {
     "policy": {
