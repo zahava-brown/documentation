@@ -664,11 +664,6 @@ login attempts reached a maximum threshold for a specific username or coming fro
 To enable brute force protection, at least one login page must be created.
 
 ### Login page policy example
-login-pages:
-        Login page is a URL in a web application that requests must pass through to get to the authenticated URLs. 
-        Use login pages, for example, to prevent forceful browsing of restricted parts of the web application, 
-        by defining access permissions for users. Login pages also allow session tracking of user sessions.	
-
 ```json
 	    "login-pages": [
             {
