@@ -661,7 +661,8 @@ To prevent brute force attacks,  NGINX App Protect WAF monitors both IP addresse
 failed login attempts reached a maximum threshold. 
 When brute force patterns are detected, the NGINX App Protect WAF policy either trigger an alarm or block the attack if the failed 
 login attempts reached a maximum threshold for a specific username or coming from a specific IP address.
- 
+To enable brute force protection, at least one login page must be created.
+
 ### Login page policy example
 ```json
 	    "login-pages": [
@@ -723,7 +724,6 @@ login-pages:
 ### Brute force policy example
 
 Example1: A single brute force configuration is applied universally to all login pages.
-Use Case
 ```json
 {
     "policy": {
