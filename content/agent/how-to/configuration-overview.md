@@ -1,15 +1,11 @@
 ---
-title: "Basic configuration"
-draft: false
-weight: 100
+title: "Configuration overview"
 toc: true
-tags: [ "docs" ]
-docs: "DOCS-1229"
-categories: ["configuration"]
-doctypes: ["task"]
+weight: 100
+docs: DOCS-1229
 ---
 
-The following sections explain how to configure NGINX Agent using configuration files, CLI flags, and environment variables.
+This page describes how to configure F5 NGINX Agent using configuration files, CLI (Command line interface) flags, and environment variables.
 
 {{<note>}}
 
@@ -23,7 +19,7 @@ The following sections explain how to configure NGINX Agent using configuration 
 
 {{</note>}}
 
-## Configure with Config Files
+## Configuration files
 
 The default locations of configuration files for NGINX Agent are `/etc/nginx-agent/nginx-agent.conf` and `/var/lib/nginx-agent/agent-dynamic.conf`. The `agent-dynamic.conf` file default location is different for FreeBSD which is located `/var/db/nginx-agent/agent-dynamic.conf`. These files have comments at the top indicating their purpose.
 
@@ -150,26 +146,24 @@ tags:
 
 </details>
 
-## CLI Flags & Environment Variables
+## CLI flags and environment variables
 
 This section details the CLI flags and corresponding environment variables used to configure the NGINX Agent.
 
-### Usage
-
-#### CLI Flags
+### CLI flags
 
 ```sh
 nginx-agent [flags]
 ```
 
-#### Environment Variables
+### Environment variables
 
 ```sh
 export ENV_VARIABLE_NAME="value"
 nginx-agent
 ```
 
-### CLI Flags and Environment Variables
+### Flag and environment arguments
 
 {{< warning >}} 
 
@@ -239,7 +233,15 @@ Default location in FreeBSD environments: `/var/db/nginx-agent/agent-dynamic.con
 
 {{</note>}}
 
-## Log Rotation
+## Logs
+
+NGINX Agent uses formatted log files to collect metrics. Expanding log formats and instance counts will also increase the size of the NGINX Agent log files. 
+
+We recommend adding a separate partition for `/var/log/nginx-agent`.
+
+{{< important >}}
+Without log rotation or storage on a separate partition, log files could use up all the free drive space and cause your system to become unresponsive to certain services.
+{{< /important >}}
 
 By default, NGINX Agent rotates logs daily using logrotate with the following configuration:
 
@@ -272,3 +274,17 @@ By default, NGINX Agent rotates logs daily using logrotate with the following co
 If you need to change the default configuration, update the file at `/etc/logrotate.d/nginx-agent`.
 
 For more details on logrotate configuration, see [Logrotate Configuration Options](https://linux.die.net/man/8/logrotate).
+
+
+## Extensions
+
+An extension is noncritical code to the main functionality of NGINX Agent. They generally cover functionality outside of managing NGINX configuration and reporting metrics.
+
+To enable an extension, it must be added to the extensions list in the `/etc/nginx-agent/nginx-agent.conf`. 
+
+This example enables the advanced metrics extension:
+
+```yaml
+extensions:
+  - advanced-metrics
+```
