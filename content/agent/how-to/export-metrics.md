@@ -24,7 +24,7 @@ This document describes how to export the metrics data from F5 NGINX Agent.
 
 To begin this task, you will require the following:
 
-- A [working NGINX Agent instance]({{< ref "/install-upgrade/install.md" >}}).
+- A [working NGINX Agent instance]({{< relref "/agent/install-upgrade/install.md" >}}).
 -
 -
 
@@ -41,5 +41,5 @@ To begin this task, you will require the following:
 [//]: # "Examples of additional topics users might want to read include:"
 [//]: # "Relevant reference information, configuration options and more complex use cases."
 
-- [OpenTelemetry metrics]({{< ref "/otel/metrics.md" >}})
+- [OpenTelemetry metrics]({{< relref "/agent/otel/metrics.md" >}})
 -

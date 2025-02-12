@@ -13,14 +13,14 @@ This document describes the three main ways to install F5 NGINX agent:
 
 ## Before you begin
 
-There are a few prerequisites shared between all installation methods: 
+There are a few prerequisites shared between all installation methods:
 
 - A [supported operating system and architecture](../technical-specifications/#supported-distributions)
 - `root` privilege
 
 ## NGINX Open Source repository
 
-Before you install NGINX Agent, you must install and run NGINX. 
+Before you install NGINX Agent, you must install and run NGINX.
 
 If you don't have it installed already, read the [Installing NGINX Open Source
 ](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/) topic.
@@ -779,6 +779,6 @@ sudo nginx-agent -v
 
 ## Enable interfaces
 
-Once NGINX Agent is successfully running, you can enable the required interfaces, which is described in the [Enable gRPC and REST interfaces]({{< relref "/how-to/enable-interfaces.md" >}}) topic.
+Once NGINX Agent is successfully running, you can enable the required interfaces, which is described in the [Enable gRPC and REST interfaces]({{< relref "/agent/how-to/enable-interfaces.md" >}}) topic.
 
-You may also be interested in the [Start mock control plane interface]({{< relref "/contribute/start-mock-interface.md" >}}) topic for development work.
+You may also be interested in the [Start mock control plane interface]({{< relref "/agent/contribute/start-mock-interface.md" >}}) topic for development work.

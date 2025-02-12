@@ -11,12 +11,12 @@ NGINX Agent is a companion daemon for your NGINX Open Source or NGINX Plus insta
 - Collection and reporting of real-time NGINX performance and operating system metrics
 - Notifications of NGINX events
 
-[OpenTelemetry](https://opentelemetry.io/) support comes with NGINX Agent v3, and the ability to [export the metrics data]({{< relref "/how-to/export-metrics.md" >}}) for use in other applications.
+[OpenTelemetry](https://opentelemetry.io/) support comes with NGINX Agent v3, and the ability to [export the metrics data]({{< relref "/agent/how-to/export-metrics.md" >}}) for use in other applications.
 
 For an overview of the metrics available from NGINX Agent, read the following topics:
 
-- [OpenTelemetry metrics]({{< relref "/otel/metrics.md" >}}) (Agent v3)
-- [Metrics]({{< relref "/v2/metrics.md" >}}) (Agent v2)
+- [OpenTelemetry metrics]({{< relref "/agent/otel/metrics.md" >}}) (Agent v3)
+- [Metrics]({{< relref "/agent/v2/metrics.md" >}}) (Agent v2)
 
 
 {{< img src="grafana-dashboard-example.png" caption="A Grafana dashboard displaying metrics reported by NGINX Agent." alt="A Grafana dashboard displaying metrics reported by NGINX Agent.">}}
@@ -36,7 +36,7 @@ NGINX Agent enables remote interaction with NGINX using common Linux tools and u
 
 NGINX Agent provides an API interface for submission of updated configuration files. Upon receipt of a new file, it checks the output of `nginx -V` to determine the location of existing configurations. It then validates the new configuration with `nginx -t` before applying it via a signal HUP to the NGINX master process.
 
-For additional information, view the [Configuration overview]({{< relref "/how-to/configuration-overview.md" >}}) topic.
+For additional information, view the [Configuration overview]({{< relref "/agent/how-to/configuration-overview.md" >}}) topic.
 
 ---
 

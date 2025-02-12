@@ -2,7 +2,7 @@
 title: "Enable gRPC and REST interfaces"
 toc: true
 weight: 200
-docs: DOCS-000 
+docs: DOCS-000
 ---
 
 This document describes how to enable the gRPC and REST interfaces for F5 NGINX Agent.
@@ -70,4 +70,4 @@ api:
 
 To apply the new configuration, NGINX Agent must be started or restarted.
 
-You may want to view the [Start mock control plane interface]({{< relref "/contribute/start-mock-interface.md" >}}) topic to test NGINX Agent, or view the [Configuration overview]({{< relref "/how-to/configuration-overview.md" >}}) for more options.
+You may want to view the [Start mock control plane interface]({{< relref "/agent/contribute/start-mock-interface.md" >}}) topic to test NGINX Agent, or view the [Configuration overview]({{< relref "/agent/how-to/configuration-overview.md" >}}) for more options.
