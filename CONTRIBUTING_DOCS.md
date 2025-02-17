@@ -16,7 +16,7 @@ If you're an employee of F5/NGINX, also read [For F5/NGINX Employees](./F5-NGINX
 You will need to install Hugo _or_ Docker to build and preview docs in your local development environment.
 Refer to the [Hugo installation instructions](https://gohugo.io/getting-started/installing/) for more information.
 
-**NOTE**: We are currently running [Hugo v0.134.2](https://github.com/gohugoio/hugo/releases/tag/v0.134.2) in production.
+**NOTE**: We are currently running [Hugo v0.143.1](https://github.com/gohugoio/hugo/releases/tag/v0.143.1) in production.
 
 
 Although not a strict requirement, markdown-link-check is also used in documentation development.
