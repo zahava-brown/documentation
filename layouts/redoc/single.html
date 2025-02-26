@@ -69,13 +69,22 @@
     max-width: calc(100% + 9px);
   "
 >
+  <section class="main-layout" style="margin: 2rem;" style="display:none;" data-mf="true" >
+    <div class="sidebar-layout">
+      <nav id="sidebar-v2" class="sidebar">
+        {{ partial "sidebar-v2.html" . }}
+      </nav>
+    </div>
+  </section>
   <nav
-    class="sidenav overflow-auto col-md-3 d-none d-md-block d-print-none sidebar-toggle-hidden-width"
+    class="sidenav sidenav-api overflow-auto col-md-3 d-none d-md-block d-print-none sidebar-toggle-hidden-width"
     style="width: 25%; border-right: 1px solid #e6e6e6"
     ;
   >
     {{ partial "sidebar.html" . }}
   </nav>
+
+
   <div class="nginx-docs-api-container">
     <div id="api-component">{{ .Content}}</div>
   </div>
