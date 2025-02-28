@@ -451,6 +451,18 @@ To make sure includes are effective and easy to maintain, follow these practices
 - **Don't include headers**: Avoid adding H2 or other headers inside includes. These headers won't appear in the document's table of contents (TOC) and may not fit well with the surrounding content hierarchy. Add headers directly in the document instead.
 - **Avoid nesting includes**: If there’s another way to achieve the same outcome, avoid nesting includes. While technically possible, it complicates reviews and maintenance. Use a flat structure for simplicity.
 - **Don't start documents with includes**: The opening of a document is usually the introduction, which explains its purpose. Includes are reused text, so starting multiple documents with identical content could look odd, especially in search results.
+  - Exception: when it's helpful to start a doc in the same way in multiple locations, and when the search summaries should match.
+
+### Metadata for `includes`
+
+It's helpful if you include the following metadata atop the `includes` files that you create. If you want to revise an `include` in the future, this information can serve as a checklist for your review.
+
+```yaml
+docs:
+files:
+  - content/includes/path/to/shared_info1.md
+  - content/includes/path/to/shared_info2.md
+```
 
 ## Guidelines for command-line operations
 
