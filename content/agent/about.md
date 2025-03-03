@@ -16,7 +16,6 @@ NGINX Agent is a companion daemon for your NGINX Open Source or NGINX Plus insta
 For an overview of the metrics available from NGINX Agent, read the following topics:
 
 - [OpenTelemetry metrics]({{< relref "/agent/otel/metrics.md" >}}) (Agent v3)
-- [Metrics]({{< relref "/agent/v2/metrics.md" >}}) (Agent v2)
 
 
 {{< img src="grafana-dashboard-example.png" caption="A Grafana dashboard displaying metrics reported by NGINX Agent." alt="A Grafana dashboard displaying metrics reported by NGINX Agent.">}}
