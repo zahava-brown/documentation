@@ -9,252 +9,212 @@ toc: true
 weight: 300
 ---
 
-This deployment guide explains how to configure global server load balancing (GSLB) of traffic for web domains hosted in Amazon [Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2). For high availability and improved performance, you set up multiple backend servers (web servers, application servers, or both) for a domain in two or more AWS regions. Within each region, NGINX Plus load balances traffic across the backend servers.
+## Overview
 
-The AWS Domain Name System (DNS) service, [Amazon Route 53](https://aws.amazon.com/route53/), performs global server load balancing by responding to a DNS query from a client with the DNS record for the region that is closest to the client and hosts the domain. For best performance and predictable failover between regions, "closeness" is measured in terms of network latency rather than the actual geographic location of the client.
+This guide explains how to configure global server load balancing (GSLB) for web domains hosted in Amazon Elastic Compute Cloud (EC2). By using Amazon Route 53 and NGINX Plus, you can distribute traffic across multiple AWS regions, improving availability and performance.
 
-The [Appendix](#appendix) provides instructions for creating EC2 instances with the names used in this guide, and installing and configuring the F5 NGINX software on them.
+### How it works
 
-<span id="about-nginx"></span>
-## About NGINX Plus
+- Route 53 routes traffic based on network latency, directing clients to the closest AWS region.
+- NGINX Plus load balances traffic across backend servers within each region.
+- If a region becomes unavailable, Route 53 automatically fails over to the next closest region.
 
-[NGINX Plus](https://www.f5.com/products/nginx/nginx-plus) is the commercially supported version of the [NGINX Open Source](https://nginx.org/en) software. NGINX Plus is a complete application delivery platform, extending the power of NGINX with a host of enterprise‑ready capabilities that enhance an AWS application server deployment and are instrumental to building web applications at scale:
+For instructions on setting up EC2 instances and installing NGINX, see the [Appendix](#appendix).
 
-- [Full‑featured HTTP, TCP, and UDP load balancing](https://www.nginx.com/products/nginx/load-balancing/)
-- [Intelligent session persistence](https://www.nginx.com/products/nginx/load-balancing/#session-persistence)
-- [High‑performance reverse proxy]({{< relref "../../admin-guide/web-server/reverse-proxy.md" >}})
-- [Caching and offload of dynamic and static content]({{< relref "../../admin-guide/content-cache/content-caching.md" >}})
-- [Adaptive streaming to deliver audio and video to any device](https://www.nginx.com/products/nginx/streaming-media/)
-- [Application-aware health checks](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/) and [high availability](https://docs.nginx.com/nginx/admin-guide/high-availability/)
-- [Advanced activity monitoring available via a dashboard or API](https://www.nginx.com/products/nginx/live-activity-monitoring/)
-- [Management and real‑time configuration changes with DevOps‑friendly tools](https://www.nginx.com/products/nginx/load-balancing/#load-balancing-api)
+---
 
-<span id="topology"></span>
-## Topology for Global Load Balancing with Amazon Route 53 and NGINX Plus
+## Topology for global load balancing with Amazon Route 53 and NGINX Plus {#topology}
 
-The setup for global server load balancing (GSLB) in this guide combines Amazon Elastic Compute Cloud (EC2) instances, <span style="white-space: nowrap;">Amazon Route 53</span>, NGINX Plus instances, and NGINX Open Source instances.
+This deployment uses Amazon Elastic Compute Cloud (EC2) instances, Amazon Route 53, and NGINX Plus to provide global server load balancing (GSLB).
 
-**Note:** [Global server load balancing](https://www.nginx.com/resources/glossary/global-server-load-balancing/) is also sometimes called _global load balancing_ (GLB). The terms are used interchangeably in this guide.
+{{<note>}}
+[Global server load balancing](https://www.nginx.com/resources/glossary/global-server-load-balancing/) is sometimes called *global load balancing* (GLB). The terms are used interchangeably in this guide.
+{{</note>}}
 
-<img src="/nginx/images/aws-route-53-topology.png" alt="Diagram showing a topology for global server load balancing (GSLB). Eight backend servers, four in each of two regions, host the content for a domain. Two NGINX Plus load balancers in each region route traffic to the backend servers. For each client requesting DNS information for the domain, Amazon Route 53 provides the DNS record for the region closest to the client." style="border:2px solid #666666; padding:2px; margin:2px;" />
+<img src="/nginx/images/aws-route-53-topology.png" 
+     alt="Diagram showing the topology for global server load balancing (GSLB) with Amazon Route 53 and NGINX Plus. Route 53 directs traffic based on network latency to two AWS regions: US West and US East. Each region contains two NGINX Plus load balancers distributing traffic to backend servers. If a region becomes unavailable, Route 53 fails over to the other region." />
 
-Route 53 is a Domain Name System (DNS) service that performs global server load balancing by routing each request to the AWS region closest to the requester's location. This guide uses two regions: <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US West (Oregon)</span> and <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US East (N. Virginia)</span>.
+### Traffic flow
 
-In each region, two or more NGINX Plus load balancers are deployed in a high‑availability (HA) configuration. In this guide, there are two NGINX Plus load balancer instances per region. You can also use NGINX Open Source for this purpose, but it lacks the [application health checks](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/) that make for more precise error detection. For simplicity, we'll refer to NGINX Plus load balancers throughout this guide, noting when features specific to NGINX Plus are used.
+- Amazon Route 53 directs client traffic to the AWS region with the lowest latency.
+- NGINX Plus load balancers distribute traffic across backend servers within each region.
+- Health checks monitor server availability and trigger failover if needed.
 
-The NGINX Plus instances load balance traffic across web or app servers in their region. The diagram shows four backend servers, but you can deploy as many as needed. In this guide, there are two NGINX Open Source web servers in each region (four total); each one serves a customized static page identifying the server so you can track how load balancing is working.
+### Deployment setup
 
-Health checks are an integral feature of the configuration. Route 53 monitors the health of each NGINX Plus load balancer, marking it as down if a connection attempt times out or the HTTP response code is not <span style="white-space: nowrap;">`200 OK`</span>. Similarly, the NGINX Plus load balancer monitors the health of the upstream web servers and propagates those errors to Route 53. If both web servers or both NGINX Plus instances in a region are down, Route 53 fails over to the other region.
+This guide uses two AWS regions:
 
-<span id="prereqs"></span>
-## Prerequisites
+- US West (Oregon)
+- US East (N. Virginia)
 
-The instructions assume you have the following:
+Each region contains:
+
+- Two NGINX Plus load balancers in a high-availability (HA) configuration
+- Two backend servers running NGINX Open Source
+
+If a backend server or load balancer fails, NGINX Plus reroutes traffic within the region. If all servers in a region fail, Route 53 redirects traffic to the other region.
+
+### Health monitoring
+
+- Route 53 health checks monitor NGINX Plus instances and fail over if both instances in a region are unavailable.
+- NGINX Plus health checks monitor backend servers and remove unhealthy servers from the load balancing pool.
+
+For setup instructions, see [Configuring Global Server Load Balancing](#gslb).
+
+---
+
+## Prerequisites {#prereqs}
+
+Before configuring global server load balancing, ensure you have the following:
 
 - [An AWS account](http://docs.aws.amazon.com/AmazonSimpleDB/latest/DeveloperGuide/AboutAWSAccounts.html).
-- An NGINX Plus subscription, either [purchased](https://www.nginx.com/products/pricing/#nginx-plus) or a <span style="white-space: nowrap;">[free 30-day trial](https://www.nginx.com/free-trial-request/)</span>.
-- Familiarity with NGINX and NGINX Plus configuration syntax. Complete configuration snippets are provided, but not analyzed in detail.
-- Eight EC2 instances, four in each of two regions.  The [Appendix](#appendix) provides instructions for creating instances with the expected names, and installing and configuring NGINX Plus and NGINX Open Source as appropriate.
+- An NGINX Plus subscription, either [purchased](https://www.nginx.com/products/pricing/#nginx-plus) or a [free 30-day trial](https://www.nginx.com/free-trial-request/).
+- Familiarity with NGINX and NGINX Plus configuration syntax. This guide provides configuration snippets but does not analyze them in detail.
+- Eight EC2 instances, with four in each of two AWS regions.
 
-<span id="gslb"></span>
-## Configuring Global Server Load Balancing
+For instance setup and NGINX installation, see the [Appendix](#appendix).
 
-With the [required AWS configuration](#prereqs) in place, we're ready to configure Route 53 for global server load balancing.
+---
 
-Complete step‑by‑step instructions are provided in the following sections:
+## Configuring global server load balancing {#gslb}
 
-- [Creating a Hosted Zone](#hosted-zone)
-- [Linking the Domain to EC2 Instances](#link-instances)
-- [Configuring Health Checks for Route 53 Failover](#route-53-health-checks)
-- [Configuring NGINX Plus Application Health Checks](#nginx-plus-health-checks)
+After setting up your AWS environment, configure Amazon Route 53 for global server load balancing (GSLB).
 
-<span id="hosted-zone"></span>
-### Creating a Hosted Zone
+Follow these steps:
 
-Create a _hosted zone_, which basically involves designating a domain name to be managed by Route 53. As covered in the instructions, you can either use (transfer) an existing domain name or purchase a new one from Amazon.
+- [Create a hosted zone](#hosted-zone)
+- [Link the domain to EC2 instances](#link-instances)
+- [Configure health checks for failover](#route-53-health-checks)
+- [Enable NGINX Plus application health checks](#nginx-plus-health-checks)
 
-**Note**: When you transfer an existing domain, it can take up to 48 hours for the updated DNS record to propagate. The propagation time is usually much shorter for a new domain.
 
-1. Log in to the [AWS Management Console](https://console.aws.amazon.com/) (**console.aws.amazon.com/**).
+### Creating a hosted zone {#hosted-zone}
 
-2. Access the Route 53 dashboard page by clicking **Services** in the top AWS navigation bar, mousing over **Networking** in the <span style="color:#666666; font-weight:bolder; white-space: nowrap;">All AWS Services</span> column and then clicking **Route 53**.
+Create a hosted zone in Amazon Route 53 to manage your domain.
 
-    <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-dashboard-open.png" alt="Screenshot showing how to access the Amazon Route 53 dashboard to configure global load balancing (GLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
+{{<note>}}
+If you transfer an existing domain, DNS record propagation can take up to 48 hours. New domains typically propagate faster.
+{{</note>}}
 
-3. Depending on your history working with Route 53 instances, you might see the **Route 53 Dashboard**. Navigate to the **Registered domains** tab, shown here:
+1. Sign in to the [AWS Management Console](https://console.aws.amazon.com/).
+2. Open the **Route 53** service.
+3. In the **Registered Domains** tab:
+   - Select **Register Domain** to buy a new domain.
+   - Select **Transfer Domain** to move an existing domain.
+4. Follow the on-screen instructions to complete domain registration or transfer.
+5. Route 53 automatically creates a hosted zone when you register or transfer a domain.
 
-    <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-registered-domains-tab.png" alt="Screenshot showing the Route 53 Registered domains tab during configuration of NGINX GSLB (global server load balancing)" style="border:2px solid #666666; padding:2px; margin:2px;" />
+If no domain is listed, select **Create Hosted Zone**, enter your domain name, and follow the prompts.
 
-    If you see the Route 53 home page instead, access the **Registered domains** tab by clicking the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Get started now </span> button under <span style="color:#666666; font-weight:bolder; white-space: nowrap;">Domain registration</span>.
+### Linking the domain to EC2 instances {#link-instances}
 
-    <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-homepage.png" alt="Screenshot showing the Amazon Route 53 homepage for a first-time Route 53 user during configuration of AWS GSLB (global server load balancing) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
+Associate your domain with EC2 instances by creating Route 53 **record sets**. This enables content to be served from the instances.
 
-4. On the **Registered domains** tab (the first figure in the Step 3), click either the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Register Domain </span> or <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Transfer Domain </span> button as appropriate and follow the instructions.
-5. When you register or transfer a domain, AWS by default creates a hosted zone for it. To verify that there is a hosted zone for your domain, navigate to the **Hosted Zones** tab on the Route 53 dashboard. This example shows the domain we registered for this guide, <span style="color:#3366cc;">nginxroute53.com</span>.
+To configure global server load balancing (GSLB), set the **Latency** routing policy. This ensures Route 53 directs traffic to the region with the lowest latency.
 
-    <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-hosted-zones-tab.png" alt="Screenshot showing a newly registered hosted zone during configuration of Route 53 global load balancing (GLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
+{{<note>}}
+You can use the **Geolocation** routing policy to route traffic based on a user’s location, but failover may not work as expected. This method is best suited for regional content customization, such as displaying local languages or currencies.
+{{</note>}}
 
-    (If no domain is listed, click the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Create Hosted Zone </span> button. The <span style="font-weight: bold; white-space: nowrap;">Create Hosted Zone</span> column opens on the right side of the tab. Type the domain name in the **Domain Name** field and click the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Create </span> button at the bottom of the column.)
+1. Go to the **Hosted Zones** tab in the Route 53 dashboard.
+2. Select your domain.
+3. Select **Create Record Set**.
+4. Configure the record set:
+   - **Name**: (e.g., `www.example.com`).
+   - **Type**: `A - IPv4 address`.
+   - **Alias**: `No`.
+   - **TTL (Seconds)**: `60`.  
+     {{<note>}} A lower TTL (such as 60 seconds) speeds up failover detection, but Route 53 requires at least two minutes to fail over.{{</note>}}
+   - **Value**: Enter the Elastic IP addresses of your NGINX Plus load balancers.
+   - **Routing Policy**: `Latency`.
+   - **Region**: Select the AWS region of your load balancers.
+   - **Set ID**: Provide an identifier (e.g., `US West LBs`).
+   - **Associate with Health Check**: `No` (this will be configured later).
+5. Select **Create**.
+6. Repeat these steps for the second AWS region.
 
-<span id="link-instances"></span>
-### Linking the Domain to EC2 Instances
+After completing this setup, Route 53 routes client requests based on network latency, ensuring optimal performance.
 
-Now we link the domain to our EC2 instances so that content for the domain can be served from them. We do this by creating Route 53 _record sets_ for the domain. To implement GSLB, in the record sets we specify **Latency** as the _routing policy_. This means that in response to a client query for DNS information about a domain, Route 53 sends the DNS records for the region hosting that domain in which servers are responding most quickly to addresses in the client's IP range.
+### Configuring health checks for Route 53 failover {#route-53-health-checks}
 
-You can also select **Geolocation** as the routing policy, but failover might not work as expected. With the **Geolocation** routing policy, only clients from a specific a continent or country can access the content on a server. If you specify the United States, you also have the option of specifying a state as the "sublocation", limiting access to users from only that state. In this case, you can also create a generic US location to catch all requests that aren't sent from a listed sublocation.
+Configure health checks in Route 53 to enable automatic failover between AWS regions.
 
-We recommend that you choose **Geolocation** as the routing policy only for particular use cases, for example when you want to customize content for users in different countries – written in the country's official language with prices in its currency, say. If your goal is to deliver content as quickly as possible, **Latency** remains the best routing policy.
+Route 53 monitors the health of NGINX Plus load balancers and fails over to the next available region if both instances are unresponsive or return non-`200 OK` status codes.
 
-Create records sets for your domain:
+{{<note>}}
+Route 53 failover can take up to three minutes, regardless of TTL settings.
+{{</note>}}
 
-1. If you're not already on the **Hosted Zones** tab of the Route 53 dashboard, navigate to it.
+1. Go to the **Health checks** tab in the Route 53 dashboard.
+2. Select **Create Health Check**.
+3. Configure the health check:
+   - **Name**: Enter a name for the NGINX Plus load balancer (e.g., `US West LB 1`).
+   - **What to monitor**: Select `Endpoint`.
+   - **Specify endpoint by**: Select `IP address`.
+   - **IP Address**: Enter the Elastic IP address of the NGINX Plus instance.
+   - **Port**: Set to `80` (or the port your service uses).
+4. Select **Next**.
+5. On the **Get notified when health check fails** screen, set **Create alarm** to **Yes** or **No** as appropriate.
+6. Select **Create health check**.
+7. Repeat these steps for each load balancer.
 
-2. Click on the domain name in the **Domain Name** row for your hosted zone.
+After creating health checks for individual instances, set up regional health checks and link them to Route 53 record sets.
 
-    <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-hosted-zones-tab-click-domain-name.png" alt="Screenshot showing how to access the Create Record Set interface for Route 53 hosted zone during configuration of AWS global load balancing (GLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
+### Configuring Route 53 health checks for paired load balancers {#route-53-health-checks-pair}
 
-    The tab changes to display the record sets for the domain.
+Configure Route 53 health checks to monitor multiple load balancers in each AWS region. If both load balancers in a region become unavailable, Route 53 triggers failover to the next region.
 
-3. Click the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Create Record Set </span> button. The <span style="font-weight: bolder; white-space: nowrap;">Create Record Set</span> column opens on the right side of the tab, as shown here:
+1. Select **Create Health Check**.
+2. Configure the health check with the following values, then select **Next**:
+   - **Name**: Enter a name for the paired NGINX Plus load balancers (e.g., `US West LBs`).
+   - **What to monitor**: Select `Status of other health checks`.
+   - **Health checks to monitor**: Select the health checks of both load balancers in the region.
+   - **Report healthy when**: Choose **at least 1 of 2 selected health checks are healthy**.
+3. On the **Get notified when health check fails** screen, set **Create alarm** to **Yes** or **No**, then select **Create Health Check**.
+4. Repeat these steps for the paired load balancers in the second AWS region.
 
-    <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-create-record-set-empty.png" alt="Screenshot showing Create Record Set interface in Route 53 during configuration of global load balancing (GLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
+After configuring regional health checks, update Route 53 record sets to associate them with these health checks.
 
-4. Fill in the fields in the **Create Record Set** column:
+### Modifying record sets to associate with health checks {#route-53-health-checks-record-sets}
 
-    - **Name** – You can leave this field blank, but for this guide we are setting the name to <span style="color:#666666; font-weight:bolder; white-space: nowrap;">www.nginxroute53.com</span>.
-    - **Type** – <span style="color:#666666; font-weight:bolder; white-space: nowrap;">A – IPv4 address</span>.
-    - **Alias** – <span style="color:#666666; font-weight:bolder;">No</span>.
-    - **TTL (Seconds)** – <span style="color:#666666; font-weight:bolder;">60</span>.
+Update Route 53 record sets to associate them with health checks. This enables automatic failover when NGINX Plus instances become unavailable.
 
-        **Note**: Reducing TTL from the default of <span style="color:#666666; font-weight:bolder;">300</span> in this way can decrease the time that it takes for Route 53 to fail over when both NGINX Plus load balancers in the region are down, but there is always a delay of about two minutes regardless of the TTL setting. This is a built‑in limitation of Route 53.
+1. Go to the **Hosted Zones** tab in the Route 53 dashboard.
+2. Select your domain in the **Domain Name** list.
+3. Select the record set for the first AWS region.
+4. Under **Associate with Health Check**, select **Yes**.
+5. In **Health Check to Associate**, choose the health check for the first region.
+6. Select **Save Record Set**.
+7. Repeat these steps for the second AWS region.
 
-    - **Value** – [Elastic IP addresses](#elastic-ip) of the NGINX Plus load balancers in the first region [in this guide, <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US West (Oregon)</span>].
-    - **Routing Policy** – <span style="color:#666666; font-weight:bolder;">Latency</span>.
+After updating the record sets, Route 53 will monitor the health of NGINX Plus instances and reroute traffic as needed.
 
-5. A new area opens when you select <span style="color:#666666; font-weight:bolder;">Latency</span>. Fill in the fields as indicated (see the figure below):
+## Configuring NGINX Plus application health checks {#nginx-plus-health-checks}
 
-    - **Region** – Region to which the load balancers belong (in this guide, <span style="color:#666666; font-weight:bolder; white-space: nowrap;">us-west-2</span>).
-    - **Set ID** – Identifier for this group of load balancers (in this guide, <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US West LBs</span>).
-    - **Associate with Health Check** – <span style="color:#666666; font-weight:bolder;">No</span>.
+When using NGINX Plus as a load balancer, configure **application health checks** to monitor backend server availability. Unlike basic checks that only verify server responsiveness, NGINX Plus can inspect response content and other conditions before routing traffic.
 
-    When you complete all fields, the tab looks like this:
+Ensure NGINX Plus is installed and configured on two EC2 instances in each region before proceeding.
 
-    <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-create-record-set-completed.png" alt="Screenshot showing a completed Route 53 record set during configuration of global server load balancing (GSLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
+{{<note>}}
+Some commands require `root` privilege. Use `sudo` if necessary.
+{{</note>}}
 
-6. Click the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Create </span> button.
+### Steps
 
-7. Repeat Steps 3 through 6 for the load balancers in the other region [in this guide, <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US East (N. Virginia)</span>].
+1. Connect to the first NGINX Plus load balancer instance in the **US West** region.
+2. Navigate to the configuration directory:
 
-You can now test your website. Insert your domain name into a browser and see that your request is being load balanced between servers based on your location.
-
-<span id="route-53-health-checks"></span>
-### Configuring Health Checks for Route 53 Failover
-
-To trigger failover between AWS regions, we next configure health checks in Route 53. Route 53 monitors the NGINX Plus load balancers and fails over to the next closest region if both NGINX Plus load balancers are timing out or returning HTTP status codes other than <span style="white-space: nowrap;">`200 OK`</span>. (In this guide, failover is to the other region, since there are only two.)
-
-**Note:** It can take up to **three minutes** for Route 53 to begin routing traffic to another region. Although the TTL you specify in the record set for a region can slightly affect the amount of time, failover is never instantaneous because of the processing Route 53 must perform.
-
-<img src="/nginx/images/aws-route-53-topology-failover.png" alt="Diagram showing failover between AWS regions when Amazon Route 53 is configured for global server load balancing (GSLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
-
-We create health checks both for each NGINX Plus load balancer individually and for the load balancers in each region as a pair. Then we update the record sets created in the previous section to refer to the health checks.
-
-
-- [Configuring Route 53 Health Checks for Individual Load Balancers](#route-53-health-checks-individual)
-- [Configuring Route 53 Health Checks for the Paired Load Balancers in Each Region](#route-53-health-checks-pair)
-- [Modifying Record Sets to Associate Them with the Newly Defined Health Checks](#route-53-health-checks-record-sets)
-
-<span id="route-53-health-checks-individual"></span>
-#### Configuring Route 53 Health Checks for Individual Load Balancers
-
-1. Navigate to the **Health checks** tab on the Route 53 dashboard.
-
-    <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-health-checks-tab-welcome.png" alt="Screenshot of Amazon Route 53 welcome screen seen by first-time user of Route 53 during configuration of global server load balancing (GSLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
-
-2. Click the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Create health check </span> button. In the <span style="color:#666666; font-weight:bolder; white-space: nowrap;">Configure health check</span> form that opens, specify the following values, then click the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Next </span> button.
-
-   - **Name** – Identifier for an NGINX Plus load balancer instance, for example <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US West LB 1</span>.
-   - **What to monitor** – <span style="color:#666666; font-weight:bolder;">Endpoint</span>.
-   - **Specify endpoint by** – <span style="color:#666666; font-weight:bolder; white-space: nowrap;">IP address</span>.
-   - **IP address** – The [elastic IP address](#elastic-ip) of the NGINX Plus load balancer.
-   - **Port** – The port advertised to clients for your domain or web service (the default is <span style="color:#666666; font-weight:bolder;">80</span>).
-
-   <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-configure-health-check.png" alt="Screenshot of Amazon Route 53 interface for configuring health checks, during configuration of AWS global load balancing (GLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
-
-3. On the <span style="color:#666666; font-weight:bolder; white-space: nowrap;">Get notified when health check fails</span> screen that opens, set the **Create alarm** radio button to **Yes** or **No** as appropriate, then click the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Create health check </span> button.
-
-   <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-get-notified-health-check.png" alt="Screenshot of Route 53 configuration screen for enabling notifications of failed health checks, during configuration of Route 53 global load balancing (GLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
-
-4. Repeat Steps 2 and 3 for your other NGINX Plus load balancers (in this guide, <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US West LB 2</span>, <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US East LB 1</span>, and <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US East LB 2</span>).
-
-5. Proceed to the next section to configure health checks for the load balancer pairs.
-
-<span id="route-53-health-checks-pair"></span>
-#### Configuring Route 53 Health Checks for the Paired Load Balancers in Each Region
-
-1. Click the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Create health check </span> button.
-
-2. In the <span style="color:#666666; font-weight:bolder; white-space: nowrap;">Configure health check</span> form that opens, specify the following values, then click the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Next </span> button.
-
-   - **Name** – Identifier for the pair of NGINX Plus load balancers in the first region, for example <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US West LBs</span>.
-   - **What to monitor** – <span style="color:#666666; font-weight:bolder; white-space: nowrap;">Status of other health checks </span>.
-   - **Health checks to monitor** – The health checks of the two US West load balancers (add them one after the other by clicking in the box and choosing them from the drop‑down menu as shown).
-   - **Report healthy when** – <span style="color:#666666; font-weight:bolder;">at least 1 of 2 selected health checks are healthy</span> (the choices in this field are obscured in the screenshot by the drop‑down menu).
-
-   <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-configure-health-check-status-others.png" alt="Screenshot of Amazon Route 53 interface for configuring a health check of combined other health checks, during configuration of global server load balancing (GSLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
-
-3. On the <span style="color:#666666; font-weight:bolder; white-space: nowrap;">Get notified when health check fails</span> screen that opens, set the **Create alarm** radio button as appropriate (see Step 5 in the <a href="#route-53-health-checks-individual">previous section</a>), then click the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Create health check </span> button.
-
-4. Repeat Steps 1 through 3 for the paired load balancers in the other region [in this guide, <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US East (N. Virginia)</span>].
-
-When you have finished configuring all six health checks, the **Health checks** tab looks like this:
-
-<img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-health-checks-tab-completed.png" alt="Screenshot showing six successfully configured health checks in Amazon Route 53, during configuration of NGINX Plus for GSLB (global server load balancing)" style="border:2px solid #666666; padding:2px; margin:2px;" />
-
-<span id="route-53-health-checks-record-sets"></span>
-#### Modifying Record Sets to Associate Them with the Newly Defined Health Checks
-
-1. Navigate to the **Hosted Zones** tab.
-
-2. Click on the domain name in the **Domain Name** row for your hosted zone.
-
-   <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-hosted-zones-tab-click-domain-name.png" alt="Screenshot showing how to access the Create Record Set interface for Route 53 hosted zone during configuration of AWS global load balancing (GLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
-
-   The tab changes to display the record sets for the domain.
-
-3. In the list of record sets that opens, click the row for the record set belonging to your first region [in this guide, <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US West (Oregon)</span>]. The <span style="font-weight: bolder; white-space: nowrap;">Edit Record Set</span> column opens on the right side of the tab.
-
-   <img src="https://cdn-1.wp.nginx.com/wp-content/uploads/2016/10/aws-route53-edit-record-set.png" alt="Screenshot of interface for editing Route 53 record sets during configuration of global server load balancing (GSLB) with NGINX Plus" style="border:2px solid #666666; padding:2px; margin:2px;" />
-
-4. Change the **Associate with Health Check** radio button to <span style="color:#666666; font-weight:bolder;">Yes</span>.
-
-5. In the **Health Check to Associate** field, select the paired health check for your first region (in this guide, <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US West LBs</span>).
-
-6. Click the <span style="background-color:#3366cc; color:white; white-space: nowrap;"> Save Record Set </span> button.
-
-<span id="nginx-plus-health-checks"></span>
-### Configuring NGINX Plus Application Health Checks
-
-When you are using the NGINX Plus load balancer, we recommend that you to configure [application health checks](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/) of your backend servers. You can configure NGINX Plus to check more than simply whether a server is responding or returning `5_xx_` – for example, checking whether the content returned by the server is correct. When a server fails a health check, NGINX Plus removes it from the load‑balancing rotation until it passes a configured number of consecutive health checks. If all backend servers are down, NGINX Plus sends a `5_xx_` error to Route 53, which triggers a failover to another region.
-
-These instructions assume that you have configured NGINX Plus on two EC2 instances in each region, as instructed in [Configuring NGINX Plus on the Load Balancers](#configure-load-balancers).
-
-**Note:** Some commands require `root` privilege. If appropriate for your environment, prefix commands with the `sudo` command.
-
-1. Connect to the <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US West LB 1</span> instance. For instructions, see <a href="../ec2-instances-for-nginx/#connect-to-instance">Connecting to an EC2 Instance</a>.
-
-2. Change directory to **/etc/nginx/conf.d**.
-
-   ```shell
+   ```bash
    cd /etc/nginx/conf.d
    ```
 
-3. Edit the <span style="white-space: nowrap; font-weight:bold;">west-lb1.conf</span> file and add the **@healthcheck** location to set up health checks.
+3. Edit the configuration file (e.g., west-lb1.conf) and add the @healthcheck location:
 
    ```nginx
    upstream backend-servers {
-       server <public DNS name of Backend 1>; # Backend 1
-       server <public DNS name of Backend 2>; # Backend 2
-       zone backend-servers 64k;
+    server backend1.example.com;
+    server backend2.example.com;
+    zone backend-servers 64k;
    }
 
    server {
@@ -271,18 +231,15 @@ These instructions assume that you have configured NGINX Plus on two EC2 instan
    }
    ```
 
-   Directive documentation: [location](https://nginx.org/en/docs/http/ngx_http_core_module.html#location), [proxy_connect_timeout](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_connect_timeout), [proxy_pass](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass), [proxy_read_timeout](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_read_timeout), [server virtual](https://nginx.org/en/docs/http/ngx_http_core_module.html#server), [server upstream](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server), [upstream](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#upstream), [zone](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone)
-
-4. Verify the validity of the NGINX configuration and load it.
+4. Validate and apply the NGINX configuration:
 
    ```shell
    nginx -t
    nginx -s reload
    ```
 
-5. Repeat Steps 1 through 4 for the other three load balancers (<span style="color:#666666; font-weight:bolder; white-space: nowrap;">US West LB 2</span>, <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US East LB 1</span>, and <span style="color:#666666; font-weight:bolder; white-space: nowrap;">US East LB2</span>).
+5. Repeat these steps for the remaining three load balancers in both regions.
 
-   In Step 3, change the filename as appropriate (<span style="white-space: nowrap; font-weight:bold;">west-lb2.conf</span>, <span style="white-space: nowrap; font-weight:bold;">east-lb1.conf</span>, and <span style="white-space: nowrap; font-weight:bold;">east-lb2.conf</span>). In the <span style="white-space: nowrap; font-weight:bold;">east-lb1.conf</span> and <span style="white-space: nowrap; font-weight:bold;">east-lb2.conf</span> files, the `server` directives specify the public DNS names of Backup 3 and Backup 4.
 
 <span id="appendix"></span>
 ## Appendix
