@@ -1,11 +1,11 @@
 ---
-title: OTel Collector Congfiguration
-weight: 100
+title: Metrics Export
+weight: 200
 ---
 
 ## Overview
 
-The F5 NGINX Agent v3 now includes an embedded OpenTelemetry (OTel) Collector, streamlining observability and metric collection for NGINX instances. With this feature, you can collect: 
+The F5 NGINX Agent v3 now includes an embedded [OpenTelemetry](https://opentelemetry.io/) Collector, streamlining observability and metric collection for NGINX instances. With this feature, you can collect: 
 
 * Metrics from NGINX Plus  and NGINX OSS 
 * Host metrics  (CPU, memory, disk, and network activity) from VMs or Containers

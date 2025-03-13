@@ -9,7 +9,7 @@ docs: DOCS-000
 {{</call-out>}}
 
 ### About F5 NGINX Agent
-The F5 NGINX Agent is a lightweight companion daemon designed to work with NGINX One, enabling remote management of the NGINX data plane. It also gathers performance metrics from NGINX and transmits them to the NGINX One Console for enhanced monitoring and control. 
+The F5 NGINX Agent is a lightweight companion daemon designed to work with NGINX One, enabling remote management of the NGINX Instance(s). It also gathers performance metrics from NGINX and transmits them to the NGINX One Console for enhanced monitoring and control. 
 
 ### Key Features 
 - Enable Access to Key NGINX One Use Cases 

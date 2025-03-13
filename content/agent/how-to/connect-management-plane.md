@@ -1,7 +1,7 @@
 ---
 title: "Connect to management plane"
 toc: true
-weight: 600
+weight: 100
 docs: DOCS-000
 ---
 

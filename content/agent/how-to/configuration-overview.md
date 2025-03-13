@@ -1,7 +1,7 @@
 ---
 title: "Configuration overview"
 toc: true
-weight: 200
+weight: 300
 docs: DOCS-1229
 ---
 

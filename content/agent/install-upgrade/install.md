@@ -21,17 +21,13 @@ There are a few prerequisites shared between all installation methods:
 - `root` privilege
 
 When F5 NGINX Agent is installed, it will remain idle in the background. For proper functionality, two actions are required: 
-- Install NGINX : Ensure the NGINX is installed on the system.
-- Connect to the NGINX One Console : Establish a connection between the installed NGINX instance and the NGINX One Console."
+- **Install NGINX:** Ensure the NGINX is installed on the system.
+- **Connect to the NGINX One Console:** Establish a connection between the installed NGINX instance and the NGINX One Console."
      
 
 ## Connect to NGINX One Console
-### One command connect
-1. Get a Data Plane Key see /nginx-one/how-to/data-plane-keys/create-manage-data-plane-keys/
-1. Run the following command on your NGINX One Data Plane Instance:
-```bash
-curl https://agent.connect.nginx.com/nginx-agent/install | DATA_PLANE_KEY="<data_plane_key>" sh -s -- -y
-```
+For a quick guide on how to connect to NGINX One Console see: [Connect to NGINX One Console]({{< relref "/nginx-one/how-to/nginx-configs/add-instance" >}})
+
 ### Manual Connect 
 1. Ensure the F5 NGINX Agent is installed 
 1. Locate the F5 NGINX Agent Configuration File:  
