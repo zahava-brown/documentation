@@ -1,6 +1,5 @@
 ---
-description: "Documentation for NGINX Open Source and F5 NGINX Plus. \n\nRequest your\
-  \ [free 30‑day trial](https://www.nginx.com/free-trial-request) today.\n"
+description: "Documentation for NGINX Open Source and F5 NGINX Plus."
 title: F5 NGINX Plus
 weight: 100
 cascade:
