@@ -1,13 +1,13 @@
 ---
-title: "Uninstall NGINX Agent package"
+title: Uninstall NGINX Agent package
 draft: false
 weight: 700
 toc: true
-tags: [ "docs" ]
-docs: "DOCS-1230"
-categories: ["configuration"]
-doctypes: ["task"]
+docs: DOCS-1230
+type:
+- how-to
 ---
+
 
 ## Overview
 

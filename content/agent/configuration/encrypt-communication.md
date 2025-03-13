@@ -1,11 +1,10 @@
 ---
 title: Encrypt communication
-tags:
-- docs
 toc: true
 weight: 200
-docs: "DOCS-802"
+docs: DOCS-802
 ---
+
 
 ## Overview
 

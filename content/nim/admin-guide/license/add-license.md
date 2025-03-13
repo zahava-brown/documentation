@@ -1,10 +1,12 @@
 ---
-docs: DOCS-789  
-doctypes: task  
-title: Add license  
-toc: true  
-weight: 1  
+docs: DOCS-789
+title: Add license
+toc: true
+weight: 1
+type:
+- how-to
 ---
+
 
 ## Overview
 

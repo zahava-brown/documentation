@@ -1,18 +1,12 @@
 ---
-categories:
-- 
-date: "2024-11-06T12:00:00-07:00"
-description: 
-doctypes:
-- deployment guide
-tags:
-- docs
-title: "Deploy using Docker Compose"
+description: null
+title: Deploy using Docker Compose
 toc: true
-versions: []
 weight: 100
-docs: "DOCS-1653"
+docs: DOCS-1653
+type: []
 ---
+
 
 
 ## Overview

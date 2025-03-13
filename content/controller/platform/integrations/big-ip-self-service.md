@@ -1,14 +1,13 @@
 ---
 description: Integrate F5 NGINX Controller with a BIG-IP cluster.
 docs: DOCS-786
-doctypes:
-- tutorial
-tags:
-- docs
 title: BIG-IP Integration
 toc: true
 weight: 20
+type:
+- tutorial
 ---
+
 
 ## Overview
 

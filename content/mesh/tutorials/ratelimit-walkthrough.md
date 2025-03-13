@@ -1,12 +1,13 @@
 ---
-title: "Configure Rate Limiting"
-description: "Learn how to configure rate limiting between workloads."
+title: Configure Rate Limiting
+description: Learn how to configure rate limiting between workloads.
 draft: false
 toc: true
 weight: 140
-categories: ["tutorials"]
-docs: "DOCS-724"
+docs: DOCS-724
+type: []
 ---
+
 
 ## Overview
 

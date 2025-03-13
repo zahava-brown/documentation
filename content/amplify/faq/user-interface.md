@@ -3,9 +3,9 @@ title: NGINX Amplify User Interface
 description: Questions about F5 NGINX Amplify's User Interface
 weight: 30
 toc: true
-tags: ["docs"]
-docs: "DOCS-959"
+docs: DOCS-959
 ---
+
 
 ### What Browsers are Supported?
 

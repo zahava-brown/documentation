@@ -1,14 +1,13 @@
 ---
 description: Understanding how the NGINX Agent collects and reports metrics
 docs: DOCS-826
-doctypes:
-- reference
-tags:
-- docs
-title: "Overview: NGINX instance metrics"
+title: 'Overview: NGINX instance metrics'
 toc: true
 weight: 100
+type:
+- reference
 ---
+
 
 ## Overview
 

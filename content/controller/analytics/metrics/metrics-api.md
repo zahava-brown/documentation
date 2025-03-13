@@ -2,14 +2,13 @@
 description: Tips and tricks for using the Metrics API query parameters to refine
   your data.
 docs: DOCS-535
-doctypes:
-- tutorial
-tags:
-- docs
 title: Using the Metrics API
 toc: true
 weight: 50
+type:
+- tutorial
 ---
+
 
 ## Overview
 

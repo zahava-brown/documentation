@@ -2,15 +2,14 @@
 description: Learn about the default protections provided by F5 NGINX Controller App
   Security.
 docs: DOCS-479
-doctypes:
-- concept
-- reference
-tags:
-- docs
 title: Default WAF Policy
 toc: true
 weight: 200
+type:
+- concept
+- reference
 ---
+
 
 ## Overview
 

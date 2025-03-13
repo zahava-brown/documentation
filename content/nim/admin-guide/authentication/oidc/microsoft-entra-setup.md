@@ -1,13 +1,12 @@
 ---
 docs: DOCS-795
-doctypes:
-- tutorial
-tags:
-- docs
-title: "Microsoft Entra: Set up OIDC authentication"
+title: 'Microsoft Entra: Set up OIDC authentication'
 toc: true
 weight: 100
+type:
+- tutorial
 ---
+
 
 
 ## Overview

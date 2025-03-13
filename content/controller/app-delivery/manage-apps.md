@@ -1,14 +1,13 @@
 ---
 description: Create, view, and edit Apps and Components.
 docs: DOCS-478
-doctypes:
-- task
-tags:
-- docs
 title: Manage Apps & Components
 toc: true
 weight: 300
+type:
+- how-to
 ---
+
 
 ## Overview
 

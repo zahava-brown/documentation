@@ -1,13 +1,12 @@
 ---
-description: Learn how to enable and use metrics for F5 NGINX Management Suite API Connectivity
-  Manager.
+description: Learn how to enable and use metrics for F5 NGINX Management Suite API
+  Connectivity Manager.
 docs: DOCS-1055
-tags:
-- docs
 title: Enable Metrics
 toc: true
 weight: 100
 ---
+
 
 {{< shortversions "1.3.0" "latest" "acmvers" >}}
 

@@ -1,13 +1,12 @@
 ---
 docs: DOCS-918
-doctypes:
-- task
-tags:
-- docs
 title: Provision users and groups using SCIM
 toc: true
 weight: 500
+type:
+- how-to
 ---
+
 
 ## Overview
 

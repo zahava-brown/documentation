@@ -1,12 +1,12 @@
 ---
-title: "Features configuration"
+title: Features configuration
 draft: false
 weight: 150
 toc: true
-tags: [ "docs" ]
-categories: ["configuration"]
-doctypes: ["task"]
+type:
+- how-to
 ---
+
 
 ## Overview
 

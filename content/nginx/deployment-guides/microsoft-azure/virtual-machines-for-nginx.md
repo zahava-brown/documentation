@@ -2,12 +2,14 @@
 description: Create Microsoft Azure virtual machines for running NGINX Open Source
   and F5 NGINX Plus.
 docs: DOCS-458
-doctypes:
-- task
-title: Creating Microsoft Azure Virtual Machines for NGINX Open Source and F5 NGINX Plus
+title: Creating Microsoft Azure Virtual Machines for NGINX Open Source and F5 NGINX
+  Plus
 toc: true
 weight: 100
+type:
+- how-to
 ---
+
 
 These instructions explain how to create virtual machines (VMs) in the Microsoft Azure environment that are suitable for running NGINX Open Source and NGINX Plus.
 

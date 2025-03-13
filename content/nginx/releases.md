@@ -1,13 +1,14 @@
 ---
-description: Release information for F5 NGINX Plus, a complete application delivery platform,
-  including new features and a list of supported platforms.
+description: Release information for F5 NGINX Plus, a complete application delivery
+  platform, including new features and a list of supported platforms.
 docs: DOCS-472
-doctypes:
-- concept
 title: Releases
 toc: true
 weight: 300
+type:
+- concept
 ---
+
 
 <span id="support"></span>
 ## Support for Current and Previous Releases

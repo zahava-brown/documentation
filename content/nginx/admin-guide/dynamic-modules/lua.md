@@ -1,12 +1,13 @@
 ---
 description: null
 docs: DOCS-391
-doctypes:
-- task
 title: Lua
 toc: true
 weight: 100
+type:
+- how-to
 ---
+
 
 Integrate Lua co-routines into the NGINX event-processing model with the community-authored Lua dynamic module.
 

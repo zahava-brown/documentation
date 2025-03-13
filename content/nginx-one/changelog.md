@@ -1,14 +1,13 @@
 ---
-description: ""
+description: ''
 docs: DOCS-1394
-doctypes:
-  - reference
-tags:
-  - docs
 title: Changelog
 toc: true
 weight: 99999
+type:
+- reference
 ---
+
 
 <style>
 h2 {

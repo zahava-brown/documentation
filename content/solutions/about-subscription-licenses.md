@@ -1,12 +1,12 @@
 ---
-title: "About subscription licenses"
-date: 2024-10-10T12:52:14-07:00
+title: About subscription licenses
 toc: true
 weight: 2
-type: concept
+type: []
 product: Solutions
 docs: DOCS-000
 ---
+
 
 ## Overview
 

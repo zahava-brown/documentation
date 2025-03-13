@@ -1,15 +1,14 @@
 ---
 description: Understanding how traffic metrics are collected, aggregated, and reported.
 docs: DOCS-537
-doctypes:
-- concept
-- reference
-tags:
-- docs
 title: 'Overview: Traffic Metrics'
 toc: true
 weight: 100
+type:
+- concept
+- reference
 ---
+
 
 ## Overview
 

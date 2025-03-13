@@ -1,14 +1,13 @@
 ---
 description: Learn how to create and manage Developer Portals for your API documentation.
 docs: DOCS-570
-doctypes:
-- tutorial
-tags:
-- docs
 title: Manage Developer Portals
 toc: true
 weight: 120
+type:
+- tutorial
 ---
+
 
 ## Overview
 

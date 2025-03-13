@@ -1,14 +1,13 @@
 ---
 description: ''
 docs: DOCS-817
-doctypes:
-- concept
-tags:
-- docs
 title: Where to Go for Support
 toc: true
 weight: 300
+type:
+- concept
 ---
+
 
 ## Support Policy
 

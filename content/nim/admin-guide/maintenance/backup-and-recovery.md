@@ -1,11 +1,10 @@
 ---
 docs: DOCS-1098
-tags:
-- docs
 title: Back up and restore
 toc: true
 weight: 1
 ---
+
 
 ## Overview
 

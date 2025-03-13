@@ -3,12 +3,11 @@ description: This document lists and describes the known issues and possible wor
   in F5 NGINX Management Suite Instance Manager. Fixed issues are removed after **45
   days**.
 docs: DOCS-937
-tags:
-- docs
 title: Known Issues
 toc: true
 weight: 200
 ---
+
 
 {{<rn-styles>}}
 

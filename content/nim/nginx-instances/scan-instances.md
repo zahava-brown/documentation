@@ -1,14 +1,13 @@
 ---
 description: Follow the steps in this guide to scan for and discover NGINX instances.
 docs: DOCS-828
-doctypes:
-- tutorial
-tags:
-- docs
 title: Scan and discover NGINX instances
 toc: true
 weight: 110
+type:
+- tutorial
 ---
+
 
 <style>
   h3 {font-weight: 400; padding-top: 20px;}

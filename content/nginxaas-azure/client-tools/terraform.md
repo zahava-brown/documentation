@@ -1,13 +1,14 @@
 ---
-title: "Terraform"
+title: Terraform
 weight: 400
-description: "Learn how to use the Terraform to manage NGINXaaS for Azure."
-categories: ["platform-management"]
+description: Learn how to use the Terraform to manage NGINXaaS for Azure.
 toc: true
-docs: "DOCS-1472"
+docs: DOCS-1472
 draft: true
 url: /nginxaas/azure/client-tools/terraform/
+type: []
 ---
+
 
 F5 NGINX as a Service for Azure (NGINXaaS) deployments can be managed using Terraform. This document outlines common Terraform workflows for NGINXaaS.
 

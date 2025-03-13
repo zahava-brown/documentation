@@ -1,13 +1,12 @@
 ---
 docs: DOCS-794
-doctypes:
-- tutorial
-tags:
-- docs
 title: Secure Client Access and Network Traffic
 toc: true
 weight: 600
+type:
+- tutorial
 ---
+
 
 {{< include "nim/decoupling/note-legacy-nms-references.md" >}}
 

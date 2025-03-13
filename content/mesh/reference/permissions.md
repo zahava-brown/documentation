@@ -1,14 +1,13 @@
 ---
-title: "NGINX Service Mesh Permissions"
-date: 2022-05-09T09:37:44-07:00
+title: NGINX Service Mesh Permissions
 weight: 100
 draft: false
 toc: true
-tags: [ "docs" ]
-docs: "DOCS-883"
-categories: ["reference"]
-doctypes: ["beta"]
+docs: DOCS-883
+type:
+- reference
 ---
+
 
 ## Init Container
 The init container is a privileged container that runs as root. In addition to the container running with root privileges on the host system, it also has weaker sandboxing. The init container needs this level of access in order to manipulate `iptables` and `eBPF` on the host.

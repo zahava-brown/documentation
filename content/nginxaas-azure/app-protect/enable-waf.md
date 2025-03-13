@@ -1,10 +1,12 @@
 ---
-title: "Enable App Protect WAF"
+title: Enable App Protect WAF
 weight: 200
-categories: ["tasks"]
 toc: true
 url: /nginxaas/azure/app-protect/enable-waf/
+type:
+- how-to
 ---
+
 
 ## Overview
 

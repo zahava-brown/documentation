@@ -1,13 +1,12 @@
 ---
-description: Learn how to use F5 NGINX Management Suite API Connectivity Manager to publish
-  an API Proxy.
+description: Learn how to use F5 NGINX Management Suite API Connectivity Manager to
+  publish an API Proxy.
 docs: DOCS-923
-tags:
-- docs
 title: Publish an API Proxy
 toc: true
 weight: 300
 ---
+
 
 {{< shortversions "1.1.0" "latest" "acmvers" >}}
 

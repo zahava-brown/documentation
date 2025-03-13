@@ -1,11 +1,13 @@
 ---
-title: "Uninstall with nginx-meshctl"
+title: Uninstall with nginx-meshctl
 draft: false
 toc: true
 weight: 200
-categories: ["tasks"]
-docs: "DOCS-1481"
+docs: DOCS-1481
+type:
+- how-to
 ---
+
 
 ## Overview
 

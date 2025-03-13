@@ -1,10 +1,12 @@
 ---
-title: "Production Tuning"
-categories: ["tasks"]
+title: Production Tuning
 weight: 80
 toc: true
-docs: "DOCS-695"
+docs: DOCS-695
+type:
+- how-to
 ---
+
 
 #### Overview
 

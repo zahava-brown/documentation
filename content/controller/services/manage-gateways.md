@@ -1,14 +1,13 @@
 ---
 description: Create, view, and edit Gateways.
 docs: DOCS-373
-doctypes:
-- tutorial
-tags:
-- docs
 title: Manage Gateways
 toc: true
 weight: 120
+type:
+- tutorial
 ---
+
 
 ## Overview
 

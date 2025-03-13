@@ -1,10 +1,13 @@
 ---
 title: OpenShift
-description: Learn what is different in OpenShift, and the considerations a user must make.
-categories: ["tasks"]
+description: Learn what is different in OpenShift, and the considerations a user must
+  make.
 toc: true
-docs: "DOCS-689"
+docs: DOCS-689
+type:
+- how-to
 ---
+
 
 ## Introduction
 

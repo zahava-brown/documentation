@@ -1,13 +1,12 @@
 ---
 docs: DOCS-1226
-doctypes:
-- reference
-tags:
-- docs
 title: Troubleshooting
 toc: true
 weight: 1000
+type:
+- reference
 ---
+
 
 ## Security event log backup with Security Monitoring
 

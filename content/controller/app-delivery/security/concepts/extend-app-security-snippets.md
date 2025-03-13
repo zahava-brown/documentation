@@ -2,15 +2,14 @@
 description: Learn how to extend your App Security configurations using F5 NGINX Controller
   Snippets.
 docs: DOCS-338
-doctypes:
-- concept
-- reference
-tags:
-- task
 title: Extend App Security with Snippets
 toc: true
 weight: 400
+type:
+- concept
+- reference
 ---
+
 
 ## Overview
 

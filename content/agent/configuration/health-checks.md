@@ -1,12 +1,12 @@
 ---
-title: "Health checks"
+title: Health checks
 draft: false
 weight: 400
 toc: true
-tags: [ "docs" ]
-categories: ["configuration"]
-doctypes: ["task"]
+type:
+- how-to
 ---
+
 
 ## Overview
 

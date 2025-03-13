@@ -1,13 +1,12 @@
 ---
-docs: 
-doctypes:
-    - task
-tags:
-    - docs
+docs: null
 title: Add a file to an instance
 toc: true
 weight: 400
+type:
+- how-to
 ---
+
 
 
 ## Overview

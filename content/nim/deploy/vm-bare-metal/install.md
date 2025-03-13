@@ -1,14 +1,13 @@
 ---
-description:
+description: null
 docs: DOCS-1211
-doctypes:
-- tutorial
-tags:
-- docs
 title: Install on a virtual machine or bare metal using a script
 toc: true
 weight: 10
+type:
+- tutorial
 ---
+
 
 {{< include "/nim/decoupling/note-legacy-nms-references.md" >}}
 

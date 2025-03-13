@@ -1,10 +1,12 @@
 ---
-title: "Disable App Protect WAF"
+title: Disable App Protect WAF
 weight: 400
-categories: ["tasks"]
 toc: true
 url: /nginxaas/azure/app-protect/disable-waf/
+type:
+- how-to
 ---
+
 
 ## Overview
 This guide explains how to disable F5 NGINX App Protect WAF on an NGINX as a Service for Azure (NGINXaaS) deployment.

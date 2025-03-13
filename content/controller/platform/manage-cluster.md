@@ -2,15 +2,14 @@
 description: Learn how to add and manage additional F5 NGINX Controller nodes to create
   a resilient cluster.
 docs: DOCS-788
-doctypes:
-- task
-- tutorial
-tags:
-- docs
 title: Manage Your Cluster
 toc: true
 weight: 140
+type:
+- how-to
+- tutorial
 ---
+
 
 ## Overview
 

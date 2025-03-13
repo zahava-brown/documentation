@@ -1,14 +1,13 @@
 ---
 description: Create and manage environments to use with your apps, gateways, and certs.
 docs: DOCS-372
-doctypes:
-- tutorial
-tags:
-- docs
 title: Manage Environments
 toc: true
 weight: 100
+type:
+- tutorial
 ---
+
 
 ## Overview
 

@@ -1,13 +1,12 @@
 ---
 docs: DOCS-1275
-doctypes:
-- task
-tags:
-- docs
 title: Frequently used Helm configurations
 toc: true
 weight: 400
+type:
+- how-to
 ---
+
 
 ## Overview
 

@@ -1,13 +1,12 @@
 ---
 docs: DOCS-1651
-title: "Deploy using Helm"
+title: Deploy using Helm
 toc: true
 weight: 100
-doctypes:
-- task
-tags:
-- docs
+type:
+- how-to
 ---
+
 
 ## Overview
 

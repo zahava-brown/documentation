@@ -1,15 +1,13 @@
 ---
 description: How to install, upgrade, and uninstall the F5 Controller Agent.
 docs: DOCS-254
-doctypes:
-- tutorial
-- troubleshooting
-tags:
-- docs
 title: Install NGINX Controller Agent
 toc: true
 weight: 150
+type:
+- tutorial
 ---
+
 
 ## Overview
 

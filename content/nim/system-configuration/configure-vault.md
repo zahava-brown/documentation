@@ -1,13 +1,12 @@
 ---
 docs: DOCS-999
-doctypes:
-- tutorial
-tags:
-- docs
 title: Configure Vault for storing secrets
 toc: true
 weight: 200
+type:
+- tutorial
 ---
+
 
 {{< include "/nim/decoupling/note-legacy-nms-references.md" >}}
 
