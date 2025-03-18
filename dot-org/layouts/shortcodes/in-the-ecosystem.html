@@ -2,7 +2,7 @@
     NGINX is dedicated to supporting the open-source community through active participation, sponsorships, leadership roles, and contributions to various foundations, organizations, and projects.
 </p>
 
-{{ $engagements := resources.Get "ecosystem-engagements.json" | transform.Unmarshal }}
+{{ $engagements := resources.Get "ecosystem-engagements.yaml" | transform.Unmarshal }}
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-between">
     {{ range $engagements }}
