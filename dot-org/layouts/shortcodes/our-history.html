@@ -1,4 +1,4 @@
-{{ $timelineEvts := resources.Get "about/history.json" | transform.Unmarshal }}
+{{ $timelineEvts := resources.Get "about/history.yaml" | transform.Unmarshal }}
 
 
 <section id="nginx-history" class="flex flex-col gap-6">
