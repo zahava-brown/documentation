@@ -115,9 +115,6 @@ ol > li::marker {
     @apply hidden md:visible md:flex md:w-1/2 justify-center items-center;
 }
 
-.bg-offwhite {
-    background-color: var(--offwhite-bg);
-}
 
 .footer-social-icon {
     @apply h-[25px] w-[25px] text-white flex justify-center items-center;
