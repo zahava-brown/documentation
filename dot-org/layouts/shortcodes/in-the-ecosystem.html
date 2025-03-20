@@ -4,7 +4,7 @@
 
 {{ $engagements := resources.Get "ecosystem-engagements.yaml" | transform.Unmarshal }}
 
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-between">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-between mb-6">
     {{ range $engagements }}
         <article class="flex flex-col gap-2">
             <div class="h-[175px] bg-white flex justify-center items-center p-12 ngx-card-border">

@@ -7,7 +7,7 @@
     --color-ngx-green-light: #00c94c;
     --color-ngx-green-dark: #017e31;
 
-    --font-display: "Inter", "sans-serif";
+    --font-display: "InterVariable", "sans-serif";
 }
 
 body {
@@ -31,20 +31,25 @@ body {
 
 /* `nginx-hugo-theme` Overrides*/
 .main {
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 a {
     color: inherit;
 }
 
-p {
+p > a {
+    @apply underline underline-offset-2;
+}
+
+p, h2 {
     margin: 0;
 
 }
 
-h2 {
-    margin: 0;
+h1 {
+    @apply text-3xl
 }
 
 ol {
@@ -100,7 +105,21 @@ ol > li::marker {
 }
 
 .ngx-section-container {
-    @apply px-5 md:px-0 flex-col flex gap-8 container mx-auto;
+    @apply px-5 md:px-0 flex-col flex container mx-auto;
+}
+
+.ngx-section-container > h1,
+.ngx-section-container > h2,
+.ngx-section-container > h3,
+.ngx-section-container > h4,
+.ngx-section-container > h5,
+.ngx-section-container > h6 {
+    @apply mb-6 pt-4 font-bold uppercase underline underline-offset-8 ;
+    text-decoration-color: var(--nginx-green);
+}
+
+.ngx-section-container > p, ul, ol {
+    @apply mb-4
 }
 
 .proj-image-bg {
@@ -147,7 +166,7 @@ ol > li::marker {
 }
 
 .get-involved-item {
-    @apply bg-white flex flex-col items-center p-6 gap-2 w-full;
+    @apply bg-white flex flex-col items-center justify-center p-6 gap-2 w-full;
 }
 
 .banner-title {
@@ -158,6 +177,3 @@ ol > li::marker {
     @apply text-center flex justify-center flex-wrap text-white items-center gap-1 transition-all ease-in-out overflow-hidden;
 }
 
-.banner-container > p > a {
-    @apply underline underline-offset-2;
-}
