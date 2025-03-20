@@ -64,30 +64,11 @@ ol > li::marker {
     @apply font-semibold;
 }
 
-
-.section-text-content > h2 {
-    @apply font-bold text-3xl uppercase underline underline-offset-6 mb-2;
-    text-decoration-color: var(--nginx-green);
-}
-
-
-.section-text-content {
-    @apply gap-4 flex flex-col;
-}
-
-.section-text-content > p {
-    @apply font-normal;
-}
-
 .timeline-decimal-offset {
     inset-inline-start: calc(var(--spacing) * -1.5);
 }
 
-.newsitem-content > a {
-    @apply underline underline-offset-2;
-}
-
-.section-text-content > p > a {
+p > a {
     @apply underline underline-offset-2;
 }
 
