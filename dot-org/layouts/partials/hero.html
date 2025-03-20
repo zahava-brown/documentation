@@ -4,37 +4,47 @@
 {{ $pageTitle := default .Title .Params.hero_title }}
 {{ $heroDesc := default .Description .Params.hero_desc }}
 
-<!-- Non-home pages have a "minimal" hero height applied.  -->
-{{ $heroClasses := cond .IsHome "w-full hero-gradient flex md:h-[450px]" "w-full hero-gradient flex md:h-[200px]" }}
+<!--For non-home pages, a minimal hero is used w/o graphics (200px) -->
 
-<section class="{{ $heroClasses }}">
-    <!--  Content Width Target -->
-    <div class="container flex m-auto flex-col md:flex-row">
+{{ if .IsHome }}
+    <section class="w-full hero-gradient flex md:h-[450px]">
+        <div class="container flex m-auto flex-col md:flex-row">
         <div class="w-full flex justify-center md:w-1/2 text-white flex-col gap-3">
             <div class="flex flex-col text-gray-200 gap-4 py-8 px-5 lg:p-0 ">
                 <h3 class="text-3xl uppercase text-white font-weight-bolder">{{ $pageTitle }}</h3>
-                {{ if .IsHome }}
-                    <div class="flex gap-x-2 items-center">
-                        {{ with resources.Get "images/icon-logo.webp" }}
-                            <img src="{{ .RelPermalink }}" alt="icon-logo" class="w-[50px] h-[50px]"/>
-                        {{ end }}
-                        <h2 class="text-4xl">We power the web</h2>
-                    </div>
-                {{ end }}
+                <div class="flex gap-x-2 items-center">
+                    {{ with resources.Get "images/icon-logo.webp" }}
+                        <img src="{{ .RelPermalink }}" alt="icon-logo" class="w-[50px] h-[50px]"/>
+                    {{ end }}
+                    <h2 class="text-4xl">We power the web</h2>
+                </div>
                 <p class="md:text-lg text-wrap">
                     {{ $heroDesc | markdownify }}
                 </p>
-                {{ if .IsHome }}
-                    <a class="uppercase ngx-button text-center px-4 py-2 rounded-sm" href="/projects">Discover Projects</a>
-                {{ end }}
+                <a class="uppercase ngx-button text-center px-4 py-2 rounded-sm" href="/projects">Discover Projects</a>
             </div>
         </div>
-        {{ if .IsHome }}
-            <div class="hero-image-container">
-                {{ with resources.Get "images/hero-graphic.webp" }}
-                    <img src="{{ .RelPermalink }}" class="h-[250px]" alt="hero-graphic"/>
-                {{ end }}
+        <div class="hero-image-container">
+            {{ with resources.Get "images/hero-graphic.webp" }}
+                <img src="{{ .RelPermalink }}" class="h-[250px]" alt="hero-graphic"/>
+            {{ end }}
+        </div>
+        </div>
+    </section>
+
+{{ else }}
+
+    <section class="w-full hero-gradient flex md:h-[200px]">
+        <div class="container flex m-auto flex-col md:flex-row">
+            <div class="w-full flex justify-center text-white flex-col gap-3">
+                <div class="flex flex-col text-gray-200 gap-4 py-8 px-5 lg:p-0 ">
+                    <h3 class="text-3xl uppercase text-white font-weight-bolder">{{ $pageTitle }}</h3>
+                    <p class="md:text-lg text-wrap">
+                        {{ $heroDesc | markdownify }}
+                    </p>
+                </div>
             </div>
-        {{ end }}
-    </div>
-</section>
+        </div>
+    </section>
+
+{{ end }}
