@@ -1,5 +1,5 @@
 ---
-title: Security
+title: Security & Vulnerabilities
 params:
    display_breadcrumb: false
 ---

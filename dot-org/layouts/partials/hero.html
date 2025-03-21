@@ -11,7 +11,7 @@
         <div class="container flex m-auto flex-col md:flex-row">
         <div class="w-full flex justify-center md:w-1/2 text-white flex-col gap-3">
             <div class="flex flex-col text-gray-200 gap-4 py-8 px-5 lg:p-0 ">
-                <h3 class="text-3xl uppercase text-white font-weight-bolder">{{ $pageTitle }}</h3>
+                <h3 class="hero-title">{{ $pageTitle }}</h3>
                 <div class="flex gap-x-2 items-center">
                     {{ with resources.Get "images/icon-logo.webp" }}
                         <img src="{{ .RelPermalink }}" alt="icon-logo" class="w-[50px] h-[50px]"/>
@@ -38,7 +38,7 @@
         <div class="container flex m-auto flex-col md:flex-row">
             <div class="w-full flex justify-center text-white flex-col gap-3">
                 <div class="flex flex-col text-gray-200 gap-4 py-8 px-5 lg:p-0 ">
-                    <h3 class="text-3xl uppercase text-white font-weight-bolder">{{ $pageTitle }}</h3>
+                    <h3 class="hero-title">{{ $pageTitle }}</h3>
                     <p class="md:text-lg text-wrap">
                         {{ $heroDesc | markdownify }}
                     </p>
