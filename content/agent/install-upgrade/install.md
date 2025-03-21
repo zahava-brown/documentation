@@ -760,7 +760,7 @@ Use your system's package manager to install the package. Some examples:
   sudo pkg add nginx-agent-<agent-version>.pkg
   ```
 
-## Commands
+## Starting, Stopping, and Enabling NGINX Agent
 
 To start NGINX Agent on `systemd` systems, run the following command:
 

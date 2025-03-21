@@ -1,6 +1,6 @@
 ---
 title: "Changelog"
-weight: 700
+weight: 900
 toc: true
 ---
 

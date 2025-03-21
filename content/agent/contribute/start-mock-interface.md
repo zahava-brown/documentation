@@ -39,7 +39,6 @@ INFO[0000] grpc listening at 54789 # grpc control plane port which NGINX Agent w
 
 The mock control plane can use either gRPC or REST protocols to communicate with NGINX Agent.
 
-To enable them, view the [Enable gRPC and REST interfaces]({{< relref "/agent/how-to/enable-interfaces.md" >}}) topic.
 
 ## Launch Swagger UI
 

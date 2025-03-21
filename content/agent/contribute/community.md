@@ -9,7 +9,7 @@ This topic describes the various ways you can get involved with the F5 NGINX Age
 
 # Community
 
-- Our [Slack channel #nginx-agent](https://nginxcommunity.slack.com/), is the go-to place to start asking questions and sharing your thoughts.
+- Our [NGINX Community](https://community.nginx.org/), is the go-to place to start asking questions and sharing your thoughts.
 
 - Our [GitHub issues page](https://github.com/nginx/agent/issues) offers space for a more technical discussion at your own pace.
 
