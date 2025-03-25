@@ -99,7 +99,9 @@ p > a {
     text-decoration-color: var(--nginx-green);
 }
 
-.ngx-section-container > p, ul, ol {
+.ngx-section-container > ul,
+.ngx-section-container > p,
+.ngx-section-container > ol {
     @apply mb-4
 }
 
