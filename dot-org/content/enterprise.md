@@ -5,8 +5,9 @@ params:
   display_breadcrumb: false
 ---
 
-# Enterprise Support
+# Corporate Sponsor
 
-As the needs of your business grow, so to do the demands on your web infrastructure. While NGINX open-source projects
-provide a robust foundation, our enterprise solutions offer enhanced features, dedicated support, and tailored services
-designed to help you achieve the highest levels of performance, security, and reliability.
+F5, Inc. is the primary maintainer, sponsor, and steward of NGINX, following the acquisition of NGINX, Inc. in 2019.
+F5’s stewardship ensures ongoing investment, development, and support for NGINX’s open-source and enterprise offerings.
+
+{{< enterprise-support >}} 

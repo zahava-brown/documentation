@@ -1,0 +1,48 @@
+<div class="flex flex-col gap-12 mt-8 w-full justify-between items-center md:gap-18">
+    <div class="flex flex-col gap-8 ">
+        <h4 class="font-bold text-2xl underline underline-offset-8 decoration-ngx-green" id="enterprise-support">Commercial Offerings</h4>
+<!--        <p class="md:w-2/3 font-semibold">-->
+<!--            F5 provides enterprise distributions of NGINX, including the advanced features and capabilities of NGINX-->
+<!--            Plus. NGINX Plus offers enhanced load balancing, advanced security features, and comprehensive monitoring-->
+<!--            and management tools, designed to meet the demands of modern enterprises.-->
+<!--        </p>-->
+    </div>
+    {{ with resources.Get "images/icon-logo.webp" }}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <div class="flex flex-col gap-4 items-center">
+                <div class="w-36 h-36">
+                    <img src="{{ .RelPermalink }}" alt="enterprise-graphic" class="w-full h-full" />
+                </div>
+                <h5 class="text-xl font-bold">Enterprise Distributions</h5>
+                <p class="text-center">
+                    F5 provides enterprise distributions of NGINX, including the advanced features and capabilities of NGINX
+                    Plus. NGINX Plus offers enhanced load balancing, advanced security features, and comprehensive
+                    monitoring and management tools, designed to meet the demands of modern enterprises.
+                </p>
+            </div>
+            <div class="flex flex-col gap-4 items-center">
+                <div class="w-48 h-48">
+                    <img src="{{ .RelPermalink }}" alt="enterprise-graphic" class="w-full h-full" />
+                </div>
+                <h5 class="text-xl font-bold">Training & Certification</h5>
+                <p class="text-center">
+                    Enhance your team's skills and ensure they are equipped to maximize the benefits of NGINX with F5
+                    training and certification programs. F5 offers a range of training courses, from foundational to
+                    advanced levels, along with certification to validate your expertise. NGINX training is available from
+                    F5.
+                </p>
+            </div>
+            <div class="flex flex-col gap-4 items-center">
+                <div class="w-36 h-36">
+                    <img src="{{ .RelPermalink }}" alt="enterprise-graphic" class="w-full h-full" />
+                </div>
+                <h5 class="text-xl font-bold">Commercial Support</h5>
+                <p class="text-center">
+                    Commercial support for NGINX is available with the Open Source Subscription Bundles from F5. Our support
+                    packages offer 24/7 access to technical experts, proactive monitoring, and timely issue resolution to
+                    ensure your NGINX deployment runs smoothly and efficiently.
+                </p>
+            </div>
+        </div>
+    {{ end }}
+</div>

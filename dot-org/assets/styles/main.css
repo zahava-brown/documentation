@@ -139,12 +139,11 @@ p > a {
 }
 
 .ngx-section-header {
-    @apply font-bold text-3xl uppercase underline underline-offset-8;
-    text-decoration-color: var(--nginx-green);
+    @apply font-bold text-3xl uppercase underline underline-offset-8 decoration-ngx-green;
 }
 
 .content-padding-y {
-    @apply py-12 sm:py-[75px];
+    @apply py-8 sm:py-[75px];
 }
 
 .btn-primary {
