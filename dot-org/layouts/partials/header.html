@@ -1,0 +1,42 @@
+{{ define "header" }}
+    <nav class="w-full">
+        <div class="container mx-auto">
+            <div class="flex w-full align-center justify-between">
+                <a href="/" aria-label="home-page">
+                    {{ partial "svg/nginx-f5-logo.svg" . }}
+                </a>
+                {{ $navItems := slice
+                    (dict "title" "Projects" "path" "/projects")
+                    (dict "title" "Community" "path" "/community")
+                    (dict "title" "Security" "path" "/security")
+                    (dict "title" "About" "path" "/about")
+                    (dict "title" "Enterprise" "path" "/enterprise")
+                    (dict "title" "Blog" "path" "//blog.nginx.org" "extURL" true)
+                }}
+
+                <!-- Mobile Hamburger -->
+                <!-- todo(mckeen): implement mobile nav page -->
+                <div class="md:hidden flex items-center justify-center w-8 text-black">
+                    {{ partial "svg/hamburger-menu.svg" . }}
+                </div>
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-3 grow justify-end">
+                    {{ range $navItems }}
+                        {{ if eq .extURL true }}
+                            <a href="{{ .path }}" target="_blank" class="uppercase text-lg font-semibold">{{ .title }}</a>
+                        {{ else if (eq .path page.Path) }}
+                           <a href="{{ .path }}" class="uppercase text-lg font-semibold underline decoration-3 underline-offset-6 decoration-ngx-green">{{ .title }}</a>
+                        {{ else }}
+                             <a href="{{ .path }}" class="uppercase font-semibold text-lg">{{ .title }}</a>
+                        {{ end }}
+                    {{ end }}
+                    {{ partial "misc/f5-sites-nav-item.html" . }}
+<!--                     todo(mckeen): hookup to coveo search functionality   -->
+                    <a class="text-black w-6 h-6">
+                        {{ partial "svg/search.svg" }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+{{ end }}

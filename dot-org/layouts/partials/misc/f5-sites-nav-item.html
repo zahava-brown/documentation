@@ -1,0 +1,35 @@
+{{ $f5Sites := slice
+    (dict "title" "DevCentral" "href" "//community.f5.com/")
+    (dict "title" "F5 Labs" "href" "//www.f5.com/labs")
+    (dict "title" "My F5" "href" "//my.f5.com/")
+    (dict "title" "Partner Central" "href" "//www.f5.com/partners")
+    (dict "title" "Learn F5" "href" "//www.f5.com/learn/training")
+}}
+
+<div class="relative">
+    <div class="flex justify-center gap-2" id="f5-sites-nav-btn">
+        <div class="text-black w-6 h-6">
+            {{ partial "svg/f5-logo-black.svg" . }}
+        </div>
+        <div class="text-black flex gap-1 justify-center">
+            <span class="text-lg font-semibold uppercase">Sites</span>
+            <div class="w-6 h-6 transition-transform motion-reduce:transition-none " id="dropdown-carat">
+                {{ partial "svg/chevron-down.svg" . }}
+            </div>
+        </div>
+    </div>
+    {{ partial "misc/link-dropdown.html" (dict "items" $f5Sites "id" "f5-sites-dropdown") }}
+</div>
+
+<script type="text/javascript" defer="defer">
+  const navBtn = document.getElementById('f5-sites-nav-btn');
+  const menuCarat = document.getElementById('dropdown-carat');
+  const dropdownTgt = document.getElementById('f5-sites-dropdown');
+
+  const classesToToggle = ['opacity-0', 'opacity-100', '-z-1', 'z-20']
+
+  navBtn.addEventListener('click', () => {
+    menuCarat.classList.toggle('rotate-180');
+    classesToToggle.forEach((item) => dropdownTgt.classList.toggle(item));
+  });
+</script>
