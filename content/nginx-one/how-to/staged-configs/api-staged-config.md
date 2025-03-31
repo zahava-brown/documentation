@@ -2,7 +2,7 @@
 # We use sentence case and present imperative tone
 title: Use the API to manage your Staged Configurations
 # Weights are assigned in increments of 100: determines sorting order
-weight: 300
+weight: 500
 # Creates a table of contents and sidebar, useful for large documents
 toc: true
 # Types have a 1:1 relationship with Hugo archetypes, so you shouldn't need to change this
@@ -18,3 +18,9 @@ You can use F5 NGINX One Console API to manage your Staged Configurations. With 
 - [Get a list of existing Staged Configurations]({{< relref "/nginx-one/api/api-reference-guide/#operation/listStagedConfigs" >}})
   - Be sure to record the `object_id` of your target Staged Configuration for your analysis report.
 - [Get an analysis report for an existing Staged Configuration]({{< relref "/nginx-one/api/api-reference-guide/#operation/getStagedConfigReport" >}})
+<!-- 
+- [Export a Staged Configuration]({{< relref "/nginx-one/api/api-reference-guide/#operation/exportStagedConfig" >}})
+  - The call sends you an archive in `tar.gz` format.
+- [Bulk delete multiple Staged Configurations]({{< relref "/nginx-one/api/api-reference-guide/#operation/deleteStagedConfig" >}})
+  - Be careful with this REST call. Requires the `object_id` for each instance.
+-->
