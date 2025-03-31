@@ -37,7 +37,7 @@ When you work with such archives, consider the following:
 
 ## Import a Staged Configuration
 
-To import a Staged Configuration, you need to:
+To import a Staged Configuration from your system to the NGINX One Console, you need to:
 
 - Package your configuration in `tar.gz` format. For example, the following command sets up an archive from the files in the `/etc/nginx` directory:
   ```bash
@@ -52,11 +52,11 @@ You would then import that file to the NGINX One Console. To do so, follow these
 
 ## Export a Staged Configuration
 
-You can export a Staged Configuration from the NGINX One Console. To do so, follow these stepy:
+You can export a Staged Configuration from the NGINX One Console, as a download, to your system. To do so, follow these steps:
 
 1. On the left menu, select **Staged Configurations**.
 1. Select the Staged Configuration you want to export. 
 1. Select the ellipsis (...) on the right side of the row with the Staged Configuration.
 1. Select **Export**
 1. In the file menu that appears, choose a filename for your archive and save the result
-1. Avoid unpacking the archive in a way that overwrites your current NGINX configuration.
+1. Be careful. Do not unpack the archive in a way that overwrites your current NGINX configuration.
