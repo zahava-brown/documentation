@@ -20,7 +20,9 @@ You can use F5 NGINX One Console API to manage your Staged Configurations. With 
 - [Get an analysis report for an existing Staged Configuration]({{< relref "/nginx-one/api/api-reference-guide/#operation/getStagedConfigReport" >}})
 <!-- 
 - [Export a Staged Configuration]({{< relref "/nginx-one/api/api-reference-guide/#operation/exportStagedConfig" >}})
-  - The call sends you an archive in `tar.gz` format.
+  - The call exports an existing Staged Configuration from the console. It sends you an archive of that configuration in `tar.gz` format.
+- [Import a Staged Configuration]({{< relref "/nginx-one/api/api-reference-guide/#operation/importStagedConfig" >}})
+  - The call imports an existing Staged Configuration from your system and sends it to the console. This REST call assumes that your configuration is archived in `tar.gz` format.
 - [Bulk delete multiple Staged Configurations]({{< relref "/nginx-one/api/api-reference-guide/#operation/deleteStagedConfig" >}})
   - Be careful with this REST call. Requires the `object_id` for each instance.
 -->
