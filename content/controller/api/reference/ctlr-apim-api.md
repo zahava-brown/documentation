@@ -11,4 +11,4 @@ toc: false
 weight: 400
 ---
 
-{{< openapi spec="/controller/api/reference/ctlr-apim-openapi.json" >}}
+{{< openapi spec="./controller/api/reference/ctlr-apim-openapi.json" >}}
