@@ -12,4 +12,4 @@ toc: false
 weight: 300
 ---
 
-{{< openapi spec="./controller/api/reference/ctlr-adc-openapi.json" >}}
+{{< openapi spec="./nginx-controller/api/ctlr-adc-openapi.json" >}}
