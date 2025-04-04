@@ -3,6 +3,9 @@ description: Represents the state of the F5 NGINX Controller API Management REST
 docs: DOCS-1281
 type:
 - reference
+type: redoc
+tags:
+  - api
 title: APIM API
 toc: false
 weight: 400

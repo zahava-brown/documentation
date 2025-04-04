@@ -4,6 +4,9 @@ description: Represents the state of the F5 NGINX Controller Application Deliver
 docs: DOCS-1280
 type:
 - reference
+type: redoc
+tags:
+  - api
 title: ADC API
 toc: false
 weight: 300
