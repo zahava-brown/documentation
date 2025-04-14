@@ -81,17 +81,16 @@ Close every section with a horizontal line by using three dashes: `---`.
 
 ### How to format internal links
 
-Internal links should use Hugo [ref and relref shortcodes](https://gohugo.io/content-management/cross-references/).
+When you create an Internal link, use the Hugo `ref` shortcode.
 
-- Although file extensions are optional for Hugo, we include them as best practice for page anchors.
-- Relative paths are preferred, but just the filename is permissible.
-- Paths without a leading forward slash (`/`) are first resolved relative to the current page, then the remainder of the website.
+- We believe it is a "best practice" to include file extensions, such as `.md` for Markdown files.
+- You can also link directly to a section name, such as `#this-section`.
 
-Here are two examples:
+Here are two examples, where the forward slash starts in the `content/` subdirectory of the repository.
 
 ```md
 To install <software>, refer to the [installation instructions]({{< ref "install.md" >}}).
-To install <integation>, refer to the [integration instructions]({{< ref "/integration/thing.md#section" >}}).
+To install <integation>, refer to the [integration instructions]({{< ref "/integration/thing.md#this-section" >}}).
 ```
 
 ### How to add images
