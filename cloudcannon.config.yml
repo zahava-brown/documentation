@@ -1,55 +1,56 @@
+_schema: _schema
 paths:
   collections: content
 collections_config:
   pages:
-    parse_branch_index: true
     path: /
+    icon: notes
+    disable_url: false
+    description: ''
+    _enabled_editors:
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
   standalone_pages:
     path: content/
-    output: true
-    parse_branch_index: false
-    filter:
-      base: strict
-      include:
-        - ossc.md
-        - search.md
-        - success.md
     name: Standalone Website Pages
-    description: This collection contains standalone website pages like the search landing page.
     icon: notes
+    disable_url: false
+    description: >-
+      This collection contains standalone website pages like the search landing
+      page.
     sort_options:
       - key: weight
         order: ascending
-    _editables: {}
-    _inputs: {}
-    _select_data: {}
-    _structures: {}
+    _editables:
+    _inputs:
+    _select_data:
+    _structures:
     disable_add: true
     disable_add_folder: false
     disable_file_actions: false
-    schemas: {}
+    schemas:
   nginx_plus:
     path: content/nginx
     name: NGINX Plus
-    description: Documentation for NGINX and NGINX Plus.
-    output: true
-    parse_branch_index: false
     icon: notes
+    disable_url: false
+    description: Documentation for NGINX and NGINX Plus.
     preview:
       metadata:
         - text:
             - key: path
           icon: folder
-    _editables: {}
-    _inputs: {}
-    _select_data: {}
-    _structures: {}
+    _editables:
+    _inputs:
+    _select_data:
+    _structures:
     create:
       path: '[relative_base_path]/{directory}/{filename|slugify}.[ext]'
-      extra_data: {}
-      _inputs: {}
-      _select_data: {}
-      _structures: {}
+      extra_data:
+      _inputs:
+      _select_data:
+      _structures:
     disable_add: false
     disable_add_folder: false
     disable_file_actions: false
@@ -63,16 +64,16 @@ collections_config:
         name: Task (default)
         icon: task
         preview: {}
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
         create:
           path: '[relative_base_path]/{directory}/{filename|slugify}.[ext]'
-          extra_data: {}
-          _inputs: {}
-          _select_data: {}
-          _structures: {}
+          extra_data:
+          _inputs:
+          _select_data:
+          _structures:
       concept:
         path: .cloudcannon/schemas/concept.md
         reorder_inputs: true
@@ -81,26 +82,25 @@ collections_config:
         remove_extra_inputs: false
         name: Concept
         icon: lightbulb
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
   nap_dos:
     path: content/nap-dos
-    output: true
     name: NGINX App Protect DoS
-    description: Documentation for NGINX App Protect DoS
-    parse_branch_index: false
     icon: notes
+    disable_url: false
+    description: Documentation for NGINX App Protect DoS
     preview:
       metadata:
         - text:
             - key: path
           icon: folder
-    _editables: {}
-    _inputs: {}
-    _select_data: {}
-    _structures: {}
+    _editables:
+    _inputs:
+    _select_data:
+    _structures:
     disable_add: false
     disable_add_folder: false
     disable_file_actions: false
@@ -113,10 +113,10 @@ collections_config:
         remove_extra_inputs: false
         name: Task (default)
         icon: task
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
       concept:
         path: .cloudcannon/schemas/concept.md
         reorder_inputs: true
@@ -125,32 +125,31 @@ collections_config:
         remove_extra_inputs: false
         name: Concept
         icon: lightbulb
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
   nap_waf:
     path: content/nap-waf
-    output: true
     name: NGINX App Protect WAF
-    description: Documentation for NGINX App Protect WAF.
-    parse_branch_index: false
     icon: notes
+    disable_url: false
+    description: Documentation for NGINX App Protect WAF.
     preview:
       metadata:
         - text:
             - key: path
           icon: folder
-    _editables: {}
-    _inputs: {}
-    _select_data: {}
-    _structures: {}
+    _editables:
+    _inputs:
+    _select_data:
+    _structures:
     create:
       path: '[relative_base_path]/{directory}/{filename|slugify}.[ext]'
-      extra_data: {}
-      _inputs: {}
-      _select_data: {}
-      _structures: {}
+      extra_data:
+      _inputs:
+      _select_data:
+      _structures:
     disable_add: false
     disable_add_folder: false
     disable_file_actions: false
@@ -163,10 +162,10 @@ collections_config:
         remove_extra_inputs: false
         name: Task (default)
         icon: task
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
       concept:
         path: .cloudcannon/schemas/concept.md
         reorder_inputs: true
@@ -175,32 +174,31 @@ collections_config:
         remove_extra_inputs: false
         name: Concept
         icon: lightbulb
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
   nms:
     path: content/nms
-    output: true
     name: NGINX Management Suite
-    description: Documentation for NGINX Management Suite.
-    parse_branch_index: false
     icon: notes
+    disable_url: false
+    description: Documentation for NGINX Management Suite.
     preview:
       metadata:
         - text:
             - key: path
           icon: folder
-    _editables: {}
-    _inputs: {}
-    _select_data: {}
-    _structures: {}
+    _editables:
+    _inputs:
+    _select_data:
+    _structures:
     create:
       path: '[relative_base_path]/{directory}/{filename|slugify}.[ext]'
-      extra_data: {}
-      _inputs: {}
-      _select_data: {}
-      _structures: {}
+      extra_data:
+      _inputs:
+      _select_data:
+      _structures:
     disable_add: false
     disable_add_folder: false
     disable_file_actions: false
@@ -213,10 +211,10 @@ collections_config:
         remove_extra_inputs: false
         name: Task (default)
         icon: task
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
       concept:
         path: .cloudcannon/schemas/concept.md
         reorder_inputs: true
@@ -225,10 +223,10 @@ collections_config:
         remove_extra_inputs: false
         name: Concept
         icon: lightbulb
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
       policy:
         path: .cloudcannon/schemas/nms/policy.md
         reorder_inputs: true
@@ -237,68 +235,35 @@ collections_config:
         remove_extra_inputs: false
         name: ACM Policy
         icon: table_chart
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
   controller:
     path: content/controller
-    output: true
     name: NGINX Controller
-    description: Documentation for NGINX Controller.
-    parse_branch_index: false
     icon: notes
+    disable_url: false
+    description: Documentation for NGINX Controller.
     preview:
       metadata:
         - text:
             - key: path
           icon: folder
-    _editables: {}
-    _inputs: {}
-    _select_data: {}
-    _structures: {}
+    _editables:
+    _inputs:
+    _select_data:
+    _structures:
     create:
       path: '[relative_base_path]/{directory}/{filename|slugify}.[ext]'
-      extra_data: {}
-      _inputs: {}
-      _select_data: {}
-      _structures: {}
+      extra_data:
+      _inputs:
+      _select_data:
+      _structures:
     disable_add: false
     disable_add_folder: true
     disable_file_actions: true
-    schemas: 
-     default:
-        path: .cloudcannon/schemas/default.md
-        reorder_inputs: true
-        hide_extra_inputs: true
-        remove_empty_inputs: false
-        remove_extra_inputs: false
-        name: Task (default)
-        icon: task
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
-  modsec_waf:
-    path: content/modsec-waf
-    output: true
-    name: NGINX ModSec WAF
-    description: Documentation for NGINX ModSec WAF.
-    parse_branch_index: false
-    icon: notes
-    preview:
-      metadata:
-        - text:
-            - key: path
-          icon: folder
-    _editables: {}
-    _inputs: {}
-    _select_data: {}
-    _structures: {}
-    disable_add: true
-    disable_add_folder: true
-    disable_file_actions: true
-    schemas: 
+    schemas:
       default:
         path: .cloudcannon/schemas/default.md
         reorder_inputs: true
@@ -307,32 +272,62 @@ collections_config:
         remove_extra_inputs: false
         name: Task (default)
         icon: task
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
-  solution_bundles:
-    path: content/solutions
-    output: true
-    name: NGINX Solution Bundles
-    description: Instructions for deploying the multi-product solution bundles.
-    parse_branch_index: false
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
+  modsec_waf:
+    path: content/modsec-waf
+    name: NGINX ModSec WAF
     icon: notes
+    disable_url: false
+    description: Documentation for NGINX ModSec WAF.
     preview:
       metadata:
         - text:
             - key: path
           icon: folder
-    _editables: {}
-    _inputs: {}
-    _select_data: {}
-    _structures: {}
+    _editables:
+    _inputs:
+    _select_data:
+    _structures:
+    disable_add: true
+    disable_add_folder: true
+    disable_file_actions: true
+    schemas:
+      default:
+        path: .cloudcannon/schemas/default.md
+        reorder_inputs: true
+        hide_extra_inputs: true
+        remove_empty_inputs: false
+        remove_extra_inputs: false
+        name: Task (default)
+        icon: task
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
+  solution_bundles:
+    path: content/solutions
+    name: NGINX Solution Bundles
+    icon: notes
+    disable_url: false
+    description: Instructions for deploying the multi-product solution bundles.
+    preview:
+      metadata:
+        - text:
+            - key: path
+          icon: folder
+    _editables:
+    _inputs:
+    _select_data:
+    _structures:
     create:
       path: '[relative_base_path]/{directory}/{filename|slugify}.[ext]'
-      extra_data: {}
-      _inputs: {}
-      _select_data: {}
-      _structures: {}
+      extra_data:
+      _inputs:
+      _select_data:
+      _structures:
     disable_add: false
     disable_add_folder: false
     disable_file_actions: false
@@ -345,92 +340,99 @@ collections_config:
         remove_extra_inputs: false
         name: Task (default)
         icon: task
-        _editables: {}
-        _inputs: {}
-        _select_data: {}
-        _structures: {}
+        _editables:
+        _inputs:
+        _select_data:
+        _structures:
   includes:
     path: content/includes
-    output: false
     name: Content Reuse
-    description: A collection of files that can be reused in other documents across the website.
-    filter:
-      exclude:
-        - index.md
-    parse_branch_index: false
     icon: notes
+    disable_url: false
+    description: >-
+      A collection of files that can be reused in other documents across the
+      website.
     preview:
       metadata:
         - text:
             - key: path
           icon: folder
-    _editables: {}
-    _inputs: {}
-    _select_data: {}
-    _structures: {}
+    _editables:
+    _inputs:
+    _select_data:
+    _structures:
     create:
       path: '[relative_base_path]/{directory}/{filename|slugify}.[ext]'
-      extra_data: {}
-      _inputs: {}
-      _select_data: {}
-      _structures: {}
+      extra_data:
+      _inputs:
+      _select_data:
+      _structures:
     disable_add: false
     disable_add_folder: false
     disable_file_actions: false
     schemas:
       default:
         path: .cloudcannon/schemas/includes.md
+        reorder_inputs: true
+        hide_extra_inputs: false
+        remove_empty_inputs: false
+        remove_extra_inputs: true
         name: Includes template
+        icon: notes
       headless-collection:
         path: .cloudcannon/schemas/headless-collection.md
+        reorder_inputs: true
+        hide_extra_inputs: false
+        remove_empty_inputs: false
+        remove_extra_inputs: true
         name: Index.md template
+        icon: notes
   data:
     path: data
-    output: false
     icon: dataset
-    _editables: {}
-    _enabled_editors: 
+    disable_url: false
+    _editables:
+    _enabled_editors:
       - data
       - content
-    _inputs: {}
-    _select_data: {}
-    _structures: {}
+    _inputs:
+    _select_data:
+    _structures:
     create:
       path: '[relative_base_path]/{directory}/{filename|slugify}.[ext]'
-      extra_data: {}
-      _inputs: {}
-      _select_data: {}
-      _structures: {}
+      extra_data:
+      _inputs:
+      _select_data:
+      _structures:
     disable_add: false
     disable_add_folder: true
     disable_file_actions: true
-    schemas: {}
-collections_config_override: true
+    schemas:
 collection_groups:
-  - heading: "Standalone Web Pages"
-    collections: 
-    - "standalone_pages"
-  - heading: "Product Docs"
+  - heading: Standalone Web Pages
     collections:
-    - "nginx_plus"
-    - "nap_dos"
-    - "nap_waf"
-    - "nms"
-    - "controller"
-    - "modsec_waf"
-  - heading: "Solutions"
+      - standalone_pages
+  - heading: Product Docs
     collections:
-    - "solution_bundles"
-  - heading: "Content Reuse"
+      - nginx_plus
+      - nap_dos
+      - nap_waf
+      - nms
+      - controller
+      - modsec_waf
+  - heading: Solutions
     collections:
-    - "includes"
+      - solution_bundles
+  - heading: Content Reuse
+    collections:
+      - includes
 _enabled_editors:
   - content
-_inputs: {}
-_select_data: {}
-_structures: {}
+  - visual
 _editables:
   text:
+    allow_custom_markup: true
+    remove_custom_markup: false
     bold: true
     copyformatting: true
     italic: true
@@ -442,8 +444,6 @@ _editables:
     superscript: true
     underline: true
     undo: true
-data_config: true
-timezone: Etc/UTC
 commit_templates:
   - template_string: '{commit_type}: {message|trim} {breaking_change|if=breaking_change_message}'
     _inputs:
@@ -812,3 +812,12 @@ _snippets:
           type: string
         - editor_key: product
           type: string
+data_config: true
+editor:
+  default_path:
+source_editor:
+  tab_size: 2
+  theme: monokai
+  show_gutter: true
+timezone: Etc/UTC
+collections_config_override: true
