@@ -1,12 +1,10 @@
 ---
 docs: DOCS-1651
-title: "Deploy using Helm"
+title: Deploy using Helm
 toc: true
 weight: 100
-doctypes:
-- task
-tags:
-- docs
+type:
+- how-to
 ---
 
 ## Overview
@@ -14,6 +12,8 @@ tags:
 {{< include "/nim/decoupling/note-legacy-nms-references.md" >}}
 
 This guide explains how to deploy F5 NGINX Instance Manager on a Kubernetes or OpenShift cluster using Helm. You’ll learn how to download and use Docker images and customize your deployment.
+
+{{< note >}} Starting in NGINX Instance Manager 2.19, you can deploy NGINX Instance Manager on an OpenShift cluster using Helm. {{< /note >}}
 
 ### About Helm
 
@@ -81,9 +81,9 @@ Create a Docker registry secret on the cluster, using the JWT token as the usern
   -n nms
   ```
 
-{{< warning >}} 
+{{< warning >}}
 
-You might see a warning about `--password` being insecure. 
+You might see a warning about `--password` being insecure.
 
 This can be ignored (since no password is used), but if others have access to this system, delete the JWT token and clear your shell history after deployment.
 
@@ -131,7 +131,6 @@ The `values.yaml` file customizes the Helm chart installation without modifying 
 
     - In the `imagePullSecrets` section, add the credentials for your private Docker registry.
     - Change the version tag to the version of NGINX Instance Manager you would like to install. See "Install the chart" below for versions.
-    - Replace `<my-docker-registry:port>` with your private Docker registry and port (if applicable).
     - If deploying on OpenShift, add the `openshift.enabled: true` setting.
 
     {{< see-also >}} For details on creating a secret, see Kubernetes [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/). {{</ see-also >}}
@@ -169,11 +168,13 @@ The `values.yaml` file customizes the Helm chart installation without modifying 
             tag: <version>
     ```
 
+    {{< note >}} Starting in NGINX Instance Manager 2.19, the `secmon` pod is included in the NGINX Instance Manager deployment. {{< /note >}}
+
 2. Save and close the `values.yaml` file.
 
 ---
 
-## Enabling OpenShift  
+## Enabling OpenShift
 
 If deploying on OpenShift, include this setting in the `values.yaml` file:
 
@@ -186,9 +187,9 @@ openshift:
 
 ### How OpenShift handles security constraints
 
-When `openshift.enabled: true` is set in the `values.yaml` file, the NGINX Instance Manager deployment automatically creates a **custom [Security Context Constraints](https://docs.redhat.com/en/documentation/openshift_container_platform/4.13/html/authentication_and_authorization/managing-pod-security-policies) (SCCs)** and links it to the Service Account used by all pods.  
+When `openshift.enabled: true` is set in the `values.yaml` file, the NGINX Instance Manager deployment automatically creates a **custom [Security Context Constraints](https://docs.redhat.com/en/documentation/openshift_container_platform/4.13/html/authentication_and_authorization/managing-pod-security-policies) (SCCs)** and links it to the Service Account used by all pods.
 
-By default, OpenShift enforces strict security policies that require containers to run as **non-root** users. The NGINX Instance Manager deployment needs specific user IDs (UIDs) for certain services, such as **1000** for `nms` and **101** for `nginx` and `clickhouse`. Since the default SCCs do not allow these UIDs, a **custom SCC** is created. This ensures that the deployment can run with the necessary permissions while maintaining OpenShift’s security standards. The custom SCC allows these UIDs by setting the `runAsUser` field, which controls which users can run containers.  
+By default, OpenShift enforces strict security policies that require containers to run as **non-root** users. The NGINX Instance Manager deployment needs specific user IDs (UIDs) for certain services, such as **1000** for `nms` and **101** for `nginx` and `clickhouse`. Since the default SCCs do not allow these UIDs, a **custom SCC** is created. This ensures that the deployment can run with the necessary permissions while maintaining OpenShift’s security standards. The custom SCC allows these UIDs by setting the `runAsUser` field, which controls which users can run containers.
 
 {{< note >}} If you’re encountering errors with the custom SCC, you may not have permissions to access the Security Context Constraints resource. Please contact a Cluster Administrator to request access, either through a cluster role binding or by adjusting your user role. {{< /note >}}
 
@@ -221,10 +222,6 @@ nms nginx-stable/nms-hybrid \
 --wait
 ```
 
-To help you choose the right NGINX Instance Manager chart version, see the following table (through version v2.18.0):
-
-{{< include "nim/kubernetes/nms-chart-supported-module-versions.md" >}}
-
 ---
 
 ## Validate the deployment
@@ -249,7 +246,7 @@ The status should show `STATUS: deployed` if successful.
 
 A valid license is required to use all NGINX Instance Manager features.
 
-For instructions on downloading and applying a license, see [Add a License]({{< relref "/nim/admin-guide/license/add-license.md" >}}).
+For instructions on downloading and applying a license, see [Add a License]({{< ref "/nim/admin-guide/license/add-license.md" >}}).
 
 ---
 
@@ -272,9 +269,9 @@ To upgrade:
     --wait
    ```
 
-   - Replace `<path-to-your-values.yaml>` with the path to the `values.yaml` file you created]({{< relref "/nim/deploy/kubernetes/deploy-using-helm.md#configure-chart" >}}).
+   - Replace `<path-to-your-values.yaml>` with the path to the `values.yaml` file you created]({{< ref "/nim/deploy/kubernetes/deploy-using-helm.md#configure-chart" >}}).
    - Replace `YourPassword123#` with a secure password that includes uppercase and lowercase letters, numbers, and special characters.
-   
+
       {{<call-out "important" "Save the password!" "" >}} Save this password for future use. Only the encrypted password is stored in Kubernetes, and you can’t recover or reset it later. {{</call-out>}}
    - (Optional) Replace <nms-chart-version> with the desired version number. If you don’t specify a version, the latest version will be installed.
 
@@ -327,14 +324,114 @@ By default, the following network policies will be created in the release namesp
 To disable network policies, update the `values.yaml` file:
 
 ```yaml
-networkPolicies:
-    # Set this to true to enable network policies for NGINX Instance Manager.
-    enabled: false
+nms-hybrid:
+   networkPolicies:
+      # Set this to true to enable network policies for NGINX Instance Manager.
+      enabled: false
 ```
+
+---
+
+## Helm Deployment for NGINX Instance Manager 2.18 or lower
+
+### Create a Helm deployment values.yaml file
+
+The `values.yaml` file customizes the Helm chart installation without modifying the chart itself. You can use it to specify image repositories, environment variables, resource requests, and other settings.
+
+1. Create a `values.yaml` file similar to this example:
+
+    - In the `imagePullSecrets` section, add the credentials for your private Docker registry.
+    - Change the version tag to the version of NGINX Instance Manager you would like to install. See "Install the chart" below for versions.
+
+    {{< see-also >}} For details on creating a secret, see Kubernetes [Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/). {{</ see-also >}}
+
+    ```yaml
+    nms-hybrid:
+        imagePullSecrets:
+            - name: regcred
+        apigw:
+            image:
+                repository: private-registry.nginx.com/nms/apigw
+                tag: <version>
+        core:
+            image:
+                repository: private-registry.nginx.com/nms/core
+                tag: <version>
+        dpm:
+            image:
+                repository: private-registry.nginx.com/nms/dpm
+                tag: <version>
+        ingestion:
+            image:
+                repository: private-registry.nginx.com/nms/ingestion
+                tag: <version>
+        integrations:
+            image:
+                repository: private-registry.nginx.com/nms/integrations
+                tag: <version>
+        utility:
+            image:
+                repository: private-registry.nginx.com/nms/utility
+                tag: <version>
+    ```
+
+2. Save and close the `values.yaml` file.
+
+---
+
+### Install the chart
+
+Run the `helm install` command to deploy NGINX Instance Manager:
+
+1. Replace `<path-to-your-values.yaml>` with the path to your `values.yaml` file.
+2. Replace `YourPassword123#` with a secure password (containing a mix of uppercase, lowercase letters, numbers, and special characters).
+
+   {{< important >}} Remember to save the password for future use. Only the encrypted password is stored, and there's no way to recover or reset it if lost. {{< /important >}}
+
+3. Replace `<chart-version>` with the desired chart version 1.15.0 or lower. If omitted, it will lead to an unsuccessful deployment as it will try to install the latest vesrion 1.16.0 or later.
+
+```shell
+helm install -n nms \
+--set nms-hybrid.adminPasswordHash=$(openssl passwd -6 'YourPassword123#') \
+nms nginx-stable/nms \
+--create-namespace \
+-f <path-to-your-values.yaml> \
+--version <chart-version> \
+--wait
+```
+
+To help you choose the right NGINX Instance Manager chart version, see the table in:
+
+{{< include "nim/kubernetes/nms-chart-supported-module-versions.md" >}}
+
+---
+
+### Upgrade NGINX Instance Manager
+
+To upgrade:
+
+1. [Update the Helm repository list](#add-helm-repository).
+2. [Adjust your `values.yaml` file](#create-a-helm-deployment-values.yaml-file) if needed.
+3. To upgrade the NGINX Instance Manager deployment, run the following command. This command updates the `nms` deployment with a new version from the `nginx-stable/nms` repository. It also hashes the provided password and uses the `values.yaml` file at the path you specify.
+4. Replace `<chart-version>` with the desired chart version 1.15.0 or lower. If omitted, it will lead to an unsuccessful deployment as it will try to upgrade to the latest vesrion 1.16.0 or later.
+
+   ```bash
+    helm upgrade -n nms \
+    --set nms-hybrid.adminPasswordHash=$(openssl passwd -6 'YourPassword123#') \
+    nms nginx-stable/nms \
+    -f <path-to-your-values.yaml> \
+    --version <chart-version> \
+    --wait
+   ```
+
+   - Replace `<path-to-your-values.yaml>` with the path to the `values.yaml` file you created]({{< ref "/nim/deploy/kubernetes/deploy-using-helm.md#configure-chart" >}}).
+   - Replace `YourPassword123#` with a secure password that includes uppercase and lowercase letters, numbers, and special characters.
+
+      {{<call-out "important" "Save the password!" "" >}} Save this password for future use. Only the encrypted password is stored in Kubernetes, and you can’t recover or reset it later. {{</call-out>}}
 
 ---
 
 ## Troubleshooting
 
-For instructions on creating a support package to share with NGINX Customer Support, see [Create a Support Package from a Helm Installation]({{< relref "/nms/support/k8s-support-package.md" >}}).
+For instructions on creating a support package to share with NGINX Customer Support, see [Create a Support Package from a Helm Installation]({{< ref "/nms/support/k8s-support-package.md" >}}).
 

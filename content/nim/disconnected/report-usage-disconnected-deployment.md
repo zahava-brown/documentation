@@ -1,24 +1,16 @@
 ---
-title: "Report usage to F5 in a disconnected environment"
-date: 2024-10-14T14:29:40-07:00
-# Change draft status to false to publish doc.
+title: Report usage to F5 in a disconnected environment
 draft: false
-# Assign weights in increments of 100
 weight: 300
 toc: true
-tags: [ "docs" ]
-# Create a new entry in the Jira DOCS Catalog and add the ticket ID (DOCS-<number>) below
-docs: "DOCS-1658"
-# Taxonomies
-# These are pre-populated with all available terms for your convenience.
-# Remove all terms that do not apply.
-categories: ["installation", "platform management", "load balancing", "api management", "service mesh", "security", "analytics"]
-doctypes: ["task"]
-journeys: ["researching", "getting started", "using", "renewing", "self service"]
-personas: ["devops", "netops", "secops", "support"]
-versions: []
-authors: []
-
+docs: DOCS-1658
+personas:
+- devops
+- netops
+- secops
+- support
+type:
+- how-to
 ---
 
 ## Overview
@@ -33,7 +25,7 @@ Before submitting usage data to F5, first configure NGINX Plus to report telemet
 
 ### Configure NGINX Plus to report usage to NGINX Instance Manager
 
-To configure NGINX Plus (R33 and later) to report usage data to NGINX Instance Manger:
+To configure NGINX Plus (R33 and later) to report usage data to NGINX Instance Manager:
 
 {{< include "licensing-and-reporting/configure-nginx-plus-report-to-nim.md" >}}
 

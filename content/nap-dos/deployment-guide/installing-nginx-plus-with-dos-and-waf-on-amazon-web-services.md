@@ -4,11 +4,11 @@ description: Install F5 NGINX Plus, NGINX App Protect WAF + DoS on Amazon Web Se
   behavioral DoS detection and mitigation that works seamlessly in DevOps environments
   for your apps running on CentOS, RHEL, Debian and Ubuntu Linux OS.
 docs: DOCS-1204
-doctypes:
-- task
 title: NGINX App Protect WAF + DoS AMIs on Amazon EC2
 toc: true
 weight: 110
+type:
+- how-to
 ---
 
 NGINX, Inc. participates in the Amazon Web Services (AWS) Partner Network as a Standard Technology Partner. We offer Amazon Machine Images (AMIs) for use in the Amazon Elastic Compute Cloud (EC2), available at the AWS Marketplace for several operating systems, including Amazon Linux, Red Hat Enterprise Linux, and Ubuntu.
@@ -21,7 +21,7 @@ The AMIs contain combination of the following components:
 - Latest version of [NGINX App Protect WAF](https://docs.nginx.com/nginx-app-protect-waf/), optimized for use on Amazon EC2
 - Pre-packaged software for building highly available (HA) NGINX Plus configurations
 
-## Installing the NGINX Plus NGINX App Protect WAF + DoS
+## Install NGINX Plus NGINX App Protect WAF + DoS
 
 To quickly set up an environment with NGINX Plus, NGINX App Protect WAF and NGINX App Protect DoS on AWS:
 

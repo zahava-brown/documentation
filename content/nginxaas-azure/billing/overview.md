@@ -1,10 +1,11 @@
 ---
-title: "Billing overview"
+title: Billing overview
 weight: 100
-categories: ["concepts"]
 toc: true
-docs: "DOCS-885"
+docs: DOCS-885
 url: /nginxaas/azure/billing/overview/
+type:
+- concept
 ---
 
 ## Pricing plans
@@ -33,15 +34,6 @@ The SKU for the Basic pricing plan is `basic_Monthly`.
 {{< note >}}The costs for your plan will appear on the Azure Portal Cost Analysis page and the Azure Consumption APIs. There may be a 24h delay before usage is visible.{{< /note >}}
 
 
-### Standard plan (deprecated)
-
-The Standard plan is comparable to the Standard V2 plan except that it doesn't support some features like NGINX App Protect WAF.
-
-The SKU to use for the Standard pricing plan is `standard_Monthly`.
-
-{{< note >}} Standard plan is now deprecated in favor of Standard V2 plan.{{< /note >}}
-
-
 ## NGINX Capacity Unit (NCU)
 
 {{< include "/nginxaas-azure/ncu-description.md" >}}
@@ -66,8 +58,8 @@ Each NCU provisioned (not consumed) is billed at the rate specified on the [Azur
 * Total:  `100 NCU·hours * 0.05$/NCU/hour = $5.00`.
 
 {{< note >}}Further guidance:
-* For how many NCUs should you provision and how to scale to match workload, see the [Scaling Guidance]({{< relref "/nginxaas-azure/quickstart/scaling.md" >}})
-* To learn more about metrics related to NCUs, see the [NGINXaaS Statistics namespace]({{< relref "/nginxaas-azure/monitoring/metrics-catalog.md#nginxaas-statistics" >}})
+* For how many NCUs should you provision and how to scale to match workload, see the [Scaling Guidance]({{< ref "/nginxaas-azure/quickstart/scaling.md" >}})
+* To learn more about metrics related to NCUs, see the [NGINXaaS Statistics namespace]({{< ref "/nginxaas-azure/monitoring/metrics-catalog.md#nginxaas-statistics" >}})
 {{< /note >}}
 
 

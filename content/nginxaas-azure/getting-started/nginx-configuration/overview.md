@@ -1,9 +1,10 @@
 ---
-title: "Overview"
+title: Overview
 weight: 50
-categories: ["tasks"]
 toc: true
 url: /nginxaas/azure/getting-started/nginx-configuration/overview/
+type:
+- how-to
 ---
 
 This document provides details about using NGINX configuration files with your
@@ -13,9 +14,9 @@ F5 NGINX as a Service for Azure deployment, restrictions, and available directiv
 
 NGINX configurations can be uploaded to your NGINXaaS for Azure deployment using the Azure portal, Azure CLI, or Terraform. The following documents provide detailed steps on how to upload NGINX configurations:
 
-- [Upload using the Azure portal]({{< relref "/nginxaas-azure/getting-started/nginx-configuration/nginx-configuration-portal.md" >}})
-- [Upload using the Azure CLI]({{< relref "/nginxaas-azure/getting-started/nginx-configuration/nginx-configuration-azure-cli" >}})
-- [Upload using Terraform]({{< relref "/nginxaas-azure/getting-started/nginx-configuration/nginx-configurations-terraform.md" >}})
+- [Upload using the Azure portal]({{< ref "/nginxaas-azure/getting-started/nginx-configuration/nginx-configuration-portal.md" >}})
+- [Upload using the Azure CLI]({{< ref "/nginxaas-azure/getting-started/nginx-configuration/nginx-configuration-azure-cli" >}})
+- [Upload using Terraform]({{< ref "/nginxaas-azure/getting-started/nginx-configuration/nginx-configurations-terraform.md" >}})
 
 The topics below provide information on NGINX configuration restrictions and directives that are supported by NGINXaaS for Azure when using any of the above workflows.
 
@@ -62,7 +63,7 @@ Some directives cannot be overridden by the user provided configuration.
   |------------------ | ----------------------- | -----------------|
   | `user` | `nginx` | The `nginx` user has the correct permissions for accessing certificates, policy files and other auxfiles. |
   | `worker_processes` | `auto` | Set to `auto` to automatically set `worker_processes` to the number of CPU cores. |
-  | `worker_connections` |   <ul><li>standard plan `4000`</li><li>basic plan `3000`</li></ul> | To ensure reasonable performance of the NGINXaaS deployment for standard plan the `worker_connections` is fixed at 400/NCU; for basic plan this is set lower. |
+  | `worker_connections` |   <ul><li>Standard V2 plan `4000`</li><li>basic plan `3000`</li></ul> | To ensure reasonable performance of the NGINXaaS deployment for Standard V2 plan, the `worker_connections` is fixed at 400/NCU; for basic plan this is set lower. |
   | `pid` | `/run/nginx/nginx.pid` | Set to this value to allow NGINXaaS to automatically manage the NGINX master process. |
   | `daemon` | `on` | Automatically set to `on` to allow NGINXaaS to manage the NGINX master process. |
   | `master_process` | `on` | This directive is intended for NGINX developers. |
