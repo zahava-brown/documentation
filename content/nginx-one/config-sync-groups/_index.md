@@ -1,6 +1,6 @@
 ---
 description:
-title: Config Sync Groups
-weight: 250
+title: Manage your instances
+weight: 400
 url: /nginx-one/how-to/config-sync-groups
 ---

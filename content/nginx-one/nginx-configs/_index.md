@@ -1,6 +1,6 @@
 ---
 description:
-title: Instances and Configurations
-weight: 200
+title: Deploy your NGINX instances
+weight: 300
 url: /nginx-one/how-to/nginx
 ---
