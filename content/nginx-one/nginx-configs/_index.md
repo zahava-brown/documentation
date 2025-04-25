@@ -1,6 +1,6 @@
 ---
 description:
-title: Deploy your NGINX instances
+title: Organize your NGINX instances
 weight: 300
-url: /nginx-one/how-to/nginx
+url: /nginx-one/nginx-configs
 ---

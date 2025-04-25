@@ -1,6 +1,6 @@
 ---
 description:
-title: Manage your instances
+title: Organize in groups
 weight: 400
-url: /nginx-one/how-to/config-sync-groups
+url: /nginx-one/config-sync-groups
 ---
