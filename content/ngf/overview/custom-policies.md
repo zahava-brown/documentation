@@ -19,6 +19,7 @@ The following table summarizes NGINX Gateway Fabric custom policies:
 
 | Policy                                                                                      | Description                                             | Attachment Type | Supported Target Object(s)    | Supports Multiple Target Refs | Mergeable | API Version |
 |---------------------------------------------------------------------------------------------|---------------------------------------------------------|-----------------|-------------------------------|-------------------------------|-----------|-------------|
+<<<<<<< HEAD
 | [ClientSettingsPolicy]({{< ref "/ngf/traffic-management/client-settings.md" >}})     | Configure connection behavior between client and NGINX  | Inherited       | Gateway, HTTPRoute, GRPCRoute | No                            | Yes       | v1alpha1    |
 | [ObservabilityPolicy]({{< ref "/ngf/monitoring/tracing.md" >}})                      | Define settings related to tracing, metrics, or logging | Direct          | HTTPRoute, GRPCRoute          | Yes                           | No        | v1alpha2    |
 | [UpstreamSettingsPolicy]({{< ref "/ngf/traffic-management/upstream-settings.md" >}}) | Configure connection behavior between NGINX and backend | Direct          | Service                       | Yes                           | Yes       | v1alpha1    |
