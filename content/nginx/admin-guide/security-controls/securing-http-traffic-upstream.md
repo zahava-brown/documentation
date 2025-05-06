@@ -25,14 +25,14 @@ You can purchase a server certificate from a trusted certificate authority (CA).
 <span id="client_certs"></span>
 ## Obtaining an SSL Client Certificate
 
-NGINX will identify itself to the upstream servers with an SSL client certificate. A trusted CA must sign the client certificate, which is configured on NGINX, together with the corresponding private key.
+NGINX will identify itself to the upstream servers with an SSL client certificate. A trusted CA must sign the client certificate, which is configured on NGINX together with the corresponding private key.
 
-You will also need to configure the upstream servers to require client certificates for all incoming SSL connections. In addition, you will need to trust the CA that issued the NGINX client certificate. Then, when NGINX connects to the upstream server, it will provide its client certificate and the upstream server will accept it.
+You will also need to configure the upstream servers to require client certificates for all incoming SSL connections, and to trust the CA that issued NGINX client certificate. Then, when NGINX connects to the upstream, it will provide its client certificate and the upstream server will accept it.
 
 <span id="config"></span>
 ## Configuring NGINX
 
-First, change the URL to an upstream group to support SSL connections. Specify the “https” protocol for the proxied server in the NGINX configuration file. Alternatively, [in the proxy_pass](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) directive, specify an upstream group.) 
+First, change the URL to an upstream group to support SSL connections. Specify the “https” protocol for the proxied server in the NGINX configuration file. Alternatively, [in the proxy_pass](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass) directive, specify an upstream group.) >>>>>>> main
 
 ```nginx
 location /upstream {
