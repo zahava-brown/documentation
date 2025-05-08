@@ -1,0 +1,93 @@
+---
+title: "ngx_http_dav_module"
+id: "/en/docs/http/ngx_http_dav_module.html"
+toc: true
+---
+
+## `create_full_put_path`
+
+**Syntax:** `on` | `off`
+
+**Default:** off
+
+**Contexts:** `http, server, location`
+
+The WebDAV specification only allows creating files in already
+existing directories.
+This directive allows creating all needed intermediate directories.
+
+## `dav_access`
+
+**Syntax:** *`users`*:*`permissions`* ...
+
+**Default:** user:rw
+
+**Contexts:** `http, server, location`
+
+Sets access permissions for newly created files and directories, e.g.:
+```
+dav_access user:rw group:rw all:r;
+```
+
+If any `group` or `all` access permissions
+are specified then `user` permissions may be omitted:
+```
+dav_access group:rw all:r;
+```
+
+## `dav_methods`
+
+**Syntax:** `off` | *`method`* ...
+
+**Default:** off
+
+**Contexts:** `http, server, location`
+
+Allows the specified HTTP and WebDAV methods.
+The parameter `off` denies all methods processed
+by this module.
+The following methods are supported:
+`PUT`, `DELETE`, `MKCOL`,
+`COPY`, and `MOVE`.
+
+A file uploaded with the PUT method is first written to a temporary file,
+and then the file is renamed.
+Starting from version 0.8.9, temporary files and the persistent store
+can be put on different file systems.
+However, be aware that in this case a file is copied
+across two file systems instead of the cheap renaming operation.
+It is thus recommended that for any given location both saved files and a
+directory holding temporary files, set by the
+[`client_body_temp_path`](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_temp_path)
+directive, are put on the same file system.
+
+When creating a file with the PUT method, it is possible to specify
+the modification date by passing it in the "Date"
+header field.
+
+## `min_delete_depth`
+
+**Syntax:** *`number`*
+
+**Default:** 0
+
+**Contexts:** `http, server, location`
+
+Allows the DELETE method to remove files provided that
+the number of elements in a request path is not less than the specified
+number.
+For example, the directive
+```
+min_delete_depth 4;
+```
+allows removing files on requests
+```
+/users/00/00/name
+/users/00/00/name/pic.jpg
+/users/00/00/page.html
+```
+and denies the removal of
+```
+/users/00/00
+```
+
