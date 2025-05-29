@@ -1,5 +1,5 @@
 ---
-title: "NGINX App Protect integration overview"
+title: "Integrate Kubernetes deployments"
 weight: 100
 toc: true
 type: reference
