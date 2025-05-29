@@ -314,10 +314,6 @@ In some operating systems, security mechanisms like **SELinux** or **AppArmor** 
     curl "localhost/<script>"
     ```
 
-## Using IP intelligence feature
-
-{{< include "nap-waf/ip-intelligence.md" >}}
-
 ## Using Policy and Logging Profile Bundles
 
 {{< include "nap-waf/bundles-volume-mount.md" >}}
