@@ -1,6 +1,6 @@
 ---
-title: Security with NGINX App Protect
+title: Add security with NGINX App Protect
 description:
-weight: 400
+weight: 600
 url: /nginx-one/nap-integration
 ---

@@ -1,6 +1,6 @@
 ---
-title: "NGINX App Protect integration overview"
-weight: 100
+title: "Review your CVEs"
+weight: 300
 toc: true
 type: reference
 product: NGINX One

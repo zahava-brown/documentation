@@ -2,7 +2,7 @@
 docs: null
 title: Add a file to an instance
 toc: true
-weight: 400
+weight: 300
 type:
 - how-to
 ---

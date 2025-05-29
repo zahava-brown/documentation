@@ -1,6 +1,6 @@
 ---
-title: "NGINX App Protect integration overview"
-weight: 100
+title: "NIC/NGF Control Plane"
+weight: 200
 toc: true
 type: reference
 product: NGINX One
