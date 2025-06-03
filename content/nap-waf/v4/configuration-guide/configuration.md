@@ -40,6 +40,7 @@ When configuring NGINX App Protect WAF, `app_protect_enable` should always be en
 |[gRPC Protection](#grpc-protection-for-unary-traffic) | gRPC content profile detects malformed content, parses well-formed content, and extracts the text fields for detecting attack signatures and disallowed meta-characters. In addition, it enforces size restrictions and prohibition of unknown fields. The Interface Definition Language (IDL) files for the gRPC API must be attached to the profile. gRPC protection can be on [unary](#grpc-protection-for-unary-traffic) or [bidirectional](#grpc-protection-for-bidirectional-streaming) traffic.|
 |[Brute Force Attack Preventions](#brute-force-attack-preventions) | Configure brute-force-attack-preventions parameters to secured areas of a web application from brute force attacks.|
 |[IP Groups](#ip-address-lists) | Configure IP Groups feature to organize lists of allowed and forbidden IP addresses across several lists with common attributes.|
+|[IP Intelligence](#ip-Intelligence) | Configure the IP Intelligence feature to customize enforcement based on the source IP of the request, limiting access from IP addresses with questionable reputation.|
 
 ### Disallowed File Types
 {{< include "nap-waf/config/common/disallowed-file-types.md" >}}
