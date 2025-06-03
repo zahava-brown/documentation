@@ -39,6 +39,7 @@ For more information on the NGINX App Protect WAF security features, see [NGINX 
 |[Secure Traffic Between NGINX and App Protect Enforcer using mTLS](#secure-traffic-between-nginx-and-app-protect-enforcer-using-mtls) | Disabled by default. You can manually configure mTLS to secure the traffic between NGINX and App Protect Enforcer.|
 |[Brute Force Attack Preventions](#brute-force-attack-preventions) | Configure brute-force-attack-preventions parameters to secured areas of a web application from brute force attacks.|
 |[IP Groups](#ip-address-lists) | Configure IP Groups feature to organize lists of allowed and forbidden IP addresses across several lists with common attributes.|
+|[IP Intelligence](#ip-Intelligence) | Configure the IP Intelligence feature to customize enforcement based on the source IP of the request, limiting access from IP addresses with questionable reputation.|
 
 ### Disallowed File Types
 
