@@ -1,5 +1,5 @@
 ---
-title: "Run workshop components with Docker"
+title: "Lab 2: Run workshop components with Docker"
 weight: 200
 toc: true
 nd-content-type: tutorial
@@ -27,7 +27,7 @@ Make sure you have:
 - An F5 Distributed Cloud (XC) account
 - NGINX One service enabled in your XC account
 - Docker and Docker Compose installed and running
-- An active data plane key from [Lab 1: Get started with NGINX One Console]({{< ref "nginx-one/workshops/lab1/lab1.md" >}})
+- An active data plane key from [Lab 1: Get started with NGINX One Console]({{< ref "nginx-one/workshops/lab1/getting-started-with-nginx-one.md" >}})
 - A trial or paid NGINX Plus JWT license (saved as `nginx-repo.jwt`) from [MyF5](https://my.f5.com/manage/s/).
 - Basic Linux and NGINX know-how
 - Git installed and SSH key set up for GitHub access
@@ -45,7 +45,7 @@ Make sure you have:
 2. **Change to the Lab 2 directory**
 
    ```shell
-   cd documentation/content/nginx-one/workshops/lab2
+   cd workshops/nginx-one/lab2
    ```
 
 This folder contains `docker-compose.yml` and `generate_certs.sh`.

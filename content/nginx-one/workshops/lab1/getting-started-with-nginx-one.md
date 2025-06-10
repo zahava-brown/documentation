@@ -1,5 +1,5 @@
 ---
-title: "Get started with NGINX One Console"
+title: "Lab 1: Get started with NGINX One Console"
 weight: 100
 toc: true
 nd-content-type: tutorial
@@ -116,7 +116,7 @@ You can only delete a key after you revoke it.
 
 Now that you’ve explored NGINX One Console and created a key, you’re ready to connect your first NGINX instance.
 
-[Go to Lab 2 →](../lab2/readme.md)
+[Go to Lab 2: Run workshop components with Docker]({{< ref "nginx-one/workshops/lab2/run-workshop-components-with-docker.md" >}})
 
 ---
 
