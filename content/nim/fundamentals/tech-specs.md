@@ -90,8 +90,8 @@ Below are the directory requirements and storage recommendations for fresh, mini
 
 Important Note: These recommendations apply if you are using NGINX Agent to connect NGINX instances to NIM for full management capabilities (e.g., managing configurations, viewing metrics, applying WAF policies, managing certificates, etc.). If the use case is solely usage reporting, as introduced in R33+, the Agent is not required, and resources needed are significantly reduced. For usage reporting-only deployments, NIM simply receives and stores usage data sent directly from the instances, which does not require the same resource allocation outlined below.
 
-- /usr/bin: Stores NIM binaries; recommend 500MB (current size ~400MB).
-- /var/lib/nms/dqlite: Stores DQLite database data; recommend 1GB (2GB without NAP, 5GB with NAP enabled and large compiled bundles).
+- /usr/bin: Stores NIM binaries; recommend 500MB (usually ~400MB).
+- /var/lib/nms/dqlite: Stores DQLite database data; recommend 1GB (2GB without NGINX App Protect, 5GB with NGINX App Protect enabled and large compiled bundles).
 - /var/lib/nms/streaming: Stores NATS streaming messages; recommend 500MB.
 - /var/lib/nms/secrets: Stores secrets for LLM license handshakes; recommend 10MB.
 - /var/lib/nms/modules: Stores static content like manager.json; recommend 100KB (12KB minimum).
@@ -105,6 +105,7 @@ Important Note: These recommendations apply if you are using NGINX Agent to conn
 -For usage reporting-only deployments (without management via Agent):
   No ClickHouse metrics are collected.
   Resource requirements are significantly reduced, as the usage data is only received and stored by NIM. This generally requires much less disk space and memory allocation. The intended use case (management vs. usage reporting) is critical to avoid allocating unnecessary resources. Regular monitoring, backups, and adjustments are still recommended to optimize operations.
+-Lightweight Mode (v2.20+) will significantly reduce the storage required, since no Clickhouse database is needed.
 
 #### Storage requirements for NGINX Plus
 
