@@ -10,24 +10,24 @@ June 30th, 2025
 
 ## New features
 
-Added support for Rocky Linux 9 
-Added support for Override rules for IP Groups
-Added support for IP Intelligence
+- Added support for Rocky Linux 9 
+- Added support for Override rules for IP Groups
+- Added support for IP Intelligence
 
 ## Important notes
 
-Ubuntu 20.04 is no longer supported
-12447 - Upgrade libk5crypto3 package
-12520 - Upgrade Go compiler to 1.23.8
+- Ubuntu 20.04 is no longer supported
+- 12447 - Upgrade libk5crypto3 package
+- 12520 - Upgrade Go compiler to 1.23.8
 
 ## Resolved issues
 
-12527 - Remove CPAN - installed certs and source files
-11112 - Remove systemd/init.d leftovers in NAP WAF v5 pkgs
-12400 - Cookie attributes are not added to a TS cookie when there is more than one TS cookie
-12498 - Undefined behavior when using huge XFF 
-12731 - Multiple clean_resp_reset internal error messages in logs when loading NAP
-12551 - Changing the vendor/maintainer email in all packages from plus-support to nginx-packaging
+- 12527 - Remove CPAN - installed certs and source files
+- 11112 - Remove systemd/init.d leftovers in NAP WAF v5 pkgs
+- 12400 - Cookie attributes are not added to a TS cookie when there is more than one TS cookie
+- 12498 - Undefined behavior when using huge XFF 
+- 12731 - Multiple clean_resp_reset internal error messages in logs when loading NAP
+- 12551 - Changing the vendor/maintainer email in all packages from plus-support to nginx-packaging
 
 ## Supported packages
 
