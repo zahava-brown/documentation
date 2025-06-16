@@ -10,15 +10,24 @@ June 30th, 2025
 
 ## New features
 
-
+Added support for Rocky Linux 9 
+Added support for Override rules for IP Groups
+Added support for IP Intelligence
 
 ## Important notes
 
-
+Ubuntu 20.04 is no longer supported
+12447 - Upgrade libk5crypto3 package
+12520 - Upgrade Go compiler to 1.23.8
 
 ## Resolved issues
 
-
+12527 - Remove CPAN - installed certs and source files
+11112 - Remove systemd/init.d leftovers in NAP WAF v5 pkgs
+12400 - Cookie attributes are not added to a TS cookie when there is more than one TS cookie
+12498 - Undefined behavior when using huge XFF 
+12731 - Multiple clean_resp_reset internal error messages in logs when loading NAP
+12551 - Changing the vendor/maintainer email in all packages from plus-support to nginx-packaging
 
 ## Supported packages
 
@@ -31,11 +40,10 @@ June 30th, 2025
 | Debian 11                | _app-protect-module-oss_1.27.4+5.342.0-1\~bullseye_amd64.deb_     |
 | Debian 12                | _app-protect-module-oss_1.27.4+5.342.0-1\~bookworm_amd64.deb_     |
 | Oracle Linux 8.1         | _app-protect-module-oss-1.27.4+5.342.0-1.el8.ngx.x86_64.rpm_      |
-| Ubuntu 20.04             | _app-protect-module-oss_1.27.4+5.342.0-1\~focal_amd64.deb_        |
 | Ubuntu 22.04             | _app-protect-module-oss_1.27.4+5.342.0-1\~jammy_amd64.deb_        |
 | Ubuntu 24.04             | _app-protect-module-oss_1.27.4+5.342.0-1\~noble_amd64.deb_        |
 | RHEL 8 and Rocky Linux 8 | _app-protect-module-oss-1.27.4+5.342.0-1.el8.ngx.x86_64.rpm_      |
-| RHEL 9                   | _app-protect-module-oss-1.27.4+5.342.0-1.el9.ngx.x86_64.rpm_      |
+| RHEL 9 and Rocky Linux 9 | _app-protect-module-oss-1.27.4+5.342.0-1.el9.ngx.x86_64.rpm_      |
 
 ### NGINX Plus
 
@@ -46,8 +54,7 @@ June 30th, 2025
 | Debian 11                | _app-protect-module-plus_34+5.342.0-1\~bullseye_amd64.deb_     |
 | Debian 12                | _app-protect-module-plus_34+5.342.0-1\~bookworm_amd64.deb_     |
 | Oracle Linux 8.1         | _app-protect-module-plus-34+5.342.0-1.el8.ngx.x86_64.rpm_      |
-| Ubuntu 20.04             | _app-protect-module-plus_34+5.342.0-1\~focal_amd64.deb_        |
 | Ubuntu 22.04             | _app-protect-module-plus_34+5.342.0-1\~jammy_amd64.deb_        |
 | Ubuntu 24.04             | _app-protect-module-plus_34+5.342.0-1\~noble_amd64.deb_        |
 | RHEL 8 and Rocky Linux 8 | _app-protect-module-plus-34+5.342.0-1.el8.ngx.x86_64.rpm_      |
-| RHEL 9                   | _app-protect-module-plus-34+5.342.0-1.el9.ngx.x86_64.rpm_      |
+| RHEL 9 and Rocky Linux 9 | _app-protect-module-plus-34+5.342.0-1.el9.ngx.x86_64.rpm_      |
