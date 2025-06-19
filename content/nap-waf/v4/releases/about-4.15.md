@@ -28,8 +28,6 @@ June 30th, 2025
 - 12400 - Cookie attributes are not added to a TS cookie when there is more than one TS cookie
 - 12498 - Undefined behavior when using huge XFF 
 - 12731 - Multiple clean_resp_reset internal error messages in logs when loading NAP
-- 12551 - Changing the vendor/maintainer email in all packages from plus-support to nginx-packaging
-
 
 ## Supported packages
 
