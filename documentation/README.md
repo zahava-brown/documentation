@@ -13,6 +13,7 @@ If you're interested in contributing to the [NGINX documentation website](https:
 ## Topics
 
 - [Contributing closed content](/documentation/closed-contributions.md)
+- [Information architecture heuristics](/documentation/ia-heuristics.md)
 - [Maintainers etiquette](/documentation/maintainers-etiquette.md)
 - [Managing content with Hugo](/documentation/writing-hugo.md)
 - [Proposals](/documentation/proposals/README.md)
