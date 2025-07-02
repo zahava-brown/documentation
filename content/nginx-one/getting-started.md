@@ -4,7 +4,7 @@ toc: true
 weight: 100
 type: how-to
 product: NGINX One
-docs: DOCS-1393
+nd-docs: DOCS-1393
 ---
 
 This guide provides step-by-step instructions on how to activate and start using F5 NGINX One Console. NGINX One is a management console for monitoring and managing NGINX data plane instances.
@@ -95,18 +95,7 @@ To install NGINX Agent on an NGINX instance:
 
 The `install` script writes an `nginx-agent.conf` file to the `/etc/nginx-agent/` directory, with the [data plane key](#generate-data-plane-key) that you generated. You can find this information in the `nginx-agent.conf` file:
 
-```yaml
-server:
-  token: "<YOUR_DATA_PLANE_KEY>"
-  host: agent.connect.nginx.com
-  grpcPort: 443
-
-tls:
-  enable: True
-  skip_verify: False
-```
-
-If you followed the [Installation and upgrade](https://docs.nginx.com/nginx-agent/installation-upgrade/) guides for installing NGINX Agent, you may need to add this information manually to `nginx-agent.conf`.
+{{< include "/nginx-one/conf/nginx-agent-conf.md" >}}
 
 <span style="display: inline-block; margin-top: 20px;" >
 
@@ -149,7 +138,7 @@ The NGINX One Console dashboard relies on APIs for NGINX Plus and NGINX Open Sou
 
 {{< include "/use-cases/monitoring/enable-nginx-oss-stub-status.md" >}}
 
---- 
+---
 
 ## View instance metrics with the NGINX One dashboard
 
