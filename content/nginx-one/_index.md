@@ -65,19 +65,6 @@ F5 NGINX One Console makes it easy to manage NGINX instances across locations an
   {{</card-section>}}
 {{</card-layout>}}
 
-### More information
-
-{{<card-layout>}}
-  {{<card-section showAsCards="true" >}}
-    {{<card title="Glossary" titleUrl="/nginx-one/glossary/" >}}
-      See latest updates: New features, improvements, and bug fixes
-    {{</card>}}
-    {{<card title="Changelog" titleUrl="/nginx-one/changelog/" icon="clock-alert">}}
-      See latest updates: New features, improvements, and bug fixes
-    {{</card>}}
-  {{</card-section>}}
-{{</card-layout>}}
-
 ## NGINX One components
 [//]: # "You can add any extra content for the page here, such as additional cards, diagrams or text."
 
