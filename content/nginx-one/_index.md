@@ -38,37 +38,27 @@ F5 NGINX One Console makes it easy to manage NGINX instances across locations an
       Manage one instance or groups of instances. Monitor certificates. Set up metrics.
     {{</card>}}
     {{<card title="Secure with NGINX App Protect" titleUrl="/nginx-one/nap-integration/" >}}
-      Manage one instance or groups of instances. Monitor certificates. Set up metrics.
+      Set up security policies by instance and group
     {{</card>}}
+    {{<card title="Connect Kubernetes deployments" titleUrl="/nginx-one/k8s/">}}
+      Monitor deployments for CVEs and certificates
+    {{</ card >}}
+  {{</card-section>}}
+{{</card-layout>}}
+
+### More information
+
+{{<card-layout>}}
+  {{<card-section showAsCards="true" >}}
     {{<card title="Connect Kubernetes deployments" titleUrl="/nginx-one/k8s/">}}
       Monitor deployments for CVEs and certificates
     {{</ card >}}
     {{<card title="Organize users with RBAC" titleUrl="/nginx-one/rbac/" >}}
       Assign responsibilities with role-based access control 
     {{</card>}}
-    {{<card title="Automate with the NGINX One API" titleUrl="/nginx-one/api/" >}}
+    {{<card title="Automate with the NGINX One Console API" titleUrl="/nginx-one/api/" >}}
       Manage your NGINX fleet over REST
     {{</card>}}
-  {{</card-section>}}
-{{</card-layout>}}
-
-### More information
-
-{{<card-layout>}}
-  {{<card-section showAsCards="true" >}}
-    {{<card title="Glossary" titleUrl="/nginx-one/glossary/" >}}
-      See latest updates: New features, improvements, and bug fixes
-    {{</card>}}
-    {{<card title="Changelog" titleUrl="/nginx-one/changelog/" icon="clock-alert">}}
-      See latest updates: New features, improvements, and bug fixes
-    {{</card>}}
-  {{</card-section>}}
-{{</card-layout>}}
-
-### More information
-
-{{<card-layout>}}
-  {{<card-section showAsCards="true" >}}
     {{<card title="Glossary" titleUrl="/nginx-one/glossary/" >}}
       See latest updates: New features, improvements, and bug fixes
     {{</card>}}
