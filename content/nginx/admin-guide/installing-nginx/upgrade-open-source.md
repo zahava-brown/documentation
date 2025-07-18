@@ -34,7 +34,6 @@ To complete this guide, you will need the following prerequisites:
 
 [//]: # "There does not seem to be existing uninstall documentation: assumed knowledge?"
 
-
 ## Install NGINX Plus
 
 [//]: # "Start by adding the NGINX Plus repository, which can differ based on operating system"
@@ -48,7 +47,8 @@ To complete this guide, you will need the following prerequisites:
 
 ## Apply configuration files
 
+[//]: # "Use systemctl to check status at end"
 
 ## Next steps
 
-[//]: # "Use systemctl to check status at end"
+[//]:# "Link to docs which are N+ specific or demonstrate increased value?"
