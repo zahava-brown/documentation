@@ -9,7 +9,7 @@ type:
 - concept
 ---
 
-### Software Development Policy {#support}
+### Software Development Policies {#support}
 
 Each F5 NGINX Plus release reaches End of Software Development (EoSD) on the release date of the next version. For NGINX Plus, EoSD means no additional features or routine bug fixes will be applied to that version.
 Critical bug patches and security updates are applied to the two (2) most recent releases of NGINX Plus.
