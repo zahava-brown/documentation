@@ -1,0 +1,30 @@
+name: Block specific changes
+
+on:
+  pull_request:
+
+jobs:
+  block-direct-markdown-module-changes:
+    name: Block modifying Markdown Module Reference files directly
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@85e6279cec87321a52edac9c87bce653a07cf6c2 # v4.2.2
+        with:
+          fetch-depth: 0
+      - name: Check for changes in /nginx/module_reference
+        id: check_module_changes
+        run: |
+          FOLDER_DIR="content/nginx/module_reference"
+          git diff origin/main -- $FOLDER_DIR > changes.txt
+
+          if [[ -s changes.txt ]]; then
+            echo "Changes detected for $FOLDER_DIR"
+            echo "CHANGES_DETECTED=true" >> $GITHUB_OUTPUT
+          else 
+            echo "CHANGES_DETECTED=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Fail job and generate PR comment if changes detected
+        if: steps.check_module_changes.outputs.CHANGES_DETECTED == 'true'
+        run: |
+          echo "Hi"
