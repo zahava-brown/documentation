@@ -7,6 +7,8 @@ jobs:
   block-direct-markdown-module-changes:
     name: Block modifying Markdown Module Reference files directly
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@85e6279cec87321a52edac9c87bce653a07cf6c2 # v4.2.2
@@ -24,7 +26,19 @@ jobs:
           else 
             echo "CHANGES_DETECTED=false" >> $GITHUB_OUTPUT
           fi
-      - name: Fail job and generate PR comment if changes detected
+      - name: Generate PR comment if changes detected
+        if: steps.check_module_changes.outputs.CHANGES_DETECTED == 'true'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with: 
+          script: |
+            const body = `This PR is blocked from being reviewed. Please make direct changes to module_references from the upstream XML in https://github.com/nginx/nginx.org`;
+            await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body,
+            });
+      - name: Fail job if changes detected
         if: steps.check_module_changes.outputs.CHANGES_DETECTED == 'true'
         run: |
-          echo "Hi"
+          exit 0
