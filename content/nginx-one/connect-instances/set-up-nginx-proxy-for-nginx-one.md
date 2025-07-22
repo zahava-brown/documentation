@@ -94,7 +94,7 @@ To set up your other NGINX instances to use the proxy instance to connect to NGI
    server:
       # Replace YOUR_PROXY_IP_ADDRESS_HERE with the IP address of the NGINX proxy instance.
       host: YOUR_PROXY_IP_ADDRESS_HERE
-      port: 443
+      port: 5000
    auth:
       # Replace YOUR_DATA_PLANE_KEY_HERE with your NGINX One Console data plane key.
       token: "YOUR_DATA_PLANE_KEY_HERE"
