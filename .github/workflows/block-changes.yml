@@ -67,4 +67,4 @@ jobs:
       - name: Fail job if changes detected
         if: steps.check_module_changes.outputs.CHANGES_DETECTED == 'true' && steps.check_exemption.outputs.EXEMPTION == 'false'
         run: |
-          exit 0
+          exit 1
