@@ -1,6 +1,6 @@
 ---
-title: NGINX Directives Index
-description: NGINX Directives Index
+title: Directives Index
+description: Directives Index
 toc: true
 nd-org-source: dirindex.xml
 nd-plus: false
