@@ -121,6 +121,7 @@ To generate a data plane key:
 Data plane keys are displayed only once and cannot be retrieved later. Be sure to copy and store this key securely.
 
 Data plane keys expire after one year. You can change this expiration date later by [editing the key]({{< ref "nginx-one/connect-instances/create-manage-data-plane-keys.md#change-expiration-date" >}}).
+After a data plane key expires, all instances and control planes that were registered with that key are disconnected.
 
 [Revoking a data plane key]({{< ref "nginx-one/connect-instances/create-manage-data-plane-keys.md#revoke-data-plane-key" >}}) disconnects all instances that were registered with that key.
 {{</call-out>}}
