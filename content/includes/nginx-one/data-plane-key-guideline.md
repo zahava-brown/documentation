@@ -5,7 +5,7 @@ files:
 ---
 
 {{<call-out "caution" "Data plane key guidelines" "fas fa-key" >}}
-Data plane keys are displayed only once and cannot be retrieved later. Be sure to copy and store this key securely.
+Data plane keys are displayed only once and cannot be retrieved later. When you create a data plane key,copy and store this key securely.
 
 Data plane keys expire after one year. You can change this expiration date by [editing the key]({{< ref "nginx-one/connect-instances/create-manage-data-plane-keys.md#change-expiration-date" >}}).
 
