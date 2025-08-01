@@ -8,7 +8,7 @@ product: NGINX One
 
 The F5 NGINX One Console makes it easy to manage NGINX instances across locations and environments. The console lets you monitor and control your NGINX fleet from one place—you can check configurations, track performance metrics, identify security vulnerabilities, manage SSL certificates, and more. 
 
-This guide provides step-by-step instructions to activate and use F5 NGINX One Console. For a list of the latest changes, see our [changelog]({{< ref "/nginx-one/changelog.md" >}})
+This guide provides step by step instructions to activate and use F5 NGINX One Console. For a list of the latest changes, see our [changelog]({{< ref "/nginx-one/changelog.md" >}})
 
 ## Benefits and key features
 
