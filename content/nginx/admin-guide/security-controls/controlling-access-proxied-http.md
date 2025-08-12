@@ -11,20 +11,100 @@ type:
 
 This article explains how to set the maximum number of requests for a connection, or the maximum rate of downloading content from the server.
 
-<span id="intro"></span>
-## Introduction
+## Introduction {#intro}
 
-Using NGINX and F5 NGINX Plus, it is possible to limit:
+Using NGINX and F5 NGINX Plus, you can limit:
 
 - The number of connections per key value (for example, per IP address)
-- The request rate per key value (the number of requests that are allowed to be processed during a second or minute)
+- The request rate per key value (the number of requests allowed in a given time)
 - The download speed for a connection
 
-Note that IP addresses can be shared behind NAT devices, so limiting by IP address should be used judiciously.
+Rate limiting can help you:
+
+- Prevent DDoS attacks by limiting the request rate to levels typical for real users
+- Slow down brute-force password-guessing attempts
+- Protect upstream application servers from overload
+- Identify targeted URLs through logging
+
+{{< call-out "note" "Note:" "" >}}IP addresses can be shared behind NAT devices, so limiting by IP address should be used judiciously.{{< /call-out >}}
+
+## How NGINX Rate Limiting Works
+
+NGINX uses the **leaky bucket algorithm** to manage request rates. Requests enter a shared memory “bucket” and are processed at the configured rate; extra requests are either queued (if allowed) or rejected.
+
+- **Millisecond precision:** NGINX tracks requests at millisecond granularity, not averaged over time.
+- **Queueing:** If a burst is configured, extra requests can be queued or forwarded immediately (`nodelay`), depending on settings.
+- **Rejection:** If the burst limit is exceeded, NGINX returns an error (default: `503 Service Unavailable`).
+
+![Diagram showing the leaky bucket algorithm: requests enter a bucket at variable rates, leave at a fixed rate, and overflow if the bucket is full.](/nginx/images/wbr-rate-limiting-nginx-featured-500x300.png)  
+*Figure 1: NGINX uses the leaky bucket algorithm to process requests at a fixed rate, queueing or rejecting excess requests.*
 
 
-<span id="limit_conn"></span>
-## Limiting the Number of Connections
+## Basic Rate Limiting Setup
+
+Rate limiting is configured with two main directives:
+
+1. **`limit_req_zone`** – Defines the key, shared memory zone, and rate.
+2. **`limit_req`** – Applies the limit to a context (`http`, `server`, `location`).
+
+Example:
+
+```nginx
+http {
+    limit_req_zone $binary_remote_addr zone=mylimit:10m rate=10r/s;
+
+    server {
+        location /login/ {
+            limit_req zone=mylimit;
+            proxy_pass http://my_upstream;
+        }
+    }
+}
+```
+
+**Directive parameters:**
+
+- **Key:** Defines the request characteristic to limit. `$binary_remote_addr` is the binary representation of the client’s IP address; it uses less space than `$remote_addr`.
+- **Zone:** Name and size of the shared memory zone. About 1 MB of zone size can store ~16,000 IP address states (IPv4).
+- **Rate:** Maximum requests per second (`r/s`) or per minute (`r/m`). Millisecond granularity means a `10r/s` limit equals one request every 100 ms.
+
+**When storage is full:**
+- NGINX evicts the oldest entry to make space.
+- If space is still insufficient, the request is rejected with `503 Service Unavailable` (customizable with [`limit_req_status`](https://nginx.org/en/docs/http/ngx_http_limit_req_module.html#limit_req_status)).
+
+## Handling Bursts
+
+Traffic is often bursty. Use the `burst` parameter to allow a queue of excessive requests to be processed at the configured rate:
+
+```nginx
+location /login/ {
+    limit_req zone=mylimit burst=20;
+    proxy_pass http://my_upstream;
+}
+```
+
+- **Without `burst`**: Excess requests are rejected immediately.
+- **With `burst`**: Extra requests are queued and released at the configured rate until the queue is full. If the queue is full, additional requests are rejected with an error (default: `503 Service Unavailable`).
+
+### Queueing Without Delay
+
+Add `nodelay` to serve queued requests immediately while still enforcing the configured rate:
+
+```nginx
+location /login/ {
+    limit_req zone=mylimit burst=20 nodelay;
+}
+```
+
+**Behavior summary:**
+
+- **`burst` + `nodelay`:** Requests above the rate are sent immediately if there is room in the queue; the queue slot is then marked as taken until the rate allows it to be reused. If the queue is full, additional requests are rejected with an error (default: 503 Service Unavailable).
+
+{{< call-out "note" "Recommendation:" "" >}}For most deployments, use `burst` with `nodelay` to handle traffic spikes without adding noticeable latency.{{< /call-out >}}
+
+---
+
+## Limiting the Number of Connections {#limit_conn}
 
 To limit the number of connections:
 
