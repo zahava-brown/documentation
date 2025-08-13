@@ -1,8 +1,8 @@
 ---
 # The title is the product name
-title: F5 NGINX App Protect WAF
+title: "F5 WAF for NGINX"
 # The URL is the base of the deployed path, becoming "docs.nginx.com/<url>/<other-pages>"
-url: /app-protect-waf/
+url: /waf/
 # The cascade directive applies its nested parameters down the page tree until overwritten
 cascade:
   # The logo file is resolved from the theme, in the folder /static/images/icons/
@@ -29,17 +29,11 @@ Defend your applications and APIs with a software security solution that seamles
 
 {{<card-layout>}}
   {{<card-section showAsCards="true" isFeaturedSection="true">}}
-    {{<card title="Install NGINX App Protect WAF" titleUrl="/waf/install" icon="chevrons-right" >}}
+    {{<card title="Install NGINX App Protect WAF" titleUrl="/waf/install" >}}
       Explore the methods available to deploy NGINX App Protect WAF in your environment.
     {{</card>}}
-    <!-- The titleURL and icon are both optional -->
-    <!-- Lucide icon names can be found at https://lucide.dev/icons/ -->
     {{<card title="Changelog" titleUrl="/waf/changelog" icon="archive">}}
       Review the latest changes and improvements to NGINX App Protect WAF.
     {{</card>}}
   {{</card-section>}}
 {{</card-layout>}}
-
-<!-- ## Other content 
-
-[//]: # "You can add any extra content for the page here, such as additional cards, diagrams or text." -->

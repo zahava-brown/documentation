@@ -19,3 +19,5 @@ The design intention for this page is to as a single source of truth to replace 
 Outside of the overlapping information for Policy configuration, the existing pages also include general configuration information, such as for NGINX App Protect WAF itself. This detail can be added to a separate page, ensuring that each document acts as a solution for exactly one problem at a time.
 
 {{</ call-out>}}
+
+## Supported Security Policy features
