@@ -20,4 +20,6 @@ Outside of the overlapping information for Policy configuration, the existing pa
 
 {{</ call-out>}}
 
+This page describes the security features available with F5 WAF for NGINX and how to enable them.
+
 ## Supported Security Policy features

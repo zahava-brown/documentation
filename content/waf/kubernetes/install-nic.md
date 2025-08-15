@@ -1,6 +1,6 @@
 ---
 # We use sentence case and present imperative tone
-title: "Install NGINX App Protect and NGINX Ingress Controller with Docker and Helm"
+title: "Install F5 WAF and NGINX Ingress Controller with Docker and Helm"
 # Weights are assigned in increments of 100: determines sorting order
 weight: 100
 # Creates a table of contents and sidebar, useful for large documents

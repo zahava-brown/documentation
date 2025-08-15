@@ -1,6 +1,6 @@
 ---
 # We use sentence case and present imperative tone
-title: "Build NGINX App Protect WAF with NGINX Ingress Controller"
+title: "Build F5 WAF with NGINX Ingress Controller"
 # Weights are assigned in increments of 100: determines sorting order
 weight: 200
 # Creates a table of contents and sidebar, useful for large documents

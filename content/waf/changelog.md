@@ -22,7 +22,7 @@ Updating the content of this page will likely be automated in the future, follow
 
 {{</ call-out>}}
 
-This changelog lists all of the information for F5 NGINX App Protect WAF releases in 2025.
+This changelog lists all of the information for F5 WAF for NGINX releases in 2025.
 
 For older releases, check the changelogs for previous years: [2024](), [2023]().
 

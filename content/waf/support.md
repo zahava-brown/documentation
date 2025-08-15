@@ -4,7 +4,7 @@ title: "Support"
 # Weights are assigned in increments of 100: determines sorting order
 weight: 900
 # Creates a table of contents and sidebar, useful for large documents
-toc: true
+toc: false
 # Types have a 1:1 relationship with Hugo archetypes, so you shouldn't need to change this
 nd-content-type: how-to
 # Intended for internal catalogue and search, case sensitive:

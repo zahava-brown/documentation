@@ -40,7 +40,17 @@ View the [Install section]({{< ref "/waf/install/" >}}) for information on deplo
 
 ## Supported operating systems
 
-## Supported NGINX versions
+| Distribution       | Version      |
+| ------------------ | ------------ |
+| Alpine Linux       | 3.19         |
+| Amazon Linux       | 2023         |
+| Debian             | 11, 12       |
+| Oracle Linux       | 8.1          |
+| Ubuntu             | 22.04, 24.04 |
+| RHEL / Rocky Linux | 8, 9         |
+
+For release-specific packages, view the [Changelog]({{< ref "/waf/changelog.md" >}}).
+
 
 ## Supported Security Policy features
 
