@@ -1,15 +1,10 @@
 ---
 # We use sentence case and present imperative tone
-title: "Deploy NGINX App Protect WAF using Kubernetes"
+title: "Deploy F5 WAF for NGINX using Kubernetes"
 # Weights are assigned in increments of 100: determines sorting order
-weight: 400
+weight: 300
 # Creates a table of contents and sidebar, useful for large documents
 toc: false
-nd-banner:
-    enabled: true
-    type: deprecation
-    start-date: 2025-07-07
-    md: /_banners/waf-v5-warning.md
 # Types have a 1:1 relationship with Hugo archetypes, so you shouldn't need to change this
 nd-content-type: how-to
 # Intended for internal catalogue and search, case sensitive:

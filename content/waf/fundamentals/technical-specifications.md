@@ -6,7 +6,7 @@ weight: 200
 # Creates a table of contents and sidebar, useful for large documents
 toc: false
 # Types have a 1:1 relationship with Hugo archetypes, so you shouldn't need to change this
-nd-content-type: how-to
+nd-content-type: reference
 # Intended for internal catalogue and search, case sensitive:
 # Agent, N4Azure, NIC, NIM, NGF, NAP-DOS, NAP-WAF, NGINX One, NGINX+, Solutions, Unit
 nd-product: NAP-WAF
@@ -25,3 +25,25 @@ It follows a design pattern set by other NGINX product sets, showing various com
 It is also where information about the [Supported Security Policy Features]({{< ref "/nap-waf/v4/configuration-guide/configuration.md#supported-security-policy-features" >}}) could be referenced, though most of that detail will instead be kept in the new top-level "Policies" section.
 
 {{</ call-out>}}
+
+This page outlines the technical specifications for F5 WAF for NGINX, which includes the minimum requirements and supported platforms.
+
+## Supported deployment environments
+
+You can deploy F5 WAF for NGINX in the following environments:
+
+- **Virtual environment** (or bare metal)
+- **Container** (Docker)
+- **Kubernetes**
+
+View the [Install section]({{< ref "/waf/install/" >}}) for information on deploying F5 WAF for NGINX.
+
+## Supported operating systems
+
+## Supported NGINX versions
+
+## Supported Security Policy features
+
+The following Security Policy features are available with F5 WAF for NGINX.
+
+For additional information on each feature, view the [Configuring Policies]({{< ref "/waf/policies/configuration.md" >}}) topic.

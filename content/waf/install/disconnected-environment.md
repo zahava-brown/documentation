@@ -1,8 +1,8 @@
 ---
 # We use sentence case and present imperative tone
-title: "Deploy NGINX App Protect WAF in a disconnected environment"
+title: "Deploy F5 WAF for NGINX in a disconnected environment"
 # Weights are assigned in increments of 100: determines sorting order
-weight: 200
+weight: 400
 # Creates a table of contents and sidebar, useful for large documents
 toc: false
 # Types have a 1:1 relationship with Hugo archetypes, so you shouldn't need to change this
@@ -22,11 +22,5 @@ The design intention for this page is as a standalone page for the operating sys
 - [v5]({{< ref "/nap-waf/v5/admin-guide/install.md#air-gap-install-secure-offline-installation" >}})
 
 Instead of having separate top level folders, differences between v4 and v5 will be denoted with whole page sections, tabs, or other unique signifiers.
-
-This reduces the amount of duplicate content, which makes maintainability much simpler and the text more uniform.
-
-With the full context of this section, the page is shorter, being concerned only with one specific method of installation.
-
-This makes it easier to link to specific instructions, and ensures that the customer sees only the critical information they need.
 
 {{</ call-out>}}

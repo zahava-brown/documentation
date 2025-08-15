@@ -23,17 +23,17 @@ nd-product: NAP-WAF
 Defend your applications and APIs with a software security solution that seamlessly integrates into DevOps environments as a lightweight web application firewall (WAF), layer 7 denial-of-service (DoS) protection, bot protection, API security, and threat intelligence services.
 
 ## Featured content
-[//]: # "You can add a maximum of three cards: any extra will not display."
-[//]: # "One card will take full width page: two will take half width each. Three will stack like an inverse pyramid."
-[//]: # "Some examples of content could be the latest release note, the most common install path, and a popular new feature."
 
 {{<card-layout>}}
   {{<card-section showAsCards="true" isFeaturedSection="true">}}
-    {{<card title="Install NGINX App Protect WAF" titleUrl="/waf/install" >}}
-      Explore the methods available to deploy NGINX App Protect WAF in your environment.
+  {{<card title="Overview" titleUrl="/waf/fundamentals/overview">}}
+      Learn about how F5 WAF for NGINX works and how it can be used to protect your applications
     {{</card>}}
-    {{<card title="Changelog" titleUrl="/waf/changelog" icon="archive">}}
-      Review the latest changes and improvements to NGINX App Protect WAF.
+    {{<card title="Install F5 WAF for NGINX" titleUrl="/waf/install" >}}
+      Explore the methods available to deploy F5 WAF for NGINX in your environment
+    {{</card>}}
+    {{<card title="Changelog" titleUrl="/waf/changelog">}}
+      Review the latest changes and improvements to F5 WAF for NGINX
     {{</card>}}
   {{</card-section>}}
 {{</card-layout>}}

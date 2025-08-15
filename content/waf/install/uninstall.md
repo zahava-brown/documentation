@@ -1,6 +1,6 @@
 ---
 # We use sentence case and present imperative tone
-title: "Uninstall NGINX App Protect WAF"
+title: "Uninstall F5 WAF for NGINX"
 # Weights are assigned in increments of 100: determines sorting order
 weight: 600
 # Creates a table of contents and sidebar, useful for large documents

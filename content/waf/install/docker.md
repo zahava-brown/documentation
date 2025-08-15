@@ -1,8 +1,8 @@
 ---
 # We use sentence case and present imperative tone
-title: "Deploy NGINX App Protect WAF using Docker"
+title: "Deploy F5 WAF for NGINX using Docker"
 # Weights are assigned in increments of 100: determines sorting order
-weight: 300
+weight: 200
 # Creates a table of contents and sidebar, useful for large documents
 toc: false
 # Types have a 1:1 relationship with Hugo archetypes, so you shouldn't need to change this
