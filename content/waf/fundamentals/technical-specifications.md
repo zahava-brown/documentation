@@ -51,9 +51,10 @@ View the [Install section]({{< ref "/waf/install/" >}}) for information on deplo
 
 For release-specific packages, view the [Changelog]({{< ref "/waf/changelog.md" >}}).
 
+## Supported security policy features
 
-## Supported Security Policy features
+The following security policy features are available with F5 WAF for NGINX.
 
-The following Security Policy features are available with F5 WAF for NGINX.
+The names link to additional information in the [Configure policies]({{< ref "/waf/policies/configuration.md" >}}) topic.
 
-For additional information on each feature, view the [Configuring Policies]({{< ref "/waf/policies/configuration.md" >}}) topic.
+{{< include "waf/supported-policy-features.md" >}}

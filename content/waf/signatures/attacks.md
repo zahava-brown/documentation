@@ -1,6 +1,6 @@
 ---
 # We use sentence case and present imperative tone
-title: "Update App Protect Attack Signatures"
+title: "Update F5 WAF for NGINX attack signatures"
 # Weights are assigned in increments of 100: determines sorting order
 weight: 100
 # Creates a table of contents and sidebar, useful for large documents
@@ -18,4 +18,4 @@ The design intention for this page is to act as a replacement for the existing [
 
 Each document should fulfill one specific operation: people may not need information on how to update signatures immediately after installing NGINX App Protect WAF, so this decouples the information into somewhere easily findable.
 
-{{</ call-out>}}
+{{</ call-out >}}
