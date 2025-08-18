@@ -1,6 +1,6 @@
 ---
 description: Modern app security solution that works seamlessly in DevOps environments.
-title: F5 NGINX App Protect WAF
+title: F5 F5 WAF for NGINX
 weight: 100
 url: /nginx-app-protect-waf/
 cascade:
