@@ -31,7 +31,7 @@ It provides protection for the OWASP Top 10, with additional functionality:
 - Meta character checking
 - Disallowing file types
 
-For more details, see the [Supported Security Policy features]({{< ref "/waf/fundamentals/technical-specifications.md#supported-security-policy-features">}}).
+For more details, see the [Supported security policy features]({{< ref "/waf/fundamentals/technical-specifications.md#supported-security-policy-features">}}).
 
 F5 WAF for NGINX is part of the [NGINX One](https://www.f5.com/products/nginx/one) premium packages and runs natively on [NGINX Plus](https://www.f5.com/products/nginx/nginx-plus) and [NGINX Ingress Controller](https://www.f5.com/products/nginx/nginx-ingress-controller). 
 

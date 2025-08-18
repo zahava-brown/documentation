@@ -14,7 +14,7 @@ nd-product: NAP-WAF
 
 This page defines terminology used when describing functionality of F5 WAF for NGINX.
 
-It assumes you are familiar with various layer 7 (L7) hypertext transfer protocl (HTTP) concepts such as:
+It assumes you are familiar with various layer 7 (L7) hypertext transfer protocol (HTTP) concepts such as:
 
 - Uniform Resource Identifier (URI)
 - Uniform Resource Location (URL)
