@@ -18,7 +18,7 @@ The design intention for this page is to act as a new place for the v5 [NGINX Ap
 
 Information that isn't critically important to a specific task should be moved to its own page. This page is a good example of one that doesn't need to be broken up, but is still moved into a peripheral "Tools" section for when it is necessary.
 
-**13/08/2025:** What version of F5 WAF does this work with?
+**13/08/2025:** Does this exclusively work with V5+ versions?
 
 {{</ call-out>}}
 
@@ -28,16 +28,15 @@ You can use it to get the latest security updates for Attack Signatures, Threat 
 
 One or more bundle files can be referenced in the NGINX configuration file, and you can configure global settings such as the cookie seed and user-defined signatures.
 
-
 ## Before you begin
 
 To complete this guide, you will need the following prerequisites:
 
-- [Docker](https://docs.docker.com/get-started/get-docker/)
-- An NGINX Plus subscription (purchased or trial)
+- An active F5 WAF for NGINX subscription (Purchased or trial)
 - Credentials to the [MyF5 Customer Portal](https://account.f5.com/myf5), provided by email from F5, Inc.
+- [Docker](https://docs.docker.com/get-started/get-docker/)
 
-## Download your subscription credential files 
+## Download your subscription credentials 
 
 {{< include "licensing-and-reporting/download-certificates-from-myf5.md" >}}
 
