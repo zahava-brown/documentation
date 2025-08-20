@@ -81,9 +81,9 @@ Follow these steps to build the NGINX Controller Image with NGINX App Protect Do
 | Makefile Target           | Description                                                       | Compatible Systems  |
 |---------------------------|-------------------------------------------------------------------|---------------------|
 | **debian-image-dos-plus** | Builds a Debian-based image with NGINX Plus and the [NGINX App Protect DoS](/nginx-app-protect-dos/) module. | Debian  |
-| **debian-image-nap-dos-plus** | Builds a Debian-based image with NGINX Plus, [NGINX App Protect DoS](/nginx-app-protect-dos/), and [NGINX App Protect WAF](/nginx-app-protect/). | Debian  |
+| **debian-image-nap-dos-plus** | Builds a Debian-based image with NGINX Plus, [NGINX App Protect DoS](/nginx-app-protect-dos/), and [F5 WAF for NGINX](/nginx-app-protect/). | Debian  |
 | **ubi-image-dos-plus**    | Builds a UBI-based image with NGINX Plus and the [NGINX App Protect DoS](/nginx-app-protect-dos/) module. | OpenShift |
-| **ubi-image-nap-dos-plus** | Builds a UBI-based image with NGINX Plus, [NGINX App Protect DoS](/nginx-app-protect-dos/), and [NGINX App Protect WAF](/nginx-app-protect/). | OpenShift |
+| **ubi-image-nap-dos-plus** | Builds a UBI-based image with NGINX Plus, [NGINX App Protect DoS](/nginx-app-protect-dos/), and [F5 WAF for NGINX](/nginx-app-protect/). | OpenShift |
 {{</bootstrap-table>}}
 
 <br>

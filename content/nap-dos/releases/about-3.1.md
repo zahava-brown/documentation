@@ -62,7 +62,7 @@ This disallowed using NGINX App protect DoS for Denial of Service (DoS) protecti
 
 - Support for `proxy_protocol` configuration: `proxy_protocol` monitor parameter should be used when the listen directive of the correspondent server block contains the `proxy_protocol` parameter.
 
-- If NGINX App Protect WAF is installed, app protect should be disabled for the location of DoS Live Activity Monitoring API.
+- If F5 WAF for NGINX is installed, app protect should be disabled for the location of DoS Live Activity Monitoring API.
 
     For example:
 
