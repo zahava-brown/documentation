@@ -1,10 +1,9 @@
 ---
 # We use sentence case and present imperative tone
-title: "Deploy F5 WAF for NGINX in a disconnected environment"
+title: "Docker"
 # Weights are assigned in increments of 100: determines sorting order
-weight: 400
+weight: 200
 # Creates a table of contents and sidebar, useful for large documents
-draft: true
 toc: false
 # Types have a 1:1 relationship with Hugo archetypes, so you shouldn't need to change this
 nd-content-type: how-to
@@ -15,13 +14,17 @@ nd-product: NAP-WAF
 
 {{< call-out "warning" "Information architecture note" >}}
 
-The term _disconnected environment_ has become the more commmon synonym for an air-gapped or offline installation. It follows the precedent set by NGINX Instance Manager: [Deploy in a disconnected environment -> Install the latest NGINX Instance Manager with a script (disconnected)]({{< ref "/nim/disconnected/offline-install-guide.md" >}}).
-
 The design intention for this page is as a standalone page for the operating system specific installation use cases:
 
-- [v4]({{< ref "/nap-waf/v4/admin-guide/install.md#offline-installation" >}})
-- [v5]({{< ref "/nap-waf/v5/admin-guide/install.md#air-gap-install-secure-offline-installation" >}})
+- [v4]({{< ref "/nap-waf/v4/admin-guide/install.md#docker-deployments" >}})
+- [v5]({{< ref "/nap-waf/v5/admin-guide/install.md#waf-services-configuration" >}})
 
 Instead of having separate top level folders, differences between v4 and v5 will be denoted with whole page sections, tabs, or other unique signifiers.
+
+This reduces the amount of duplicate content, which makes maintainability much simpler and the text more uniform.
+
+With the full context of this section, the page is shorter, being concerned only with one specific method of installation.
+
+This makes it easier to link to specific instructions, and ensures that the customer sees only the critical information they need.
 
 {{</ call-out>}}

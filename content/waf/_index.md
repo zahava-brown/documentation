@@ -32,7 +32,7 @@ Defend your applications and APIs with a software security solution that seamles
     {{<card title="Install F5 WAF for NGINX" titleUrl="/waf/install" >}}
       Explore the methods available to deploy F5 WAF for NGINX in your environment
     {{</card>}}
-    {{<card title="Changelog" titleUrl="/waf/changelog">}}
+    {{<card title="Changelog" titleUrl="/waf/changelog" icon="clock-alert">}}
       Review the latest changes and improvements to F5 WAF for NGINX
     {{</card>}}
   {{</card-section>}}

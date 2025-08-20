@@ -1,6 +1,6 @@
 ---
 # We use sentence case and present imperative tone
-title: "Deploy F5 WAF for NGINX using Docker"
+title: "Docker"
 # Weights are assigned in increments of 100: determines sorting order
 weight: 200
 # Creates a table of contents and sidebar, useful for large documents
