@@ -99,7 +99,7 @@ Add F5 WAF for NGINX dependencies:
 sudo wget -P /etc/yum.repos.d https://cs.nginx.com/static/files/dependencies.amazonlinux2023.repo
 ```
 
-Install the latest version of F5 WAF for NGINX:
+Install the F5 WAF for NGINX package and its dependencies:
 
 ```shell
 sudo dnf install app-protect
@@ -123,7 +123,7 @@ gpgcheck=0
 enabled=1
 ```
 
-Install the latest version of F5 WAF for NGINX:
+Install the F5 WAF for NGINX package and its dependencies:
 
 ```shell
 sudo dnf install app-protect-module-plus
@@ -133,32 +133,116 @@ sudo dnf install app-protect-module-plus
 
 {{< /tabs >}}
 
-### Debian 
+### Debian
 
 {{< tabs name="debian-instructions" >}}
 
 {{% tab name="V4" %}}
 
+Add the F5 WAF for NGINX repositories:
+
+```shell
+printf "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+https://pkgs.nginx.com/app-protect/debian `lsb_release -cs` nginx-plus\n" | \
+sudo tee /etc/apt/sources.list.d/nginx-app-protect.list
+
+printf "deb [signed-by=/usr/share/keyrings/app-protect-security-updates.gpg] \
+https://pkgs.nginx.com/app-protect-security-updates/debian `lsb_release -cs` nginx-plus\n" | \
+sudo tee /etc/apt/sources.list.d/app-protect-security-updates.list
+```
+
+Update the repositories, then install the F5 WAF for NGINX package and its dependencies:
+
+```shell
+sudo apt-get update
+sudo apt-get install app-protect
+```
+
 {{% /tab %}}
 
 {{% tab name="V5" %}}
 
+Add the F5 WAF for NGINX repository:
+
+```shell
+printf "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+https://pkgs.nginx.com/app-protect-x-plus/debian `lsb_release -cs` nginx-plus\n" | \
+sudo tee /etc/apt/sources.list.d/nginx-app-protect.list
+```
+
+Update the repositories, then install the F5 WAF for NGINX package and its dependencies:
+
+```shell
+sudo apt-get update
+sudo apt-get install app-protect-module-plus
+```
 
 {{% /tab %}}
 
 {{< /tabs >}}
 
 
-### Oracle Linux
+### Oracle Linux / RHEL / Rocky Linux 8
+
+{{< call-out "important" >}}
+
+These instructions apply to Oracle Linux 8.1, and RHEL / Rocky Linux 8.
+
+Their packages are identical due to their similar architecture.
+
+{{< /call-out>}}
 
 {{< tabs name="oracle-instructions" >}}
 
 {{% tab name="V4" %}}
 
+Add the F5 WAF for NGINX repository:
+
+```shell
+sudo wget -P /etc/yum.repos.d https://cs.nginx.com/static/files/app-protect-8.repo
+```
+
+Add F5 WAF for NGINX dependencies:
+
+```shell
+sudo wget -P /etc/yum.repos.d https://cs.nginx.com/static/files/dependencies.repo
+```
+
+Enable the _ol8_codeready_builder_ repository:
+
+```shell
+sudo dnf config-manager --set-enabled ol8_codeready_builder
+```
+
+Install the F5 WAF for NGINX package and its dependencies:
+
+```shell
+sudo dnf install app-protect
+```
+
 {{% /tab %}}
 
 {{% tab name="V5" %}}
 
+Create a file for the F5 WAF for NGINX repository:
+
+**/etc/yum.repos.d/app-protect-x-plus.repo**
+
+```shell
+[app-protect-x-plus]
+name=nginx-app-protect repo
+baseurl=https://pkgs.nginx.com/app-protect-x-plus/centos/8/$basearch/
+sslclientcert=/etc/ssl/nginx/nginx-repo.crt
+sslclientkey=/etc/ssl/nginx/nginx-repo.key
+gpgcheck=0
+enabled=1
+```
+
+Install the F5 WAF for NGINX package and its dependencies:
+
+```shell
+sudo dnf install app-protect-module-plus
+```
 
 {{% /tab %}}
 
@@ -170,25 +254,101 @@ sudo dnf install app-protect-module-plus
 
 {{% tab name="V4" %}}
 
+Add the F5 WAF for NGINX repositories:
+
+```shell
+printf "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+https://pkgs.nginx.com/app-protect/ubuntu `lsb_release -cs` nginx-plus\n" | \
+sudo tee /etc/apt/sources.list.d/nginx-app-protect.list
+
+printf "deb [signed-by=/usr/share/keyrings/app-protect-security-updates.gpg] \
+https://pkgs.nginx.com/app-protect-security-updates/ubuntu `lsb_release -cs` nginx-plus\n" | \
+sudo tee /etc/apt/sources.list.d/app-protect-security-updates.list
+```
+
+Update the repositories, then install the F5 WAF for NGINX package and its dependencies:
+
+```shell
+sudo apt-get update
+sudo apt-get install app-protect
+```
+
 {{% /tab %}}
 
 {{% tab name="V5" %}}
 
+Add the F5 WAF for NGINX repositories:
+
+```shell
+printf "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+https://pkgs.nginx.com/app-protect-x-plus/ubuntu `lsb_release -cs` nginx-plus\n" | \
+sudo tee /etc/apt/sources.list.d/nginx-app-protect.list
+```
+
+Update the repository, then install the F5 WAF for NGINX package and its dependencies:
+
+```shell
+sudo apt-get update
+sudo apt-get install app-protect-module-plus
+```
 
 {{% /tab %}}
 
 {{< /tabs >}}
 
-### RHEL / Rocky Linux
+### RHEL / Rocky Linux 9
 
 {{< tabs name="rhel-instructions" >}}
 
 {{% tab name="V4" %}}
 
+Add the F5 WAF for NGINX repository:
+
+```shell
+sudo wget -P /etc/yum.repos.d https://cs.nginx.com/static/files/app-protect-9.repo
+```
+
+Add F5 WAF for NGINX dependencies:
+
+```shell
+sudo wget -P /etc/yum.repos.d https://cs.nginx.com/static/files/dependencies.repo
+```
+
+Enable the _codeready-builder_ repository:
+
+```shell
+sudo subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms
+```
+
+Install the F5 WAF for NGINX package and its dependencies:
+
+```shell
+sudo dnf install app-protect
+```
+
 {{% /tab %}}
 
 {{% tab name="V5" %}}
 
+Create a file for the F5 WAF for NGINX repository:
+
+**/etc/yum.repos.d/app-protect-x-plus.repo**
+
+```shell
+[app-protect-x-plus]
+name=nginx-app-protect repo
+baseurl=https://pkgs.nginx.com/app-protect-x-plus/centos/8/$basearch/
+sslclientcert=/etc/ssl/nginx/nginx-repo.crt
+sslclientkey=/etc/ssl/nginx/nginx-repo.key
+gpgcheck=0
+enabled=1
+```
+
+Install the F5 WAF for NGINX package and its dependencies:
+
+```shell
+sudo dnf install app-protect-module-plus
+```
 
 {{% /tab %}}
 
