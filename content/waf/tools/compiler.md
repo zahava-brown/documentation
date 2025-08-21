@@ -40,7 +40,7 @@ To complete this guide, you will need the following prerequisites:
 
 {{< include "licensing-and-reporting/download-certificates-from-myf5.md" >}}
 
-## Set up Docker for the F5 Container Registry 
+## Configure Docker for the F5 Container Registry 
 
 Create a directory and copy your certificate and key to this directory:
 

@@ -34,6 +34,12 @@ To complete this guide, you will need the following prerequisites:
 
 To review supported operating systems, please read the [Technical specifications]({{< ref "/waf/fundamentals/technical-specifications.md" >}}) guide.
 
+{{< call-out "note" >}}
+
+To use a V5-based package, you will also need to install [Docker](https://docs.docker.com/get-started/get-docker/).
+
+{{< /call-out>}}
+
 ## Platform-specific instructions
 
 Navigate to your chosen operating system, which are alphabetically ordered.
@@ -401,3 +407,177 @@ Here are two examples of how these additions could look in configuration files:
 {{%/tab%}}
 
 {{< /tabs >}}
+
+Once you have updated your configuration files, you can reload NGINX to apply the changes. You have two options depending on your environment:
+
+- `nginx -s reload`
+- `sudo systemctl reload nginx`
+
+If you are using a V4 package, you have finished installing F5 WAF for NGINX and can look at [Post-installation checks](#post-installation-checks).
+
+## Configure Docker services
+
+{{< call-out "warning" >}}
+
+This section **only** applies to V5 packages. 
+
+Skip to [Post-installation checks](#post-installation-checks) if you're using a V4 package.
+
+{{< /call-out>}}
+
+F5 WAF for NGINX uses Docker containers for its services when installed with a V5 package, which requires some extra set-up steps.
+
+First, create new directories for the services:
+
+```shell
+sudo mkdir -p /opt/app_protect/config /opt/app_protect/bd_config
+```
+
+Then assign new owners, with `101:101` as the default UID/GID
+
+```shell
+sudo chown -R 101:101 /opt/app_protect/
+```
+
+### Configure Docker for the F5 Container Registry
+
+Create a directory and copy your certificate and key to this directory:
+
+```shell
+mkdir -p /etc/docker/certs.d/private-registry.nginx.com
+cp <path-to-your-nginx-repo.crt> /etc/docker/certs.d/private-registry.nginx.com/client.cert
+cp <path-to-your-nginx-repo.key> /etc/docker/certs.d/private-registry.nginx.com/client.key
+```
+
+### Download Docker images
+
+Download the `waf-enforcer` and `waf-config-mgr` images. 
+
+Replace `5.2.0` with the release version you are deploying.
+
+```shell
+docker pull private-registry.nginx.com/nap/waf-enforcer:5.2.0
+docker pull private-registry.nginx.com/nap/waf-config-mgr:5.2.0
+```
+
+### Create and run a Docker Compose file
+
+Create a _docker-compose.yml_ file with the following contents in your host environment, replacing the image tag as appropriate.
+
+```yaml
+services:
+  waf-enforcer:
+    container_name: waf-enforcer
+    image: waf-enforcer:5.2.0
+    environment:
+      - ENFORCER_PORT=50000
+    ports:
+      - "50000:50000"
+    volumes:
+      - /opt/app_protect/bd_config:/opt/app_protect/bd_config
+    networks:
+      - waf_network
+    restart: always
+
+  waf-config-mgr:
+    container_name: waf-config-mgr
+    image: waf-config-mgr:5.2.0
+    volumes:
+      - /opt/app_protect/bd_config:/opt/app_protect/bd_config
+      - /opt/app_protect/config:/opt/app_protect/config
+      - /etc/app_protect/conf:/etc/app_protect/conf
+    restart: always
+    network_mode: none
+    depends_on:
+      waf-enforcer:
+        condition: service_started
+
+networks:
+  waf_network:
+    driver: bridge
+```
+
+{{< call-out "caution" >}}
+
+In some operating systems, security mechanisms like SELinux or AppArmor are enabled by default, potentially blocking necessary file access for the nginx process and waf-config-mgr and waf-enforcer containers.
+
+To ensure NGINX App Protect WAF operates smoothly without compromising security, consider setting up a custom SELinux policy or AppArmor profile. 
+
+For short-term troubleshooting, you may use permissive (SELinux) or complain (AppArmor) mode to avoid these restrictions, but this is inadvisable for prolonged use.
+
+{{< /call-out >}}
+
+To start the F5 WAF for NGINX services, use `docker compose up` in the same folder as the _docker-compose.yml_ file:
+
+```shell
+sudo docker compose up -d
+```
+
+
+## Post-installation checks
+
+Use the following steps to ensure that F5 WAF for NGINX enforcement is operational.
+
+Check that the three processes for F5 WAF for NGINX are running using `ps aux`:
+
+- _bd-socket-plugin_
+- _nginx: master process_
+- _nginx: worker process_
+
+```shell
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         8  1.3  2.4 3486948 399092 ?      Sl   09:11   0:02 /usr/share/ts/bin/bd-socket-plugin tmm_count 4 proc_cpuinfo_cpu_mhz 2000000 total_xml_memory 307200000 total_umu_max_size 3129344 sys_max_account_id 1024 no_static_config
+root        14  0.0  0.1  71060 26680 ?        S    09:11   0:00 nginx: master process /usr/sbin/nginx -c /tmp/policy/test_nginx.conf -g daemon off;
+root        26  0.0  0.3  99236 52092 ?        S    09:12   0:00 nginx: worker process
+root        28  0.0  0.0  11788  2920 pts/0    Ss   09:12   0:00 bash
+root        43  0.0  0.0  47460  3412 pts/0    R+   09:14   0:00 ps aux
+```
+
+Verify there are no errors in the file `/var/log/nginx/error.log` and that the policy compiled successfully:
+
+```none
+2020/05/10 13:21:04 [notice] 402#402: APP_PROTECT { "event": "configuration_load_start", "configSetFile": "/opt/f5waf/config/config_set.json" }
+2020/05/10 13:21:04 [notice] 402#402: APP_PROTECT policy 'app_protect_default_policy' from: /etc/app_protect/conf/NginxDefaultPolicy.json compiled successfully
+2020/05/10 13:21:04 [notice] 402#402: APP_PROTECT { "event": "configuration_load_success", "software_version": "1.1.1", "attack_signatures_package":{"revision_datetime":"2019-07-16T12:21:31Z"},"completed_successfully":true}
+2020/05/10 13:21:04 [notice] 402#402: using the "epoll" event method
+2020/05/10 13:21:04 [notice] 402#402: nginx/1.17.6 (nginx-plus-r20)
+2020/05/10 13:21:04 [notice] 402#402: built by gcc 4.8.5 20150623 (Red Hat 4.8.5-36) (GCC)
+2020/05/10 13:21:04 [notice] 402#402: OS: Linux 3.10.0-957.27.2.el7.x86_64
+2020/05/10 13:21:04 [notice] 402#402: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2020/05/10 13:21:04 [notice] 406#406: start worker processes
+2020/05/10 13:21:04 [notice] 406#406: start worker process 407
+```
+
+Check that sending an attack signature in a request returns a response block page containing a support ID:
+
+```shell
+Request:
+http://10.240.185.211/?a=<script>
+
+Response:
+The requested URL was rejected. Please consult with your administrator.
+
+Your support ID is: 9847191526422998597
+
+[Go Back]
+```
+
+If you case your policy includes JSON/XML profiles, check `/var/log/app_protect/bd-socket-plugin.log` for possible errors:
+
+```shell
+grep '|ERR' /var/log/app_protect/bd-socket-plugin.log
+```
+
+Verify that Enforcement functionality is working by checking the following request is rejected:
+
+```shell
+curl "localhost/<script>"
+```
+
+## Next steps
+
+Once you have successfully installed F5 WAf for NGINX, there are some topics you may want to follow afterwards:
+
+- [Converter tools]({{< ref "/waf/tools/converter.md" >}}), to convert existing resources from a BIG-IP environment
+- [Configure policies]({{< ref "/waf/policies/configuration.md" >}}), to begin customizing your deployment
+- [Changelog]({{< ref "/waf/changelog.md" >}}), to view information from the latest releases
