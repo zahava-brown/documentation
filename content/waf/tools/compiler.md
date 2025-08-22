@@ -1,8 +1,8 @@
 ---
 # We use sentence case and present imperative tone
-title: "Build and use the F5 WAF for NGINX compiler"
+title: "Build and use the compiler tool"
 # Weights are assigned in increments of 100: determines sorting order
-weight: 200
+weight: 100
 # Creates a table of contents and sidebar, useful for large documents
 toc: true
 # Types have a 1:1 relationship with Hugo archetypes, so you shouldn't need to change this
@@ -14,11 +14,9 @@ nd-product: NAP-WAF
 
 {{< call-out "warning" "Information architecture note" >}}
 
-The design intention for this page is to act as a new place for the v5 [NGINX App Protect WAF Compiler]({{< ref "/nap-waf/v5/admin-guide/compiler.md">}}) page.
+This page replaces [V5 NGINX App Protect WAF Compiler]({{< ref "/nap-waf/v5/admin-guide/compiler.md">}}) page.
 
-Information that isn't critically important to a specific task should be moved to its own page. This page is a good example of one that doesn't need to be broken up, but is still moved into a peripheral "Tools" section for when it is necessary.
-
-**13/08/2025:** Does this exclusively work with V5+ versions?
+Does this exclusively work with V5+ versions?
 
 {{</ call-out>}}
 
@@ -57,6 +55,8 @@ docker login private-registry.nginx.com
 ```
 
 ## Create the Dockerfile
+
+This example Dockerfile is based on a Debian image.
 
 ```dockerfile
 # syntax=docker/dockerfile:1
@@ -120,8 +120,11 @@ curl -s https://private-registry.nginx.com/v2/nap/waf-compiler/tags/list --key <
 }
 ```
 
-The [jq](https://jqlang.github.io/jq/) command was used to format the example output
+{{< call-out "note" >}}
 
+The [jq](https://jqlang.github.io/jq/) command was used to format the example output.
+
+{{< /call-out >}}
 
 ## Build the container image
 

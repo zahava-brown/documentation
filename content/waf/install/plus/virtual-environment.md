@@ -32,6 +32,8 @@ To complete this guide, you will need the following prerequisites:
 - An active F5 WAF for NGINX subscription (Purchased or trial)
 - A working [NGINX Plus installation]({{< ref "/nginx/admin-guide/installing-nginx/installing-nginx-plus.md" >}})
 
+You should read the [IP intelligence topic]({{< ref "/waf/policies/ip-intelligence.md" >}}) for additional set-up configuration if you want to use the feature immediately.
+
 To review supported operating systems, please read the [Technical specifications]({{< ref "/waf/fundamentals/technical-specifications.md" >}}) guide.
 
 {{< call-out "note" >}}
@@ -578,6 +580,7 @@ curl "localhost/<script>"
 
 Once you have successfully installed F5 WAf for NGINX, there are some topics you may want to follow afterwards:
 
-- [Converter tools]({{< ref "/waf/tools/converter.md" >}}), to convert existing resources from a BIG-IP environment
 - [Configure policies]({{< ref "/waf/policies/configuration.md" >}}), to begin customizing your deployment
+- [IP intelligence]({{< ref "/waf/policies/ip-intelligence.md">}}), for the extra steps to enable the IP intelligence feature
+- [Converter tools]({{< ref "/waf/tools/converters.md" >}}), to convert existing resources from a BIG-IP environment
 - [Changelog]({{< ref "/waf/changelog.md" >}}), to view information from the latest releases

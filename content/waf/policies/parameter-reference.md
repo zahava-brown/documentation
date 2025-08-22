@@ -1,7 +1,7 @@
 ---
 title: Policy parameter reference
 toc: true
-weight: 400
+weight: 200
 ---
 
 {{< call-out "warning" "Information architecture note" >}}
@@ -12,4 +12,4 @@ Like many other pages, a lot of the information was duplicated - this provides a
 
 {{</ call-out>}}
 
-{{< include "nap-waf/policy.html" >}}
+{{< include "waf/policy.html" >}}
