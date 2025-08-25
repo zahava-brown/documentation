@@ -227,6 +227,158 @@ In addition, the Strict policy also enables the following features in **alarm on
 - **More restrictive limitations**: mainly sizing and parsing of JSON and XML payloads.
 - **Cookie attribute insertion**: the Strict policy adds the **Secure** and **SameSite=lax** attributes to every cookie set by the application server. These attributes are enforced by the browsers and protect against session hijacking and CSRF attacks respectively.
 
+## Policy authoring and tuning
+
+The policy JSON file specifies the settings that are different from the base template, such as enabling more signatures, disabling some violations, adding server technologies, etc. These will be shown in the next sections.
+
+There are two ways to tune those settings:
+- Within the `policy` structure property, the organic structure of the policy.
+- Within the `modifications` structure property that contains a list of changes expressed in a generic manner.
+
+Both options are equivalent in their semantic expression power, but different syntactically and are designated for different use cases. But before that, let's look at an example - disabling a specific attack signature.
+
+Signature 200001834 disabled in the `policy` property:
+
+```json
+{
+    "policy": {
+        "name": "signature_exclude_1",
+        "signatures": [
+            {
+                "signatureId": 200001834,
+                "enabled": false
+            }
+        ]
+    }
+}
+```
+
+As you can see, this is expressed using the `signatures` property that contains configuration of individual signatures in a policy. If you want to modify other parts of the policy, you would use different JSON properties.
+
+The same configuration in the `modifications` array looks like this:
+
+```json
+{
+    "policy": {
+        "name": "signature_exclude_2"
+    },
+    "modifications": [
+        {
+            "entityChanges": {
+                "enabled": false
+            },
+            "entity": {
+                "signatureId": 200001834
+            },
+            "entityType": "signature",
+            "action": "add-or-update"
+        }
+    ]
+}
+```
+
+Note the generic schema that can express manipulation in any policy element: `entity`, `entityType`, `action` etc. The `modifications` array is a flat list of individual changes applied to the policy after evaluating the `policy` block.
+
+So when to use `policy` and when to use `modifications`? There are some recommended practice guidelines for that:
+- Use `policy` to express the security policy as you intended it to be: the features you want to enable, disable, the signature sets, server technologies and other related configuration attributes. This part of the policy is usually determined when the application is deployed and changes at a relatively slow pace.
+- Use `modifications` to express **exceptions** to the intended policy. These exceptions are usually the result of fixing false positive incidents and failures in tests applied to those policies. Usually these are granular modifications, typically disabling checks of individual signatures, metacharacters and sub-violations. These changes are more frequent.
+- Use `modifications` also for **removing** individual collection elements from the base template, for example disallowed file types.
+
+It is a good practice to separate the `modifications` to a different file and have the main policy file reference the former, as the two parts have different lifecycles.
+
+The sections just below review the common policy feature configurations using examples. For the full reference of the `policy` JSON properties see the Declarative Policy guide.
+
+### Policy enforcement modes
+
+A policy's enforcement mode can be:
+
+- **Blocking:** Any illegal or suspicious requests are logged and blocked.  This is the default enforcement mode for the default policy and any added policy unless changed to Transparent.
+- **Transparent:** Any illegal or suspicious requests are logged but not blocked.
+
+Individual security features can be defined as blocked or transparent in the policy. Here are examples of both:
+
+{{< tabs name="enforcement-modes">}}
+
+{{% tab name="Blocking" %}}
+
+```json
+{
+    "policy": {
+        "name": "policy_name",
+        "template": { "name": "POLICY_TEMPLATE_NGINX_BASE" },
+        "applicationLanguage": "utf-8",
+        "enforcementMode": "blocking"
+    }
+}
+```
+
+{{% /tab %}}
+
+{{% tab name="Transparent" %}}
+
+```json
+{
+    "policy": {
+        "name": "policy_name",
+        "template": { "name": "POLICY_TEMPLATE_NGINX_BASE" },
+        "applicationLanguage": "utf-8",
+        "enforcementMode": "transparent"
+    }
+}
+```
+
+{{% /tab %}}
+
+{{< /tabs >}}
+
+### Enabling violations
+
+Adding and enabling additional security features to the policy can be done by specifying the violation name and the `alarm` block state to `true`. 
+
+To set different states for sub-violations within the violation, enable the violation first, then specifying and configure the sub-violations. 
+
+A violation may have its own section that provides additional configuration granularity for a specific violation/sub-violation.
+
+{{< call-out "note" >}}
+
+The attack signature violation `VIOL_ATTACK_SIGNATURE` cannot be configured.
+
+It is determined by the combination of the [signature sets]({{< ref "/waf/policies/attack-signatures.md#signature-sets ">}}) on the policy.
+
+{{< /call-out >}}
+
+In this example, we enable a violation and a sub-violation: `VIOL_JSON_FORMAT` and `VIOL_PARAMETER_VALUE_METACHAR`.
+
+The example defines the blocking and alarm setting for each violation.  These settings override the default configuration set above in the `enforcementMode` directive.  
+
+Be aware, however, that in a transparent policy no violations are blocked, even if specific violations are set to `block: true` in the configuration.
+
+```json
+{
+    "policy": {
+        "name": "policy_name",
+        "template": { "name": "POLICY_TEMPLATE_NGINX_BASE" },
+        "applicationLanguage": "utf-8",
+        "enforcementMode": "blocking",
+        "blocking-settings": {
+            "violations": [
+                {
+                    "name": "VIOL_JSON_FORMAT",
+                    "alarm": true,
+                    "block": true
+                },
+                {
+                    "name": "VIOL_PARAMETER_VALUE_METACHAR",
+                    "alarm": false,
+                    "block": false
+                }
+            ]
+        }
+    }
+}
+```
+
+
 ## Supported security policy features
 
 {{< include "waf/supported-policy-features.md" >}}
