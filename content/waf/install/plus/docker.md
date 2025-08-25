@@ -14,9 +14,7 @@ nd-product: NAP-WAF
 
 {{< call-out "warning" "Information architecture note" >}}
 
-Content sources: [v4]({{< ref "/nap-waf/v4/admin-guide/install.md#docker-deployments" >}}) & [v5]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md" >}})
-
-There's some v5 specific content around mTLS that should be spun into its own page:
+There's some v content around mTLS that should be spun into its own page:
 
 - [Docker Compose File with mTLS]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md#docker-compose-file-with-mtls" >}})
 - [Secure Traffic Between NGINX and App Protect Enforcer using mTLS]({{< ref "/nap-waf/v5/configuration-guide/configuration.md#secure-traffic-between-nginx-and-app-protect-enforcer-using-mtls" >}})
