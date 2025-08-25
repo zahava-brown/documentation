@@ -12,20 +12,6 @@ nd-content-type: how-to
 nd-product: NAP-WAF
 ---
 
-{{< call-out "warning" "Information architecture note" >}}
-
-The design intention for this page is to detail the F5 support policies and other important information a customer might know.
-
-Some existing content that would be moved to this page are the "_Opening a Support Ticket_" information from [v4]({{< ref "/nap-waf/v4/troubleshooting-guide/troubleshooting.md#opening-a-support-ticket" >}}) and [v5]({{< ref "/nap-waf/v5/troubleshooting-guide/troubleshooting.md#opening-a-support-ticket">}}).
-
-There's lots of examples of existing support pages, some of which may have includes available for re-use:
-
-- [NGINX Instance Manager - Where to go for support]({{< ref "/nim/support/contact-support.md" >}})
-- [NGINX Agent - Support]({{< ref "/agent/support.md" >}})
-- [NGINX Ingress Controller - Commercial support]({{< ref "/nic/troubleshooting/troubleshoot-support.md" >}})
-
-{{</ call-out>}}
-
 ## Support policy
 
 F5 WAF for NGINX adheres to the support policy detailed in the following knowledge base article: [K000140156](https://my.f5.com/manage/s/article/K000140156).
@@ -88,7 +74,7 @@ tar cvfz logs.tgz `cat tarball-targets.txt`
 
 {{% tab name="Docker" %}}
 
-Use _docker_compose_ to create log files:
+Use _docker compose_ to create log files:
 
 ```shell
 sudo docker compose logs > docker_compose_logs.txt
