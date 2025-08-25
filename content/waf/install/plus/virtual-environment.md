@@ -14,7 +14,7 @@ nd-product: NAP-WAF
 
 {{< call-out "warning" "Information architecture note" >}}
 
-The disconnectedd/air-gapped installation use case has very similar steps.
+The disconnected/air-gapped installation use case has very similar steps.
 
 I'm identifying shared steps for it: depending on how large the steps might be, it might re-appear as a section on a page or have its own page.
 
