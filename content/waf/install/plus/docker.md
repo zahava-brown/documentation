@@ -14,8 +14,14 @@ nd-product: NAP-WAF
 
 {{< call-out "warning" "Information architecture note" >}}
 
-- [v4]({{< ref "/nap-waf/v4/admin-guide/install.md#docker-deployments" >}})
-- [v5]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md" >}})
+Content sources: [v4]({{< ref "/nap-waf/v4/admin-guide/install.md#docker-deployments" >}}) & [v5]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md" >}})
+
+There's some v5 specific content around mTLS that should be spun into its own page:
+
+- [Docker Compose File with mTLS]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md#docker-compose-file-with-mtls" >}})
+- [Secure Traffic Between NGINX and App Protect Enforcer using mTLS]({{< ref "/nap-waf/v5/configuration-guide/configuration.md#secure-traffic-between-nginx-and-app-protect-enforcer-using-mtls" >}})
+
+I haven't found reference to it in v5 content, but I don't see why it couldn't/wouldn't apply to v4 too?
 
 {{</ call-out>}}
 
@@ -971,6 +977,26 @@ Verify the new container is running using the `docker ps` command:
 ```shell
 docker ps
 ```
+
+## Update configuration files
+
+{{< include "waf/install-update-configuration.md" >}}
+
+## Configure Docker services
+
+{{< include "waf/install-services-docker.md" >}}
+
+### Configure Docker for the F5 Container Registry
+
+{{< include "waf/install-services-registry.md" >}}
+
+### Download Docker images
+
+{{< include "waf/install-services-images.md" >}}
+
+### Create and run a Docker Compose file
+
+{{< include "waf/install-services-compose.md" >}}
 
 ## Post-installation checks
 
