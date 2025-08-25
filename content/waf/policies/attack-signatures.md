@@ -12,13 +12,13 @@ nd-content-type: reference
 nd-product: NAP-WAF
 ---
 
-## Overview
-
 Attack signatures are rules or patterns that identify attack sequences or classes of attacks on a web application and its components. You can apply attack signatures to both requests and responses. F5 WAF for NGINX includes predefined attack signatures to protect your application against all attack types identified by the system.
 
-As new attack signatures are identified, they will become available for download and installation so that your system will always have the most up-to-date protection. You can update the attack signatures without updating F5 WAF for NGINX, and conversely, you can update F5 WAF for NGINX without changing the attack signature package, unless you upgrade to a new NGINX Plus release.
+As new attack signatures are identified, they will become available for download and installation so that your system will always have the most up-to-date protection. 
 
-### Signature settings
+You can update the attack signatures without updating F5 WAF for NGINX, and conversely, you can update F5 WAF for NGINX without changing the attack signature package, unless you upgrade to a new NGINX Plus release.
+
+## Signature settings
 
 | Setting | JSON property | F5 WAF for NGINX support | Default value |
 | --------| ------------- | ------------------------ | ------------- |
@@ -26,7 +26,7 @@ As new attack signatures are identified, they will become available for download
 | Signatures | signatures | "Enabled" flag can be modified. | All signatures in the included sets are enabled. |
 | Auto-Added signature accuracy | minimumAccuracyForAutoAddedSignatures | Editable | Medium |
 
-### Signature sets
+## Signature sets
 
 The default and strict policies include and enable common signature sets, which are categorized groups of [signatures](#attack-signatures-overview) applied to the policy. However, you may wish to modify the list of signature sets and their logging and enforcement settings via the `signature-sets` array property. There are several ways to configure the enforced signature sets.
 

@@ -464,7 +464,7 @@ docker pull private-registry.nginx.com/nap/waf-config-mgr:5.2.0
 
 ### Create and run a Docker Compose file
 
-Create a _docker-compose.yml_ file with the following contents in your host environment, replacing the image tag as appropriate.
+Create a _docker-compose.yml_ file with the following contents in your host environment, replacing image tags as appropriate:
 
 ```yaml
 services:
