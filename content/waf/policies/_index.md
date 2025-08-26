@@ -1,5 +1,5 @@
 ---
 title: "Policies"
-url: /app-protect-waf/policies/
+url: /waf/policies/
 weight: 500
 ---

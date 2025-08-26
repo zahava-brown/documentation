@@ -64,7 +64,7 @@ _apreload_ will not apply these two policy modifications:
 - New user defined HTTP headers, refer to User-defined HTTP Headers section. Note that modifications to existing user-defined headers will take effect in apreload.
 - XFF trust modifications, refer to XFF Headers and Trust section for more details.
 
-If you want to apply either of the above modifications, reload NGINX instead of using apreload.
+If you want to apply either of the above modifications, reload NGINX instead of using _apreload_.
 
 ## apreload events
 
@@ -74,4 +74,4 @@ If any of the configuration files are invalid, _apreload_ will discover that and
 
 The enforcer continues to run with the previous working configuration. 
 
-For more information, see the [Operation logs]() topic.
+For more information, see the [Operation logs]({{< ref "/waf/logging/operation-logs.md">}}) topic.

@@ -1,5 +1,5 @@
 ---
 title: "Signatures"
-url: /app-protect-waf/signatures/
+url: /waf/signatures/
 weight: 600
 ---

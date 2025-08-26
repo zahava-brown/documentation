@@ -1,5 +1,5 @@
 ---
 title: "Tools"
-url: /app-protect-waf/tools/
+url: /waf/tools/
 weight: 400
 ---

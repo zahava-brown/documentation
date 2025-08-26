@@ -1,5 +1,5 @@
 ---
 title: "Install"
-url: /app-protect-waf/install/
+url: /waf/install/
 weight: 200
 ---

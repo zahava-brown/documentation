@@ -1,5 +1,5 @@
 ---
 title: "Fundamentals"
-url: /app-protect-waf/fundamentals/
+url: /waf/fundamentals/
 weight: 100
 ---

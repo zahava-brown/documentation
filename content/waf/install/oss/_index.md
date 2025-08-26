@@ -1,6 +1,6 @@
 ---
 title: "NGINX Open Source"
-url: /app-protect-waf/install/oss
+url: /waf/install/oss
 cascade: 
   nd-banner:
     enabled: true

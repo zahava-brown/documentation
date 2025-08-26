@@ -12,20 +12,6 @@ nd-content-type: reference
 nd-product: NAP-WAF
 ---
 
-{{< call-out "warning" "Information architecture note" >}}
-
-The design intention for this page is to act as a single source of truth for supported operating systems and version compatibility.
-
-It follows a design pattern set by other NGINX product sets, showing various compatibility matrices:
-
-- [NGINX Plus]({{< ref "/nginx/technical-specs.md" >}})
-- [NGINX Instance Manager]({{< ref "/nim/fundamentals/tech-specs.md" >}})
-- [NGINX Ingress Controller]({{< ref "/nic/technical-specifications.md" >}})
-
-It is also where information about the [Supported Security Policy Features]({{< ref "/nap-waf/v4/configuration-guide/configuration.md#supported-security-policy-features" >}}) could be referenced, though most of that detail will instead be kept in the new top-level "Policies" section.
-
-{{</ call-out>}}
-
 This page outlines the technical specifications for F5 WAF for NGINX, which includes the minimum requirements and supported platforms.
 
 ## Supported deployment environments
@@ -50,7 +36,6 @@ View the [Install section]({{< ref "/waf/install/" >}}) for information on deplo
 | RHEL / Rocky Linux | 8, 9         |
 
 For release-specific packages, view the [Changelog]({{< ref "/waf/changelog.md" >}}).
-
 
 ### Package dependencies
 
@@ -78,6 +63,6 @@ The F5 WAF for NGINX package has the following dependencies:
 
 The following security policy features are available with F5 WAF for NGINX.
 
-The names link to additional information in the [Configure policies]({{< ref "/waf/policies/configuration.md" >}}) topic.
+The names link to additional information in the [Policies]({{< ref "/waf/policies/configuration.md" >}}) section.
 
 {{< include "waf/supported-policy-features.md" >}}
