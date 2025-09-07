@@ -225,47 +225,6 @@ appprotect:
    kubectl get all -n <namespace>
    ```
 
-## Deployment
-
-### Deploy with Helm
-
-1. **Create Storage**
-   
-   Create the required persistent volume for policy bundles:
-   ```bash
-   mkdir -p /mnt/nap5_bundles_pv_data
-   chown -R 101:101 /mnt/nap5_bundles_pv_data
-   kubectl apply -f <your-pv-yaml-file>
-   ```
-
-2. **Deploy the Helm Chart**
-
-   ```bash
-   helm install <release-name> ./napx-with-helm \
-     --namespace <namespace> \
-     --create-namespace \
-     --set appprotect.policyController.enable=true \
-     --set dockerConfigJson=$NGINX_REGISTRY_TOKEN \
-     --set appprotect.config.nginxJWT=$JWT \
-     --set appprotect.nginxRepo.nginxCert=$NGINX_CERT \
-     --set appprotect.nginxRepo.nginxKey=$NGINX_KEY
-   ```
-
-### Verify Deployment
-
-Check that all components are running:
-
-```bash
-kubectl get pods -n <namespace>
-kubectl get crds | grep appprotect.f5.com
-```
-
-You should see the Policy Controller pod running and the four required CRDs installed:
-- appolicies.appprotect.f5.com
-- aplogconfs.appprotect.f5.com  
-- apusersigs.appprotect.f5.com
-- apsignatures.appprotect.f5.com
-
 ## Using Policy Lifecycle Management
 
 ### Creating Policy Resources
