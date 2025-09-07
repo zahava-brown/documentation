@@ -189,7 +189,7 @@ appprotect:
    ```
    
    {{< call-out "note" >}}
-   The PV must have the name `<release-name>-bundles-pv` to be properly recognized by the Helm chart.
+   The PV name defaults to `<release-name>-bundles-pv`, but can be customized using the `appprotect.storage.pv.name` setting in your values.yaml file.
    {{< /call-out >}}
 
 5. **Configure Docker Registry Credentials**
@@ -229,16 +229,71 @@ appprotect:
 
 ### Creating Policy Resources
 
-Once PLM is deployed, you can create policy resources using Kubernetes manifests:
+Once PLM is deployed, you can create policy resources using Kubernetes manifests. Apply the following Custom Resource examples or create your own based on these templates:
 
 **Sample APPolicy Resource:**
+
+Create a file named `dataguard-blocking-policy.yaml` with the following content:
+
+```yaml
+apiVersion: appprotect.f5.com/v1
+kind: APPolicy
+metadata:
+  name: dataguard-blocking
+spec:
+  policy:
+    name: dataguard_blocking
+    template:
+      name: POLICY_TEMPLATE_NGINX_BASE
+    applicationLanguage: utf-8
+    enforcementMode: blocking
+    blocking-settings:
+      violations:
+        - name: VIOL_DATA_GUARD
+          alarm: true
+          block: true
+    data-guard:
+      enabled: true
+      maskData: true
+      creditCardNumbers: true
+      usSocialSecurityNumbers: true
+      enforcementMode: ignore-urls-in-list
+      enforcementUrls: []
+```
+
+Apply the policy:
 ```bash
-kubectl apply -f config/policy-manager/samples/appprotect_v1_appolicy.yaml
+kubectl apply -f dataguard-blocking-policy.yaml -n <namespace>
 ```
 
 **Sample APUserSig Resource:**
-```bash  
-kubectl apply -f config/policy-manager/samples/appprotect_v1_apusersigs.yaml
+
+Create a file named `apple-usersig.yaml` with the following content:
+
+```yaml
+apiVersion: appprotect.f5.com/v1
+kind: APUserSig
+metadata:
+  name: apple
+spec:
+  signatures:
+    - accuracy: medium
+      attackType:
+        name: Brute Force Attack
+      description: Medium accuracy user defined signature with tag (Fruits)
+      name: Apple_medium_acc
+      risk: medium
+      rule: content:"apple"; nocase;
+      signatureType: request
+      systems:
+        - name: Microsoft Windows
+        - name: Unix/Linux
+  tag: Fruits
+```
+
+Apply the user signature:
+```bash
+kubectl apply -f apple-usersig.yaml -n <namespace>
 ```
 
 ### Monitoring Policy Status
@@ -259,10 +314,10 @@ The Policy Controller will show status information including:
 
 ### 1. Test Policy Compilation
 
-Apply the sample policy Custom Resource to verify PLM is working correctly:
+Apply one of the sample policy Custom Resources to verify PLM is working correctly. For example, using the dataguard policy you created earlier:
 
 ```bash
-kubectl apply -f config/policy-manager/samples/appprotect_v1_appolicy.yaml
+kubectl apply -f dataguard-blocking-policy.yaml -n <namespace>
 ```
 
 ### 2. Check Policy Compilation Status
