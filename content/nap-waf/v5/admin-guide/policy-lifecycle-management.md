@@ -227,6 +227,42 @@ appprotect:
 
 ## Using Policy Lifecycle Management
 
+### Setting up desired security update versions
+
+Once PLM is deployed, you can create APSignatures resource using Kubernetes manifests and specify desired security update versions. Apply the following Custom Resource example or create your own based on the template:
+
+**Sample APSignatures Resource:**
+
+Create a file named `signatures.yaml` with the following content:
+
+```yaml
+apiVersion: appprotect.f5.com/v1
+kind: APSignatures
+metadata:
+  name: signatures
+spec:
+  attack-signatures:
+    revision: "2025.06.19" # attack signatures revision to be used
+  bot-signatures:
+    revision: "latest" # bot signatures revision to be used
+  threat-campaigns:
+    revision: "2025.06.24" # threat campaigns revision to be used
+```
+
+{{< call-out "note" >}}
+The APSignatures must have name `signatures`. Only one APSignatures instance can exist
+{{< /call-out >}}
+
+Apply the manifest:
+
+```bash
+kubectl apply -f config/policy-manager/samples/appprotect_v1_apsignatures.yaml
+```
+
+{{< call-out "note" >}}
+Downloading security updates may take several minutes. The version of security updates available at the time of compilation is always used to compile policies. If APSignatures is not created or the specified versions are not downloaded, the versions contained in the compiler docker image will be used.
+{{< /call-out >}}
+
 ### Creating Policy Resources
 
 Once PLM is deployed, you can create policy resources using Kubernetes manifests. Apply the following Custom Resource examples or create your own based on these templates:
@@ -262,6 +298,7 @@ spec:
 ```
 
 Apply the policy:
+
 ```bash
 kubectl apply -f dataguard-blocking-policy.yaml -n <namespace>
 ```
@@ -292,6 +329,7 @@ spec:
 ```
 
 Apply the user signature:
+
 ```bash
 kubectl apply -f apple-usersig.yaml -n <namespace>
 ```
@@ -397,7 +435,7 @@ To verify that the policy bundles are being deployed and enforced correctly:
    ```bash
    curl "http://[CLUSTER-IP]:80/?a=<script>"
    ```
-   
+
    The request should be blocked, confirming that PLM has successfully compiled and deployed the policy.
 
 ## Troubleshooting
