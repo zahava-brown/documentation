@@ -79,6 +79,22 @@ appprotect:
       requests:
         cpu: 100m
         memory: 128Mi
+
+  storage:
+    bundlesPath:
+      ## Specifies the name of the volume to be used for storing policy bundles
+      name: app-protect-bundles
+      ## Defines the mount path inside the WAF Config Manager container where the bundles will be stored
+      mountPath: /etc/app_protect/bundles
+    pv:
+      ## PV name that pvc will request
+      name: nginx-app-protect-shared-bundles-pv
+    pvc:
+      ## The storage class to be used for the PersistentVolumeClaim
+      bundlesPvc:
+        storageClass: manual
+        ## The amount of storage requested for the PersistentVolumeClaim
+        storageRequest: 2Gi
 ```
 
 **NGINX Configuration:**
@@ -264,7 +280,46 @@ http {
      --set appprotect.nginxRepo.nginxKey=$NGINX_KEY
    ```
 
-7. **Verify Installation**
+7. **Verify Storage Setup**
+   
+   After Helm deployment, verify that the PersistentVolumeClaim has been created and bound:
+   ```bash
+   kubectl get pvc -n <namespace>
+   kubectl get pv
+   ```
+   
+   You should see output similar to:
+   ```
+   NAME                              STATUS   VOLUME                               CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+   <release-name>-shared-bundles-pvc   Bound    nginx-app-protect-shared-bundles-pv   2Gi        RWX            manual         1m
+   ```
+   
+   {{< call-out "warning" >}}
+   **Troubleshooting PVC Issues**: If you don't see a PVC in your namespace or the PVC shows "Pending" status:
+   
+   1. **Check if storage configuration is complete in values.yaml:**
+      ```bash
+      helm get values <release-name> -n <namespace>
+      ```
+      Ensure you have the complete `appprotect.storage` section including `bundlesPvc.storageRequest`
+   
+   2. **If storage configuration is missing, upgrade with proper storage settings:**
+      ```bash
+      helm upgrade <release-name> . --namespace <namespace> \
+        --set appprotect.storage.pvc.bundlesPvc.storageClass=manual \
+        --set appprotect.storage.pvc.bundlesPvc.storageRequest=2Gi \
+        --reuse-values
+      ```
+   
+   3. **If PVC exists but shows "Pending", check PV binding:**
+      ```bash
+      kubectl describe pvc -n <namespace>
+      kubectl describe pv nginx-app-protect-shared-bundles-pv
+      ```
+      Ensure the PV `storageClassName` matches the PVC requirements.
+   {{< /call-out >}}
+
+8. **Verify Installation**
    
    Check that all components are deployed successfully:
    ```bash
@@ -636,5 +691,3 @@ To verify that the policy bundles are being deployed and enforced correctly:
 - Verify persistent volume is properly mounted
 - Check storage permissions (should be 101:101)
 - Confirm PVC is bound to the correct PV
-
-For additional troubleshooting information, see the [Troubleshooting Guide]({{< ref "/nap-waf/v5/troubleshooting-guide/troubleshooting.md#nginx-app-protect-5" >}}).
