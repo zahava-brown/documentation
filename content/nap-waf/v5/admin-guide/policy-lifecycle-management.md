@@ -66,8 +66,17 @@ appprotect:
   ## The number of replicas of the Nginx App Protect deployment
   replicas: 1
   
+  ## Configure root filesystem as read-only and add volumes for temporary data
+  readOnlyRootFilesystem: false
+  
   ## The annotations for deployment
   annotations: {}
+  
+  ## InitContainers for the Nginx App Protect pod
+  initContainers: []
+    # - name: init-container
+    #   image: busybox:latest
+    #   command: ['sh', '-c', 'echo this is initial setup!']
   
   nginx:
     image:
@@ -82,6 +91,9 @@ appprotect:
       requests:
         cpu: 10m
         memory: 16Mi
+      # limits:
+      #   cpu: 1
+      #   memory: 1Gi
 
   wafConfigMgr:
     image:
@@ -94,6 +106,9 @@ appprotect:
       requests:
         cpu: 10m
         memory: 16Mi
+      # limits:
+      #   cpu: 500m
+      #   memory: 500Mi
 
   wafEnforcer:
     image:
@@ -108,6 +123,25 @@ appprotect:
       requests:
         cpu: 20m
         memory: 256Mi
+      # limits:
+      #   cpu: 1
+      #   memory: 1Gi
+
+  wafIpIntelligence:
+    enable: false
+    image:
+      ## The image repository of the WAF IP Intelligence
+      repository: private-registry.nginx.com/nap/waf-ip-intelligence
+      ## The tag of the WAF IP Intelligence
+      tag: 5.8.0
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 10m
+        memory: 256Mi
+      # limits:
+      #   cpu: 200m
+      #   memory: 1Gi
   
   policyController:
     enable: true  # Set to false to disable Policy Controller
@@ -125,6 +159,14 @@ appprotect:
       requests:
         cpu: 100m
         memory: 128Mi
+      # limits:
+      #   memory: 256Mi
+      #   cpu: 250m
+    ## InitContainers for the Policy Controller pod
+    initContainers: []
+      # - name: init-container
+      #   image: busybox:latest
+      #   command: ['sh', '-c', 'echo this is initial setup!']
 
   storage:
     bundlesPath:
@@ -156,6 +198,104 @@ appprotect:
     annotations: {}
     ## The JWT token license.txt of the ConfigMap for customizing NGINX configuration
     nginxJWT: ""
+
+    ## The nginx.conf of the ConfigMap for customizing NGINX configuration
+    nginxConf: |-
+      user nginx;
+      worker_processes auto;
+
+      load_module modules/ngx_http_app_protect_module.so;
+
+      error_log /var/log/nginx/error.log notice;
+      pid /var/run/nginx.pid;
+
+      events {
+          worker_connections 1024;
+      }
+
+      http {
+          include /etc/nginx/mime.types;
+          default_type application/octet-stream;
+
+          log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+          '$status $body_bytes_sent "$http_referer" '
+          '"$http_user_agent" "$http_x_forwarded_for"';
+
+          access_log stdout main;
+          sendfile on;
+          keepalive_timeout 65;
+
+          # Enable Policy Lifecycle Management
+          app_protect_default_config_source "custom-resource";
+
+          # WAF enforcer address
+          app_protect_enforcer_address 127.0.0.1:50000;
+
+          server {
+              listen       80;
+              server_name  localhost;
+              proxy_http_version 1.1;
+
+              location / {
+                  app_protect_enable on;
+                  app_protect_security_log_enable on;
+                  app_protect_security_log log_all stderr;
+                  
+                  # WAF policy - use Custom Resource name when PLM is enabled
+                  app_protect_policy_file app_protect_default_policy;
+
+                  client_max_body_size 0;
+                  default_type text/html;
+                  proxy_pass  http://127.0.0.1/proxy$request_uri;
+              }
+              
+              location /proxy {
+                  app_protect_enable off;
+                  client_max_body_size 0;
+                  default_type text/html;
+                  return 200 "Hello! I got your URI request - $request_uri\n";
+              }
+          }
+      }
+
+    ## The default.conf of the ConfigMap for customizing NGINX configuration
+    nginxDefault: {}
+
+    ## The extra entries of the ConfigMap for customizing NGINX configuration
+    entries: {}
+
+  ## It is recommended to use your own TLS certificates and keys
+  mTLS:
+    ## The base64-encoded TLS certificate for the App Protect Enforcer (server)
+    ## Note: It is recommended that you specify your own certificate
+    serverCert: ""
+    ## The base64-encoded TLS key for the App Protect Enforcer (server)
+    ## Note: It is recommended that you specify your own key
+    serverKey: ""
+    ## The base64-encoded TLS CA certificate for the App Protect Enforcer (server)
+    ## Note: It is recommended that you specify your own certificate
+    serverCACert: ""
+    ## The base64-encoded TLS certificate for the NGINX (client)
+    ## Note: It is recommended that you specify your own certificate
+    clientCert: ""
+    ## The base64-encoded TLS key for the NGINX (client)
+    ## Note: It is recommended that you specify your own key
+    clientKey: ""
+    ## The base64-encoded TLS CA certificate for the NGINX (client)
+    ## Note: It is recommended that you specify your own certificate
+    clientCACert: ""
+
+  ## The extra volumes of the Nginx container
+  volumes: []
+  # - name: extra-conf
+  #   configMap:
+  #     name: extra-conf
+
+  ## The extra volumeMounts of the Nginx container
+  volumeMounts: []
+  # - name: extra-conf
+  #   mountPath: /etc/nginx/conf.d/extra.conf
+  #   subPath: extra.conf
 
   service:
     nginx:
