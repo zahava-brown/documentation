@@ -20,7 +20,7 @@ Before deploying Policy Lifecycle Management, ensure you have the following prer
 
 - Helm 3 installed
 - Docker installed and configured
-- [NGINX Docker Image]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md#build-the-nginx-app-protect-waf-docker-image" >}})
+- **[NGINX App Protect WAF Docker Image]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md#build-the-nginx-app-protect-waf-docker-image" >}}) - REQUIRED**: You must build and push the NGINX App Protect WAF Docker image to your registry before proceeding with PLM installation
 - NGINX JWT License
 - Docker registry credentials for private-registry.nginx.com
 
@@ -63,6 +63,52 @@ appprotect:
   ## Enable/Disable Nginx App Protect Deployment
   enable: true
   
+  ## The number of replicas of the Nginx App Protect deployment
+  replicas: 1
+  
+  ## The annotations for deployment
+  annotations: {}
+  
+  nginx:
+    image:
+      ## The image repository of the Nginx App Protect WAF image you built
+      ## This must reference the Docker image you built following the Docker deployment guide
+      ## Replace <your-private-registry> with your actual registry and update the image name/tag as needed
+      repository: <your-private-registry>/nginx-app-protect-5
+      ## The tag of the Nginx image
+      tag: latest
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+
+  wafConfigMgr:
+    image:
+      ## The image repository of the WAF Config Mgr
+      repository: private-registry.nginx.com/nap/waf-config-mgr
+      ## The tag of the WAF Config Mgr image
+      tag: 5.8.0
+    imagePullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 10m
+        memory: 16Mi
+
+  wafEnforcer:
+    image:
+      ## The image repository of the WAF Enforcer
+      repository: private-registry.nginx.com/nap/waf-enforcer
+      ## The tag of the WAF Enforcer image
+      tag: 5.8.0
+    imagePullPolicy: IfNotPresent
+    env:
+      enforcerPort: "50000"
+    resources:
+      requests:
+        cpu: 20m
+        memory: 256Mi
+  
   policyController:
     enable: true  # Set to false to disable Policy Controller
     replicas: 1
@@ -95,6 +141,36 @@ appprotect:
         storageClass: manual
         ## The amount of storage requested for the PersistentVolumeClaim
         storageRequest: 2Gi
+
+  nginxRepo:
+    ## Used for Policy Controller to pull the security updates from the NGINX repository
+    ## The base64-encoded TLS certificate for the NGINX repository
+    nginxCrt: ""
+    ## The base64-encoded TLS key for the NGINX repository  
+    nginxKey: ""
+
+  config:
+    ## The name of the ConfigMap used by the Nginx container
+    name: nginx-config
+    ## The annotations of the configmap
+    annotations: {}
+    ## The JWT token license.txt of the ConfigMap for customizing NGINX configuration
+    nginxJWT: ""
+
+  service:
+    nginx:
+      ports:
+        - port: 80
+          protocol: TCP
+          targetPort: 80
+      ## The type of service to create. NodePort will expose the service on each Node's IP at a static port.
+      type: NodePort
+
+## This is a base64-encoded string representing the contents of the Docker configuration file (config.json)
+## This file is used by Docker to manage authentication credentials for accessing private Docker registries
+## You can create this base64-encoded string yourself by encoding your config.json file, or you can create 
+## the Kubernetes secret containing these credentials before deployment and not use this value directly in the values.yaml file
+dockerConfigJson: ""
 ```
 
 **NGINX Configuration:**
@@ -179,6 +255,10 @@ http {
 **For Existing Customers**: If you have an existing NGINX App Protect WAF deployment without Policy Lifecycle Management, you need to upgrade your installation to enable PLM functionality. Use `helm upgrade` instead of `helm install` in step 5, and ensure you have the required CRDs and storage configured before upgrading.
 
 ### Step-by-Step Installation Process
+
+{{< call-out "important" >}}
+**Before You Begin**: Ensure you have already built and pushed your NGINX App Protect WAF Docker image to your private registry following the [Docker deployment guide]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md#build-the-nginx-app-protect-waf-docker-image" >}}). The values.yaml configuration below assumes this image is available in your registry.
+{{< /call-out >}}
 
 1. **Prepare Environment Variables**
    
