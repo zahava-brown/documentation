@@ -548,11 +548,61 @@ http {
    kubectl get all -n <namespace>
    ```
 
+   You should see output similar to this:
+
+   **Pods Status:**
+   ```
+   NAME                                                         READY   STATUS    RESTARTS   AGE
+   <release-name>-policy-controller-cbd97c8db-tbq7j               1/1     Running   0          3d23h
+   <release-name>-nginx-app-protect-deployment-5c99b8df65-g4nfn   3/3     Running   0          3d23h
+   ```
+
+   **CRDs Verification:**
+   ```
+   aplogconfs.appprotect.f5.com                 2025-08-27T10:23:34Z
+   appolicies.appprotect.f5.com                 2025-08-27T10:23:34Z
+   apsignatures.appprotect.f5.com               2025-08-27T10:23:34Z
+   apusersigs.appprotect.f5.com                 2025-08-27T10:23:34Z
+   ```
+
+   **All Resources:**
+   ```
+   NAME                                                             READY   STATUS    RESTARTS   AGE
+   pod/<release-name>-policy-controller-cbd97c8db-tbq7j               1/1     Running   0          3d23h
+   pod/<release-name>-nginx-app-protect-deployment-5c99b8df65-g4nfn   4/4     Running   0          3d23h
+
+   NAME                                           TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+   service/<release-name>-nginx-app-protect-nginx   NodePort   10.43.125.76   <none>        80:30847/TCP   3d23h
+
+   NAME                                                        READY   UP-TO-DATE   AVAILABLE   AGE
+   deployment.apps/<release-name>-policy-controller              1/1     1            1           3d23h
+   deployment.apps/<release-name>-nginx-app-protect-deployment   1/1     1            1           3d23h
+
+   NAME                                                                   DESIRED   CURRENT   READY   AGE
+   replicaset.apps/<release-name>-policy-controller-cbd97c8db               1         1         1       3d23h
+   replicaset.apps/<release-name>-nginx-app-protect-deployment-5c99b8df65   1         1         1       3d23h
+   ```
+
+   **Key components to verify:**
+   - **Policy Controller Pod**: Should show `1/1 Running` status
+   - **NGINX App Protect Pod**: Should show `4/4 Running` status (nginx, waf-config-mgr, waf-enforcer, waf-ip-intelligence containers)
+   - **All 4 CRDs**: Should be installed and show creation timestamps
+   - **Service**: NodePort service should be available with assigned port
+
 ## Using Policy Lifecycle Management
 
 ### Setting up desired security update versions
 
-Once PLM is deployed, you can create APSignatures resource using Kubernetes manifests and specify desired security update versions. Apply the following Custom Resource example or create your own based on the template:
+Once PLM is deployed, you can create APSignatures resource using Kubernetes manifests and specify desired security update versions. 
+
+**Organize Your Custom Resources:**
+
+It's recommended to create a dedicated directory to organize your Custom Resource files:
+
+```bash
+mkdir -p custom-resources
+cd custom-resources
+```
 
 **Sample APSignatures Resource:**
 
@@ -583,12 +633,27 @@ kubectl apply -f config/policy-manager/samples/appprotect_v1_apsignatures.yaml
 ```
 
 {{< call-out "note" >}}
+If you're not in the `custom-resources` directory, include the path: `kubectl apply -f custom-resources/signatures.yaml -n <namespace>`
+{{< /call-out >}}
+
+{{< call-out "note" >}}
 Downloading security updates may take several minutes. The version of security updates available at the time of compilation is always used to compile policies. If APSignatures is not created or the specified versions are not downloaded, the versions contained in the compiler docker image will be used.
 {{< /call-out >}}
 
 ### Creating Policy Resources
 
-Once PLM is deployed, you can create policy resources using Kubernetes manifests. Apply the following Custom Resource examples or create your own based on these templates:
+Once PLM is deployed, you can create policy resources using Kubernetes manifests. 
+
+**Organize Your Custom Resources (if not already done):**
+
+If you haven't created a directory for your Custom Resources yet, create one:
+
+```bash
+mkdir -p custom-resources
+cd custom-resources
+```
+
+Apply the following Custom Resource examples or create your own based on these templates:
 
 **Sample APPolicy Resource:**
 
@@ -626,6 +691,10 @@ Apply the policy:
 kubectl apply -f dataguard-blocking-policy.yaml -n <namespace>
 ```
 
+{{< call-out "note" >}}
+If you're not in the `custom-resources` directory, include the path: `kubectl apply -f custom-resources/dataguard-blocking-policy.yaml -n <namespace>`
+{{< /call-out >}}
+
 **Sample APUserSig Resource:**
 
 Create a file named `apple-usersig.yaml` with the following content:
@@ -657,6 +726,10 @@ Apply the user signature:
 kubectl apply -f apple-usersig.yaml -n <namespace>
 ```
 
+{{< call-out "note" >}}
+If you're not in the `custom-resources` directory, include the path: `kubectl apply -f custom-resources/apple-usersig.yaml -n <namespace>`
+{{< /call-out >}}
+
 ### Monitoring Policy Status
 
 Check the status of your policy resources:
@@ -680,6 +753,10 @@ Apply one of the sample policy Custom Resources to verify PLM is working correct
 ```bash
 kubectl apply -f dataguard-blocking-policy.yaml -n <namespace>
 ```
+
+{{< call-out "note" >}}
+If you're not in the `custom-resources` directory, include the path: `kubectl apply -f custom-resources/dataguard-blocking-policy.yaml -n <namespace>`
+{{< /call-out >}}
 
 ### 2. Check Policy Compilation Status
 
