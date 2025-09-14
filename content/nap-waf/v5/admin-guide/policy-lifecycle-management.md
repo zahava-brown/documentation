@@ -41,17 +41,9 @@ Policy Lifecycle Management is deployed as part of the NGINX App Protect Helm ch
 
 ### Policy Controller Configuration
 
-#### Enable/Disable the Policy Controller
+#### Helm Configuration (values.yaml)
 
-The Policy Controller option is enabled by default (`appprotect.policyController.enable: true`). Helm will also install the required custom resource definitions (CRDs) required by the policy controller pod.
-
-**Important**: Before applying the Policy Controller, the required Custom Resource Definitions (CRDs) must be installed first. If the CRDs are not installed, the Policy Controller pod will fail to start and show CRD-related errors in the logs.
-
-If you do not use the custom resources that require those CRDs (with `appprotect.policyController.enable` set to false), the installation of the CRDs can be skipped by specifying `--skip-crds` in your helm install command. Please also note that when upgrading helm charts, the current CRDs will need to be deleted and the new ones will be created as part of the helm install of the new version.
-
-If you wish to pull security updates from the NGINX repository (with APSignatures CRD), you should set the `appprotect.nginxRepo` value in values.yaml file.
-
-**Helm Configuration (values.yaml):**
+The following is the complete Helm configuration required for Policy Lifecycle Management. The Policy Controller option is enabled by default (`appprotect.policyController.enable: true`).
 
 ```yaml
 # Specify the target namespace for your deployment
@@ -313,7 +305,17 @@ appprotect:
 dockerConfigJson: ""
 ```
 
-**NGINX Configuration:**
+#### Enable/Disable the Policy Controller
+
+The Policy Controller option is enabled by default (`appprotect.policyController.enable: true`). Helm will also install the required custom resource definitions (CRDs) required by the policy controller pod.
+
+**Important**: Before applying the Policy Controller, the required Custom Resource Definitions (CRDs) must be installed first. If the CRDs are not installed, the Policy Controller pod will fail to start and show CRD-related errors in the logs.
+
+If you do not use the custom resources that require those CRDs (with `appprotect.policyController.enable` set to false), the installation of the CRDs can be skipped by specifying `--skip-crds` in your helm install command. Please also note that when upgrading helm charts, the current CRDs will need to be deleted and the new ones will be created as part of the helm install of the new version.
+
+If you wish to pull security updates from the NGINX repository (with APSignatures CRD), you should set the `appprotect.nginxRepo` value in values.yaml file.
+
+#### NGINX Configuration
 
 When Policy Controller is enabled in Helm, you must also enable it in your NGINX configuration using the `app_protect_default_config_source` directive:
 
@@ -737,12 +739,119 @@ Check the status of your policy resources:
 ```bash
 kubectl get appolicy -n <namespace>
 kubectl describe appolicy <policy-name> -n <namespace>
+kubectl get appolicy <policy-name> -n <namespace> -o yaml
 ```
 
-The Policy Controller will show status information including:
-- Bundle location
-- Compilation status
-- Signature update timestamps
+**Using kubectl describe for human-readable output:**
+
+```bash
+kubectl describe appolicy dataguard-blocking -n <namespace>
+```
+
+**Sample describe output:**
+```
+Name:         dataguard-blocking
+Namespace:    localenv-plm
+Labels:       <none>
+Annotations:  <none>
+API Version:  appprotect.f5.com/v1
+Kind:         APPolicy
+Metadata:
+  Creation Timestamp:  2025-09-10T11:17:07Z
+  Finalizers:
+    appprotect.f5.com/finalizer
+  Generation:  3
+  # ... other metadata fields
+Spec:
+  Policy:
+    Application Language:  utf-8
+    Blocking - Settings:
+      Violations:
+        Alarm:  true
+        Block:  true
+        Name:   VIOL_DATA_GUARD
+    Data - Guard:
+      Credit Card Numbers:  true
+      Enabled:              true
+      Enforcement Mode:     ignore-urls-in-list
+      # ... other policy settings
+Status:
+  Bundle:
+    Compiler Version:  11.553.0
+    Location:          /etc/app_protect/bundles/dataguard-blocking-policy/dataguard-blocking_policy20250914102339.tgz
+    Signatures:
+      Attack Signatures:  2025-09-03T08:36:25Z
+      Bot Signatures:     2025-09-03T10:50:19Z
+      Threat Campaigns:   2025-09-02T07:28:43Z
+    State:                ready
+  Processing:
+    Datetime:     2025-09-14T10:23:48Z
+    Is Compiled:  true
+Events:           <none>
+```
+
+**Using kubectl get for YAML output:**
+
+```bash
+kubectl get appolicy dataguard-blocking -n <namespace> -o yaml
+```
+
+**Sample YAML output:**
+
+```yaml
+apiVersion: appprotect.f5.com/v1
+kind: APPolicy
+metadata:
+  name: dataguard-blocking
+  namespace: localenv-plm
+  # ... other metadata fields
+spec:
+  policy:
+    # ... policy configuration
+status:
+  bundle:
+    compilerVersion: 11.553.0
+    location: /etc/app_protect/bundles/dataguard-blocking-policy/dataguard-blocking_policy20250914102339.tgz
+    signatures:
+      attackSignatures: "2025-09-03T08:36:25Z"
+      botSignatures: "2025-09-03T10:50:19Z"
+      threatCampaigns: "2025-09-02T07:28:43Z"
+    state: ready
+  processing:
+    datetime: "2025-09-14T10:23:48Z"
+    isCompiled: true
+```
+
+**Key Status Fields to Monitor:**
+
+- **`Status.Bundle.State`**: Policy compilation state
+  - `ready` - Policy successfully compiled and available
+  - `processing` - Policy is being compiled
+  - `error` - Compilation failed (check Policy Controller logs)
+
+- **`Status.Bundle.Location`**: File path where the compiled policy bundle is stored
+
+- **`Status.Bundle.Compiler Version`**: Version of the WAF compiler used for compilation
+
+- **`Status.Bundle.Signatures`**: Timestamps showing when security signatures were last updated
+  - `Attack Signatures` - Attack signature update timestamp
+  - `Bot Signatures` - Bot signature update timestamp  
+  - `Threat Campaigns` - Threat campaign signature update timestamp
+
+- **`Status.Processing.Is Compiled`**: Boolean indicating if compilation completed successfully
+
+- **`Status.Processing.Datetime`**: Timestamp of the last compilation attempt
+
+- **`Events`**: Shows any Kubernetes events related to the policy (usually none for successful policies)
+
+- **`status.bundle.signatures`**: Timestamps showing when security signatures were last updated
+  - `attackSignatures` - Attack signature update timestamp
+  - `botSignatures` - Bot signature update timestamp  
+  - `threatCampaigns` - Threat campaign signature update timestamp
+
+- **`status.processing.isCompiled`**: Boolean indicating if compilation completed successfully
+
+- **`status.processing.datetime`**: Timestamp of the last compilation attempt
 
 ## Confirming Setup is Functioning
 
