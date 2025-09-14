@@ -20,7 +20,7 @@ Before deploying Policy Lifecycle Management, ensure you have the following prer
 
 - Helm 3 installed
 - Docker installed and configured
-- **[NGINX App Protect WAF Docker Image]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md#build-the-nginx-app-protect-waf-docker-image" >}}) - REQUIRED**: You must build and push the NGINX App Protect WAF Docker image to your registry before proceeding with PLM installation
+- **[NGINX App Protect WAF Docker Image]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md#nginx-open-source-dockerfile" >}}) - REQUIRED**: You must build and push the NGINX App Protect WAF Docker image to your registry before proceeding with PLM installation. Use the NGINX Open Source Dockerfile for your preferred operating system.
 - NGINX JWT License
 - Docker registry credentials for private-registry.nginx.com
 
@@ -257,7 +257,7 @@ http {
 ### Step-by-Step Installation Process
 
 {{< call-out "important" >}}
-**Before You Begin**: Ensure you have already built and pushed your NGINX App Protect WAF Docker image to your private registry following the [Docker deployment guide]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md#build-the-nginx-app-protect-waf-docker-image" >}}). The values.yaml configuration below assumes this image is available in your registry.
+**Before You Begin**: Ensure you have already built and pushed your NGINX App Protect WAF Docker image to your private registry following the [Docker deployment guide]({{< ref "/nap-waf/v5/admin-guide/deploy-on-docker.md#nginx-open-source-dockerfile" >}}). Choose the NGINX Open Source Dockerfile for your preferred operating system. The values.yaml configuration below assumes this image is available in your registry.
 {{< /call-out >}}
 
 1. **Prepare Environment Variables**
