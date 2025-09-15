@@ -92,7 +92,7 @@ appprotect:
       ## The image repository of the WAF Config Mgr
       repository: private-registry.nginx.com/nap/waf-config-mgr
       ## The tag of the WAF Config Mgr image
-      tag: 5.8.0
+      tag: 5.9.0
     imagePullPolicy: IfNotPresent
     resources:
       requests:
@@ -107,7 +107,7 @@ appprotect:
       ## The image repository of the WAF Enforcer
       repository: private-registry.nginx.com/nap/waf-enforcer
       ## The tag of the WAF Enforcer image
-      tag: 5.8.0
+      tag: 5.9.0
     imagePullPolicy: IfNotPresent
     env:
       enforcerPort: "50000"
@@ -125,7 +125,7 @@ appprotect:
       ## The image repository of the WAF IP Intelligence
       repository: private-registry.nginx.com/nap/waf-ip-intelligence
       ## The tag of the WAF IP Intelligence
-      tag: 5.8.0
+      tag: 5.9.0
     imagePullPolicy: IfNotPresent
     resources:
       requests:
@@ -140,12 +140,12 @@ appprotect:
     replicas: 1
     image:
       repository: private-registry.nginx.com/nap/waf-policy-controller
-      tag: 5.8.0
+      tag: 5.9.0
       imagePullPolicy: IfNotPresent
     wafCompiler:
       image:
         repository: private-registry.nginx.com/nap/waf-compiler
-        tag: 5.8.0
+        tag: 5.9.0
     enableJobLogSaving: false
     resources:
       requests:
