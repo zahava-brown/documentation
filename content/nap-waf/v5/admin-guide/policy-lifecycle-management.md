@@ -426,8 +426,8 @@ http {
    Create the directory on the cluster:
    Create the directory on the cluster:
    ```bash
-   mkdir -p /mnt/nap5_bundles_pv_data
-   chown -R 101:101 /mnt/nap5_bundles_pv_data
+   sudo mkdir -p /mnt/nap5_bundles_pv_data
+   sudo chown -R 101:101 /mnt/nap5_bundles_pv_data
    ```
    
    Create a YAML file `pv-hostpath.yaml` with the persistent volume file content:
@@ -979,8 +979,8 @@ To verify that the policy bundles are being deployed and enforced correctly:
    
    Create the directory on the cluster, and persistent volume for policy bundles:
    ```bash
-   mkdir -p /mnt/nap5_bundles_pv_data
-   chown -R 101:101 /mnt/nap5_bundles_pv_data
+   sudo mkdir -p /mnt/nap5_bundles_pv_data
+   sudo chown -R 101:101 /mnt/nap5_bundles_pv_data
    ```
    
    Create a YAML file `pv-hostpath.yaml` with the PV file content:
