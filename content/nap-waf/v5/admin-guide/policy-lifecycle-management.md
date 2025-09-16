@@ -948,24 +948,41 @@ To verify that the policy bundles are being deployed and enforced correctly:
    deployment.apps/localenv-plm-nginx-app-protect-deployment   1/1     1            1           21h
    ```
 
-2. **Update NGINX Configuration via ConfigMap**
+2. **Update NGINX Configuration via values.yaml**
    
-   Edit the NGINX configuration through the ConfigMap:
+   Open your `values.yaml` file with your preferred editor:
    ```bash
-   kubectl edit configmap nginx-config -n <namespace>
+   nano values.yaml
+   # or
+   vi values.yaml
+   # or any editor of your choice
    ```
    
-   In the editor that opens:
-   - Press `i` to enter insert mode
-   - Find the active policy directive (e.g., `app_protect_policy_file app_protect_default_policy;`)
-   - Comment it out by adding `#` at the beginning of the line
-   - Find the line `# app_protect_policy_file custom_resource_name;` 
-   - Remove the `#` to uncomment it
-   - Change `custom_resource_name` to `dataguard-blocking`
-   - Press `Esc` to exit insert mode
-   - Type `:wq` and press `Enter` to save and exit
+   Find the nginx configuration section and update the policy directive. Look for this line:
+   ```yaml
+   app_protect_policy_file app_protect_default_policy;
+   ```
+   
+   Change it to use your Custom Resource name:
+   ```yaml
+   app_protect_policy_file dataguard-blocking;
+   ```
+   
+   Save and close the file.
 
-3. **Restart the NGINX Deployment**
+3. **Apply the Updated Configuration**
+   
+   Run the Helm upgrade command to apply the new configuration (replace with your actual release name and namespace):
+   ```bash
+   helm upgrade <release-name> . --namespace <namespace> --force
+   ```
+   
+   Example:
+   ```bash
+   helm upgrade localenv-plm . --namespace localenv-plm --force
+   ```
+
+4. **Restart the NGINX Deployment**
    
    Restart the deployment to apply the configuration changes (replace with your actual deployment name and namespace):
    ```bash
@@ -977,7 +994,7 @@ To verify that the policy bundles are being deployed and enforced correctly:
    kubectl rollout restart deployment localenv-plm-nginx-app-protect-deployment -n localenv-plm
    ```
 
-4. **Test Policy Enforcement**
+5. **Test Policy Enforcement**
    
    Send a request that should be blocked by the dataguard policy using the cluster IP you noted earlier:
    ```bash
