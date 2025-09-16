@@ -487,7 +487,7 @@ http {
      --set appprotect.policyController.enable=true \
      --set dockerConfigJson=$NGINX_REGISTRY_TOKEN \
      --set appprotect.config.nginxJWT=$JWT \
-     --set appprotect.nginxRepo.nginxCert=$NGINX_CERT \
+     --set appprotect.nginxRepo.nginxCrt=$NGINX_CERT \
      --set appprotect.nginxRepo.nginxKey=$NGINX_KEY
    ```
    
