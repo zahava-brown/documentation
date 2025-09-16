@@ -408,9 +408,13 @@ http {
    ```bash
    export JWT=<your-nginx-jwt-token>
    export NGINX_REGISTRY_TOKEN=<base64-encoded-docker-credentials>
-   export NGINX_CERT=<base64-encoded-nginx-cert>
-   export NGINX_KEY=<base64-encoded-nginx-key>
+   export NGINX_CERT=$(cat /path/to/your/nginx-repo.crt | base64 -w 0)
+   export NGINX_KEY=$(cat /path/to/your/nginx-repo.key | base64 -w 0)
    ```
+   
+   {{< call-out "note" >}}
+   **NGINX Repository Credentials**: Replace `/path/to/your/nginx-repo.crt` and `/path/to/your/nginx-repo.key` with the actual paths to your NGINX repository certificate and key files. These are typically provided by NGINX when you get access to the private registry. The files may have similar names like `nginx-repo.crt` and `nginx-repo.key` or `nginx.crt` and `nginx.key`.
+   {{< /call-out >}}
 
 2. **Pull the Helm Chart**
    
@@ -498,7 +502,7 @@ http {
      --set appprotect.policyController.enable=true \
      --set dockerConfigJson=$NGINX_REGISTRY_TOKEN \
      --set appprotect.config.nginxJWT=$JWT \
-     --set appprotect.nginxRepo.nginxCert=$NGINX_CERT \
+     --set appprotect.nginxRepo.nginxCrt=$NGINX_CERT \
      --set appprotect.nginxRepo.nginxKey=$NGINX_KEY
    ```
 
@@ -955,8 +959,8 @@ To verify that the policy bundles are being deployed and enforced correctly:
    ```bash
    export JWT=<your-nginx-jwt-token>
    export NGINX_REGISTRY_TOKEN=<base64-encoded-docker-credentials>
-   export NGINX_CERT=<base64-encoded-nginx-cert>
-   export NGINX_KEY=<base64-encoded-nginx-key>
+   export NGINX_CERT=$(cat /path/to/your/nginx-repo.crt | base64 -w 0)
+   export NGINX_KEY=$(cat /path/to/your/nginx-repo.key | base64 -w 0)
    ```
 
 2. **Pull the new Helm Chart version**
@@ -1040,7 +1044,7 @@ To verify that the policy bundles are being deployed and enforced correctly:
      --set appprotect.policyController.enable=true \
      --set dockerConfigJson=$NGINX_REGISTRY_TOKEN \
      --set appprotect.config.nginxJWT=$JWT \
-     --set appprotect.nginxRepo.nginxCert=$NGINX_CERT \
+     --set appprotect.nginxRepo.nginxCrt=$NGINX_CERT \
      --set appprotect.nginxRepo.nginxKey=$NGINX_KEY
    ```
 8. **Verify Upgrade**
