@@ -52,6 +52,7 @@ The following is the complete Helm configuration required for Policy Lifecycle M
 namespace: <namespace>
 
 appprotect:
+  ## Note: This option is useful if you use Nginx Ingress Controller for example.
   ## Enable/Disable Nginx App Protect Deployment
   enable: true
   
@@ -78,7 +79,9 @@ appprotect:
       repository: <your-private-registry>/nginx-app-protect-5
       ## The tag of the Nginx image
       tag: latest
+    ## The pull policy for the Nginx image
     imagePullPolicy: IfNotPresent
+    ## The resources of the Nginx container.
     resources:
       requests:
         cpu: 10m
@@ -93,7 +96,9 @@ appprotect:
       repository: private-registry.nginx.com/nap/waf-config-mgr
       ## The tag of the WAF Config Mgr image
       tag: 5.9.0
+    ## The pull policy for the WAF Config Mgr image
     imagePullPolicy: IfNotPresent
+    ## The resources of the Waf Config Manager container
     resources:
       requests:
         cpu: 10m
@@ -108,9 +113,12 @@ appprotect:
       repository: private-registry.nginx.com/nap/waf-enforcer
       ## The tag of the WAF Enforcer image
       tag: 5.9.0
+    ## The pull policy for the WAF Enforcer image
     imagePullPolicy: IfNotPresent
+    ## The environment variable for enforcer port to be set on the WAF Enforcer container
     env:
       enforcerPort: "50000"
+    ## The resources of the WAF Enforcer container
     resources:
       requests:
         cpu: 20m
@@ -126,7 +134,9 @@ appprotect:
       repository: private-registry.nginx.com/nap/waf-ip-intelligence
       ## The tag of the WAF IP Intelligence
       tag: 5.9.0
+    ## The pull policy for the WAF IP Intelligence
     imagePullPolicy: IfNotPresent
+    ## The resources of the WAF IP Intelligence container
     resources:
       requests:
         cpu: 10m
@@ -136,17 +146,26 @@ appprotect:
       #   memory: 1Gi
   
   policyController:
-    enable: true  # Set to false to disable Policy Controller
+    ## Enable/Disable Policy Controller Deployment
+    enable: true
+    ## Number of replicas for the Policy Controller
     replicas: 1
+    ## The image repository of the WAF Policy Controller
     image:
       repository: private-registry.nginx.com/nap/waf-policy-controller
+      ## The tag of the WAF Policy COntroller
       tag: 5.9.0
+      ## The pull policy for the WAF Policy Controller
       imagePullPolicy: IfNotPresent
     wafCompiler:
+      ## The image repository of the WAF Compiler
       image:
         repository: private-registry.nginx.com/nap/waf-compiler
+         ## The tag of the WAF Compiler image
         tag: 5.9.0
+    ## Save logs before deleting a job or not
     enableJobLogSaving: false
+    ## The resources of the WAF Policy Controller
     resources:
       requests:
         cpu: 100m
@@ -168,19 +187,32 @@ appprotect:
       mountPath: /etc/app_protect/bundles
     pv:
       ## PV name that pvc will request
+      ## if empty will be used <release-name>-shared-bundles-pv
       name: nginx-app-protect-shared-bundles-pv
     pvc:
-      ## The storage class to be used for the PersistentVolumeClaim
+      ## The storage class to be used for the PersistentVolumeClaim. 'manual' indicates a manually managed storage class
       bundlesPvc:
         storageClass: manual
         ## The amount of storage requested for the PersistentVolumeClaim
         storageRequest: 2Gi
+
+  # Not needed as values will be set during helm install
+  # nginxRepo:
+  #   ## Used for Policy Controller to pull the security updates from the NGINX repository.
+  #   ## The base64-encoded TLS certificate for the NGINX repository.
+  #   nginxCrt: ""
+  #   ## The base64-encoded TLS key for the NGINX repository.
+  #   nginxKey: ""
 
   config:
     ## The name of the ConfigMap used by the Nginx container
     name: nginx-config
     ## The annotations of the configmap
     annotations: {}
+
+    # Not needed as value will be set during helm install
+    # ## The JWT token license.txt of the ConfigMap for customizing NGINX configuration.
+    # nginxJWT: ""
 
     ## The nginx.conf of the ConfigMap for customizing NGINX configuration
     nginxConf: |-
@@ -196,6 +228,25 @@ appprotect:
           worker_connections 1024;
       }
 
+      # Uncomment if using mtls
+      # mTLS configuration
+      # stream {
+      #   upstream enforcer {
+      #     # Replace with the actual App Protect Enforcer address and port if different
+      #     server 127.0.0.1:4431;
+      #   }
+      #   server {
+      #     listen 5000;
+      #     proxy_pass enforcer;
+      #     proxy_ssl_server_name on;
+      #     proxy_timeout 30d;
+      #     proxy_ssl on;
+      #     proxy_ssl_certificate /etc/ssl/certs/app_protect_client.crt;
+      #     proxy_ssl_certificate_key /etc/ssl/certs/app_protect_client.key;
+      #     proxy_ssl_trusted_certificate /etc/ssl/certs/app_protect_server_ca.crt;
+      #   }
+      # }
+
       http {
           include /etc/nginx/mime.types;
           default_type application/octet-stream;
@@ -209,9 +260,11 @@ appprotect:
           keepalive_timeout 65;
 
           # Enable Policy Lifecycle Management
+          # WAF default config source. For policies from CRDs, use "custom-resource"
+          # Remove this line to use default bundled policies
           app_protect_default_config_source "custom-resource";
 
-          # WAF enforcer address
+          # WAF enforcer address. For mTLS, use port 5000
           app_protect_enforcer_address 127.0.0.1:50000;
 
           server {
@@ -239,6 +292,7 @@ appprotect:
                   return 200 "Hello! I got your URI request - $request_uri\n";
               }
           }
+          # include /etc/nginx/conf.d/*.conf;
       }
 
     ## The default.conf of the ConfigMap for customizing NGINX configuration
@@ -288,6 +342,13 @@ appprotect:
           targetPort: 80
       ## The type of service to create. NodePort will expose the service on each Node's IP at a static port.
       type: NodePort
+
+# Not needed as value will be set during helm install
+# ## This is a base64-encoded string representing the contents of the Docker configuration file (config.json).
+# ## This file is used by Docker to manage authentication credentials for accessing private Docker registries.
+# ## By encoding the configuration file in base64, sensitive information such as usernames, passwords, and access tokens are protected from being exposed directly in plain text.
+# ## You can create this base64-encoded string yourself by encoding your config.json file, or you can create the Kubernetes secret containing these credentials before deployment and not use this value directly in the values.yaml file.
+# dockerConfigJson: ""
 ```
 
 #### Enable/Disable the Policy Controller
@@ -349,6 +410,10 @@ When Policy Controller is enabled in Helm, the NGINX configuration in your value
    helm pull oci://private-registry.nginx.com/nap/nginx-app-protect --version <release-version> --untar
    cd nginx-app-protect
    ```
+   
+   {{< call-out "important" >}}
+   **Important**: The extracted Helm chart includes a default `values.yaml` file. Ignore this file and use your custom values.yaml created from the Configuration section above.
+   {{< /call-out >}}
 
 3. **Create Storage**
    
@@ -413,6 +478,7 @@ When Policy Controller is enabled in Helm, the NGINX configuration in your value
    ```bash
    helm install <release-name> . \
      --namespace <namespace> \
+     --values /path/to/your/values.yaml \
      --set appprotect.policyController.enable=true \
      --set dockerConfigJson=$NGINX_REGISTRY_TOKEN \
      --set appprotect.config.nginxJWT=$JWT \
@@ -424,6 +490,7 @@ When Policy Controller is enabled in Helm, the NGINX configuration in your value
    ```bash
    helm upgrade <release-name> . \
      --namespace <namespace> \
+     --values /path/to/your/values.yaml \
      --set appprotect.policyController.enable=true \
      --set dockerConfigJson=$NGINX_REGISTRY_TOKEN \
      --set appprotect.config.nginxJWT=$JWT \
@@ -953,6 +1020,10 @@ To verify that the policy bundles are being deployed and enforced correctly:
    helm pull oci://private-registry.nginx.com/nap/nginx-app-protect --version <new-release-version> --untar
    cd nginx-app-protect
    ```
+   
+   {{< call-out "important" >}}
+   **Important**: The extracted Helm chart includes a default `values.yaml` file. Ignore this file and use your custom values.yaml created from the Configuration section above.
+   {{< /call-out >}}
 
 3. **Apply Custom Resource Definitions**
    
@@ -1023,6 +1094,7 @@ To verify that the policy bundles are being deployed and enforced correctly:
    ```bash
    helm upgrade <release-name> . \
      --namespace <namespace> \
+     --values /path/to/your/values.yaml \
      --set appprotect.policyController.enable=true \
      --set dockerConfigJson=$NGINX_REGISTRY_TOKEN \
      --set appprotect.config.nginxJWT=$JWT \
