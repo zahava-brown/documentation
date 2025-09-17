@@ -8,7 +8,7 @@ product: NAP-WAF
 
 ## Overview
 
-Policy Lifecycle Management (PLM) is an integrated feature of NGINX App Protect WAF that provides a comprehensive solution for automating the management, compilation, and deployment of security policies within Kubernetes environments. PLM extends the WAF compiler capabilities by providing a native Kubernetes operator-based approach to policy orchestration.
+Policy Lifecycle Management (PLM) is an integrated feature of NGINX App Protect WAF that provides a comprehensive solution for automating the management, compilation, and deployment of security policies within Kubernetes environments. Policy Lifecycle Management is deployed as part of the NGINX App Protect Helm chart and extends the WAF compiler capabilities by providing a native Kubernetes operator-based approach to policy orchestration.
 
 The Policy Lifecycle Management system is architected around a **Policy Controller** that implements the Kubernetes operator pattern to manage the complete lifecycle of WAF security artifacts. The system addresses the fundamental challenge of policy distribution at scale by eliminating manual intervention points and providing a declarative configuration model through Custom Resource Definitions (CRDs) for policies, logging profiles, signatures, and user-defined signatures.
 
@@ -37,7 +37,7 @@ Policy Lifecycle Management requires specific Custom Resource Definitions to be 
 
 ## Configuration
 
-Policy Lifecycle Management is deployed as part of the NGINX App Protect Helm chart and requires configuration in both the Helm `values.yaml` file and the NGINX configuration.
+Policy Lifecycle Management is deployed as part of the NGINX App Protect Helm chart and is configured through the Helm `values.yaml` file.
 
 ### Policy Controller Configuration
 
@@ -176,20 +176,11 @@ appprotect:
         ## The amount of storage requested for the PersistentVolumeClaim
         storageRequest: 2Gi
 
-  nginxRepo:
-    ## Used for Policy Controller to pull the security updates from the NGINX repository
-    ## The base64-encoded TLS certificate for the NGINX repository
-    nginxCrt: ""
-    ## The base64-encoded TLS key for the NGINX repository  
-    nginxKey: ""
-
   config:
     ## The name of the ConfigMap used by the Nginx container
     name: nginx-config
     ## The annotations of the configmap
     annotations: {}
-    ## The JWT token license.txt of the ConfigMap for customizing NGINX configuration
-    nginxJWT: ""
 
     ## The nginx.conf of the ConfigMap for customizing NGINX configuration
     nginxConf: |-
@@ -297,12 +288,6 @@ appprotect:
           targetPort: 80
       ## The type of service to create. NodePort will expose the service on each Node's IP at a static port.
       type: NodePort
-
-## This is a base64-encoded string representing the contents of the Docker configuration file (config.json)
-## This file is used by Docker to manage authentication credentials for accessing private Docker registries
-## You can create this base64-encoded string yourself by encoding your config.json file, or you can create 
-## the Kubernetes secret containing these credentials before deployment and not use this value directly in the values.yaml file
-dockerConfigJson: ""
 ```
 
 #### Enable/Disable the Policy Controller
@@ -315,77 +300,17 @@ If you do not use the custom resources that require those CRDs (with `appprotect
 
 If you wish to pull security updates from the NGINX repository (with APSignatures CRD), you should set the `appprotect.nginxRepo` value in values.yaml file.
 
-#### NGINX Configuration
+#### NGINX Configuration Requirements
 
-When Policy Controller is enabled in Helm, you must also enable it in your NGINX configuration using the `app_protect_default_config_source` directive:
+When Policy Controller is enabled in Helm, the NGINX configuration in your values.yaml must include the `app_protect_default_config_source` directive to enable Policy Controller integration. The values.yaml above already includes this configuration.
 
-```nginx
-user nginx;
-worker_processes auto;
-
-load_module modules/ngx_http_app_protect_module.so;
-
-error_log /var/log/nginx/error.log notice;
-pid /var/run/nginx.pid;
-
-events {
-    worker_connections 1024;
-}
-
-http {
-    include /etc/nginx/mime.types;
-    default_type application/octet-stream;
-
-    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-    '$status $body_bytes_sent "$http_referer" '
-    '"$http_user_agent" "$http_x_forwarded_for"';
-
-    access_log stdout main;
-    sendfile on;
-    keepalive_timeout 65;
-
-    app_protect_enforcer_address 127.0.0.1:50000;
-
-    # Enable Policy Lifecycle Management
-    app_protect_default_config_source "custom-resource";
-
-    app_protect_security_log_enable on;
-    app_protect_security_log my-logging-cr /opt/app_protect/bd_config/s.log;
-
-    server {
-        listen       80;
-        server_name  localhost;
-        proxy_http_version 1.1;
-
-        location / {
-            app_protect_enable on;
-
-            # Reference to Custom Resource policy name
-            app_protect_policy_file my-policy-cr;
-
-            client_max_body_size 0;
-            default_type text/html;
-            proxy_pass  http://127.0.0.1/proxy$request_uri;
-        }
-       
-        location /proxy {
-            app_protect_enable off;
-            client_max_body_size 0;
-            default_type text/html;
-            return 200 "Hello! I got your URI request - $request_uri\n";
-        }
-    }
-}
-```
-
-**Key PLM-specific directives:**
+**Key PLM-specific directives in the nginx.conf:**
 - `app_protect_default_config_source "custom-resource"` - Enables Policy Controller integration
-- `app_protect_policy_file my-policy-cr` - References the Custom Resource policy name instead of bundle file paths
-- `app_protect_security_log my-logging-cr` - References the Custom Resource logging configuration name
+- `app_protect_policy_file app_protect_default_policy;` - Default policy (can be changed to reference Custom Resource names)
 
 **To disable Policy Controller:**
 1. Set `appprotect.policyController.enable: false` in your values.yaml
-2. Remove or comment out the `app_protect_default_config_source` directive from your nginx.conf
+2. Remove or comment out the `app_protect_default_config_source` directive from your nginx.conf in values.yaml
 3. Use traditional bundle file paths with `app_protect_policy_file`
 
 ## Installation Flow
