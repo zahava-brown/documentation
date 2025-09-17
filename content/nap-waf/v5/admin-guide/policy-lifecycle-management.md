@@ -972,12 +972,26 @@ To verify that the policy bundles are being deployed and enforced correctly:
    
    Run the Helm upgrade command to apply the new configuration (replace with your actual release name and namespace):
    ```bash
-   helm upgrade <release-name> . --namespace <namespace> --values /path/to/your/values.yaml --force
+   helm upgrade <release-name> . \
+     --namespace <namespace> \
+     --values /path/to/your/values.yaml \
+     --set appprotect.policyController.enable=true \
+     --set dockerConfigJson=$NGINX_REGISTRY_TOKEN \
+     --set appprotect.config.nginxJWT=$JWT \
+     --set appprotect.nginxRepo.nginxCrt=$NGINX_CERT \
+     --set appprotect.nginxRepo.nginxKey=$NGINX_KEY
    ```
    
    Example:
    ```bash
-   helm upgrade localenv-plm . --namespace localenv-plm --values /path/to/your/values.yaml --force
+   helm upgrade localenv-plm . \
+     --namespace localenv-plm \
+     --values /tmp/helm-chart/values.yaml \
+     --set appprotect.policyController.enable=true \
+     --set dockerConfigJson=$NGINX_REGISTRY_TOKEN \
+     --set appprotect.config.nginxJWT=$JWT \
+     --set appprotect.nginxRepo.nginxCrt=$NGINX_CERT \
+     --set appprotect.nginxRepo.nginxKey=$NGINX_KEY
    ```
 
 4. **Restart the NGINX Deployment**
