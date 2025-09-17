@@ -360,22 +360,22 @@ When Policy Controller is enabled in Helm, the NGINX configuration in your value
    ```
    
    Create a YAML file `pv-hostpath.yaml` with the persistent volume file content:
-   ```
+   ```yaml
    apiVersion: v1
    kind: PersistentVolume
    metadata:
-   name: nginx-app-protect-shared-bundles-pv
-   labels:
+     name: nginx-app-protect-shared-bundles-pv
+     labels:
        type: local
    spec:
-   accessModes:
+     accessModes:
        - ReadWriteMany
-   capacity:
+     capacity:
        storage: "2Gi"
-   hostPath:
+     hostPath:
        path: "/mnt/nap5_bundles_pv_data"
-   persistentVolumeReclaimPolicy: Retain
-   storageClassName: manual
+     persistentVolumeReclaimPolicy: Retain
+     storageClassName: manual
    ``` 
    Apply the `pv-hostpath.yaml` file to create the new persistent volume for policy bundles:
    ```shell
@@ -970,22 +970,22 @@ To verify that the policy bundles are being deployed and enforced correctly:
    ```
    
    Create a YAML file `pv-hostpath.yaml` with the PV file content:
-   ```
+   ```yaml
    apiVersion: v1
    kind: PersistentVolume
    metadata:
-   name: nginx-app-protect-shared-bundles-pv
-   labels:
+     name: nginx-app-protect-shared-bundles-pv
+     labels:
        type: local
    spec:
-   accessModes:
+     accessModes:
        - ReadWriteMany
-   capacity:
+     capacity:
        storage: "2Gi"
-   hostPath:
+     hostPath:
        path: "/mnt/nap5_bundles_pv_data"
-   persistentVolumeReclaimPolicy: Retain
-   storageClassName: manual
+     persistentVolumeReclaimPolicy: Retain
+     storageClassName: manual
    ``` 
    Apply the `pv-hostpath.yaml` file to create the new PV:
    ```shell
