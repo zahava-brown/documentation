@@ -892,8 +892,14 @@ status:
 
 Check the Policy Controller logs for expected compilation messages:
 
+First, get the Policy Controller pod name:
 ```bash
-kubectl logs <policy-controller-pod> -n <namespace>
+kubectl get pods -n <namespace> | grep policy-controller
+```
+
+Then check the logs using the pod name from the output above:
+```bash
+kubectl logs <policy-controller-pod-name> -n <namespace>
 ```
 
 Look for successful compilation messages like:
@@ -966,12 +972,12 @@ To verify that the policy bundles are being deployed and enforced correctly:
    
    Run the Helm upgrade command to apply the new configuration (replace with your actual release name and namespace):
    ```bash
-   helm upgrade <release-name> . --namespace <namespace> --force
+   helm upgrade <release-name> . --namespace <namespace> --values /path/to/your/values.yaml --force
    ```
    
    Example:
    ```bash
-   helm upgrade localenv-plm . --namespace localenv-plm --force
+   helm upgrade localenv-plm . --namespace localenv-plm --values /path/to/your/values.yaml --force
    ```
 
 4. **Restart the NGINX Deployment**
@@ -1143,7 +1149,7 @@ To verify that the policy bundles are being deployed and enforced correctly:
 
 **Policy Controller Not Starting**
 - Verify CRDs are installed: `kubectl get crds | grep appprotect.f5.com`
-- Check pod logs: `kubectl logs <policy-controller-pod> -n <namespace>`
+- Check pod logs: `kubectl logs $(kubectl get pods -n <namespace> -l app=policy-controller -o jsonpath='{.items[0].metadata.name}') -n <namespace>`
 - Ensure proper RBAC permissions are configured
 
 **Policy Compilation Failures**
