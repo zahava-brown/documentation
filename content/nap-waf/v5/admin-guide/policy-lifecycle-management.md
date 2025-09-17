@@ -524,9 +524,14 @@ When Policy Controller is enabled in Helm, the NGINX configuration in your value
    2. **If storage configuration is missing, upgrade with proper storage settings:**
       ```bash
       helm upgrade <release-name> . --namespace <namespace> \
+        --values /path/to/your/values.yaml \
+        --set appprotect.policyController.enable=true \
+        --set dockerConfigJson=$NGINX_REGISTRY_TOKEN \
+        --set appprotect.config.nginxJWT=$JWT \
+        --set appprotect.nginxRepo.nginxCrt=$NGINX_CERT \
+        --set appprotect.nginxRepo.nginxKey=$NGINX_KEY \
         --set appprotect.storage.pvc.bundlesPvc.storageClass=manual \
-        --set appprotect.storage.pvc.bundlesPvc.storageRequest=2Gi \
-        --reuse-values
+        --set appprotect.storage.pvc.bundlesPvc.storageRequest=2Gi
       ```
    
    3. **If PVC exists but shows "Pending", check PV binding:**
