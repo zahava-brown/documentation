@@ -380,7 +380,7 @@ When Policy Controller is enabled in Helm, the NGINX configuration in your value
 
 **For New Installations**: Follow the complete step-by-step process below to install NGINX App Protect WAF with Policy Lifecycle Management enabled.
 
-**For Existing Customers**: If you have an existing NGINX App Protect WAF deployment without Policy Lifecycle Management, you need to upgrade your installation to enable PLM functionality. Use `helm upgrade` instead of `helm install` in step 5, and ensure you have the required CRDs and storage configured before upgrading.
+**For Existing Customers**: If you have an existing NGINX App Protect WAF deployment without Policy Lifecycle Management, you need to upgrade your installation to enable PLM functionality. Use `helm upgrade` instead of `helm install` in step 6, and ensure you have the required CRDs and storage configured before upgrading.
 
 ### Step-by-Step Installation Process
 
@@ -417,7 +417,6 @@ When Policy Controller is enabled in Helm, the NGINX configuration in your value
 
 3. **Create Storage**
    
-   Create the directory on the cluster:
    Create the directory on the cluster:
    ```bash
    sudo mkdir -p /mnt/nap5_bundles_pv_data
@@ -632,7 +631,7 @@ The APSignatures must have name `signatures`. Only one APSignatures instance can
 Apply the manifest:
 
 ```bash
-kubectl apply -f config/policy-manager/samples/appprotect_v1_apsignatures.yaml
+kubectl apply -f signatures.yaml -n <namespace>
 ```
 
 {{< call-out "note" >}}
@@ -689,7 +688,6 @@ spec:
 ```
 
 Apply the policy:
-
 ```bash
 kubectl apply -f dataguard-blocking-policy.yaml -n <namespace>
 ```
@@ -724,7 +722,6 @@ spec:
 ```
 
 Apply the user signature:
-
 ```bash
 kubectl apply -f apple-usersig.yaml -n <namespace>
 ```
@@ -1017,7 +1014,7 @@ To verify that the policy bundles are being deployed and enforced correctly:
    ```bash
    curl "http://<CLUSTER-IP>:80/680-15-0817"
    ```
-   
+
    Example:
    ```bash
    curl "http://10.43.205.101:80/680-15-0817"
@@ -1126,6 +1123,7 @@ To verify that the policy bundles are being deployed and enforced correctly:
      --set appprotect.nginxRepo.nginxCrt=$NGINX_CERT \
      --set appprotect.nginxRepo.nginxKey=$NGINX_KEY
    ```
+
 8. **Verify Upgrade**
    
    Check that all components are deployed successfully:
@@ -1162,6 +1160,7 @@ To verify that the policy bundles are being deployed and enforced correctly:
    kubectl delete crd --all
    kubectl delete ns <namespace>
    ```
+
 ## Troubleshooting
 
 ### Common Issues
