@@ -36,6 +36,11 @@ enableGitInfo = true
       unsafe = true
     [markup.highlight]
       guessSyntax = true
+    [markup.goldmark.extensions.typographer]
+      rightDoubleQuote = '&quot;'
+      leftDoubleQuote = '&quot;'
+      rightSingleQuote = '&apos;'
+      leftSingleQuote = '&apos;'
 
 [params]
   useSectionPageLists = "false"
@@ -143,8 +148,6 @@ enableGitInfo = true
     "3.22.8"
   ]
   github_repo = "https://github.com/nginx/documentation/"
-  [params.featureFlags]
-    disable_qualtrics = true
 
 sectionPagesMenu = "docs"
 

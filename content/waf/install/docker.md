@@ -7,9 +7,7 @@ weight: 400
 toc: true
 # Types have a 1:1 relationship with Hugo archetypes, so you shouldn't need to change this
 nd-content-type: how-to
-# Intended for internal catalogue and search, case sensitive:
-# Agent, N4Azure, NIC, NIM, NGF, NAP-DOS, NAP-WAF, NGINX One, NGINX+, Solutions, Unit
-nd-product: NAP-WAF
+nd-product: WAF
 ---
 
 This page describes how to install F5 WAF for NGINX using Docker. 
@@ -445,7 +443,61 @@ Once you have updated your configuration files, you can reload NGINX to apply th
 
 #### Create and run a Docker Compose file
 
-{{< include "waf/install-services-compose.md" >}}
+Create a _docker-compose.yml_ file with the following contents in your host environment, replacing image tags as appropriate:
+
+```yaml
+services:
+  nginx:
+    container_name: nginx
+    image: nginx-app-protect-5
+    volumes:
+    - app_protect_bd_config:/opt/app_protect/bd_config
+    - app_protect_config:/opt/app_protect/config
+    - app_protect_etc_config:/etc/app_protect/conf
+    - /conf/nginx.conf:/etc/nginx/nginx.conf
+    - /conf/default.conf:/etc/nginx/conf.d/default.conf
+    - ./license.jwt:/etc/nginx/license.jwt # Only necessary when using NGINX Plus
+    networks:
+    - waf_network
+    ports:
+    - "80:80"
+
+  waf-enforcer:
+    container_name: waf-enforcer
+    image: waf-enforcer:{{< version-waf-enforcer >}}
+    environment:
+      - ENFORCER_PORT=50000
+    ports:
+      - "50000:50000"
+    volumes:
+      - /opt/app_protect/bd_config:/opt/app_protect/bd_config
+    networks:
+      - waf_network
+    restart: always
+
+  waf-config-mgr:
+    container_name: waf-config-mgr
+    image: waf-config-mgr:{{< version-waf-config-mgr >}}
+    volumes:
+      - /opt/app_protect/bd_config:/opt/app_protect/bd_config
+      - /opt/app_protect/config:/opt/app_protect/config
+      - /etc/app_protect/conf:/etc/app_protect/conf
+    restart: always
+    network_mode: none
+    depends_on:
+      waf-enforcer:
+        condition: service_started
+
+networks:
+  waf_network:
+    driver: bridge
+```
+
+To start the F5 WAF for NGINX services, use `docker compose up` in the same folder as the _docker-compose.yml_ file:
+
+```shell
+sudo docker compose up -d
+```
 
 You can now review the operational status of F5 WAF for NGINX using the [Post-installation checks]({{< ref "/waf/install/docker.md#post-installation-checks" >}}).
 
